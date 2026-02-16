@@ -1,65 +1,70 @@
 import { Link } from "react-router-dom";
-import { Scissors, Stethoscope, Hotel, ShoppingCart, Check } from "lucide-react";
+import { Users, Zap, GraduationCap, Building2, Rocket, Check } from "lucide-react";
 
-const sectors = [
+const solutions = [
   {
-    id: "salons",
-    icon: Scissors,
-    title: "Siohioma for Salons",
-    tagline: "Manage your beauty services with elegance",
-    description:
-      "Complete management solution for service scheduling, client tracking, and beautiful reporting. Built specifically for beauty & wellness businesses.",
+    slug: "hr-for-startups",
+    icon: Users,
+    title: "HR for Startups",
+    tagline: "Hire your first 10 like you'd hire your hundredth.",
+    description: "Replace gut-feeling hires with video proof. Watch candidates demonstrate real skills before committing runway to talent.",
     highlights: [
-      "Appointment scheduling & reminders",
-      "Service menu management",
-      "Client profiles & visit history",
-      "Commission tracking for stylists",
-      "Real-time inventory for products",
+      "60-second video proof clips",
+      "Skill Radar for technical & leadership traits",
+      "Dossier generation for co-founder review",
+      "Pipeline velocity tracking",
     ],
   },
   {
-    id: "clinics",
-    icon: Stethoscope,
-    title: "Siohioma for Clinics",
-    tagline: "Healthcare operations, simplified",
-    description:
-      "Streamline patient workflows, billing, and pharmacy inventory with a HIPAA-conscious platform built for clinics and medical practices.",
+    slug: "hackathons",
+    icon: Zap,
+    title: "Hackathons & Competitions",
+    tagline: "Judge by proof, not by pitch decks.",
+    description: "Enable hackathon organizers to collect video submissions, auto-generate participant dossiers, and rank teams by demonstrated output.",
     highlights: [
-      "Patient records management",
-      "Appointment booking & workflows",
-      "Billing & insurance processing",
-      "Pharmacy inventory tracking",
-      "Lab result integration",
+      "Video submission collection",
+      "Automated participant dossiers",
+      "Judging dashboards with Skill Radar",
+      "Cohort-wide analytics & ranking",
     ],
   },
   {
-    id: "hotels",
-    icon: Hotel,
-    title: "Siohioma for Hotels",
-    tagline: "Hospitality management, elevated",
-    description:
-      "From room reservations to housekeeping workflows, manage every aspect of your hotel or lodge from a single dashboard.",
+    slug: "accelerators",
+    icon: Rocket,
+    title: "Accelerators & Incubators",
+    tagline: "Scale your cohort evaluation.",
+    description: "Screen hundreds of applicants with proof-based portfolios. Generate investor-ready dossiers and track cohort velocity from day one.",
     highlights: [
-      "Room booking & availability",
-      "Guest check-in/check-out",
-      "Housekeeping task management",
-      "Restaurant POS integration",
-      "Revenue & occupancy dashboards",
+      "Bulk dossier generation (150+)",
+      "Venture Velocity metrics per cohort",
+      "Geospatial talent mapping",
+      "Investor-ready PDF exports",
     ],
   },
   {
-    id: "retail",
-    icon: ShoppingCart,
-    title: "Siohioma for Retail",
-    tagline: "Manage your business with precision",
-    description:
-      "Complete POS solution with inventory tracking, customer management, and beautiful reporting. Built for hardware stores, supermarkets, and retail outlets.",
+    slug: "universities",
+    icon: GraduationCap,
+    title: "Universities & Training",
+    tagline: "Graduate with proof, not just a transcript.",
+    description: "Let students build video portfolios of real project work. Universities can track skill development and connect graduates to verified opportunities.",
     highlights: [
-      "Point-of-sale terminals",
-      "Real-time stock tracking",
-      "Purchase order management",
-      "Supplier directory & ordering",
-      "Deni (credit) management",
+      "Student video portfolio builder",
+      "Skill progression tracking",
+      "Employer-facing proof dashboards",
+      "Institutional analytics & reporting",
+    ],
+  },
+  {
+    slug: "enterprise",
+    icon: Building2,
+    title: "Enterprise Talent Ops",
+    tagline: "Proof-based hiring at scale.",
+    description: "For large organisations running structured recruitment. White-label Donjo, integrate via API, and generate compliance-ready dossiers at volume.",
+    highlights: [
+      "White-label & custom branding",
+      "API access & ATS integrations",
+      "SLA & uptime guarantees",
+      "Dedicated account management",
     ],
   },
 ];
@@ -67,64 +72,35 @@ const sectors = [
 const Solutions = () => {
   return (
     <div className="space-y-16 animate-fade-in-up">
-      {/* Hero */}
       <section className="neo-extruded p-6 sm:p-12 lg:p-16 text-center space-y-6">
-        <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest">
-          Solutions
-        </p>
+        <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest">Solutions</p>
         <h1 className="text-3xl sm:text-5xl font-bold text-foreground tracking-tight">
-          One Platform, Tailored to Your Industry
+          Proof-Based Hiring for Every Stage
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          Siohioma adapts to your sector — from beauty parlours to hospitals,
-          hotels to hardware stores. Explore what we've built for you.
+          From your first startup hire to enterprise-scale cohort evaluation — Donjo adapts to your context.
         </p>
       </section>
 
-      {/* Sector Sections */}
-      {sectors.map((sector, i) => {
-        const Icon = sector.icon;
+      {solutions.map((s, i) => {
+        const Icon = s.icon;
         const isEven = i % 2 === 0;
         return (
-          <section
-            key={sector.id}
-            id={sector.id}
-            className="scroll-mt-28"
-          >
-            <div
-              className={`neo-extruded p-6 sm:p-10 lg:p-14 flex flex-col ${isEven ? "lg:flex-row" : "lg:flex-row-reverse"} gap-8 lg:gap-14 items-start`}
-            >
-              {/* Info */}
+          <section key={s.slug} id={s.slug} className="scroll-mt-28">
+            <div className={`neo-extruded p-6 sm:p-10 lg:p-14 flex flex-col ${isEven ? "lg:flex-row" : "lg:flex-row-reverse"} gap-8 lg:gap-14 items-start`}>
               <div className="flex-1 space-y-6">
                 <div className="squircle-icon w-14 h-14">
                   <Icon className="w-6 h-6 text-foreground" strokeWidth={1.5} />
                 </div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">
-                  {sector.title}
-                </h2>
-                <p className="text-xl text-muted-foreground font-medium">
-                  {sector.tagline}
-                </p>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {sector.description}
-                </p>
-                <div className="flex flex-wrap gap-3 pt-2">
-                  <Link to={`/solutions/${sector.id}`} className="neo-pill inline-block text-sm">
-                    Learn More
-                  </Link>
-                  <Link
-                    to="/contact"
-                    className="neo-extruded-sm inline-block px-6 py-3 font-semibold text-sm text-foreground hover:text-foreground/80 transition-colors"
-                    style={{ borderRadius: "9999px" }}
-                  >
-                    Book a Demo
-                  </Link>
-                </div>
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">{s.title}</h2>
+                <p className="text-xl text-muted-foreground font-medium">{s.tagline}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{s.description}</p>
+                <Link to="/contact" className="neo-pill inline-block text-sm">
+                  Book a Demo
+                </Link>
               </div>
-
-              {/* Features */}
               <div className="flex-1 w-full space-y-3">
-                {sector.highlights.map((h) => (
+                {s.highlights.map((h) => (
                   <div key={h} className="neo-extruded-sm p-4 flex items-start gap-3">
                     <Check className="w-4 h-4 text-foreground mt-0.5 shrink-0" strokeWidth={2} />
                     <span className="text-sm text-muted-foreground">{h}</span>
@@ -136,17 +112,15 @@ const Solutions = () => {
         );
       })}
 
-      {/* Bottom CTA */}
       <section className="neo-extruded p-6 sm:p-12 text-center space-y-6">
         <h2 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">
-          Don't see your industry?
+          Don't see your use case?
         </h2>
         <p className="text-muted-foreground max-w-lg mx-auto">
-          Siohioma is flexible enough for any business. Talk to us and we'll
-          build a solution that fits.
+          Donjo is flexible enough for any proof-based workflow. Talk to us and we'll build a solution that fits.
         </p>
         <Link to="/contact" className="neo-pill inline-block">
-          Book a Demo
+          Get in Touch
         </Link>
       </section>
     </div>
