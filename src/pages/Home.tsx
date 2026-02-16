@@ -1,65 +1,69 @@
 import { Link } from "react-router-dom";
 import {
-  Scissors, Stethoscope, Hotel, ShoppingCart, BarChart3, Package, Users,
+  Video, BarChart3, FileText, MapPin, Zap, Shield,
 } from "lucide-react";
 
-const sectors = [
+const features = [
   {
-    icon: Scissors,
-    title: "Siohioma for Salons",
-    description: "Appointment scheduling, service menus, client management, and commission tracking for beauty & wellness brands.",
-    badges: ["Real-time inventory", "Client management"],
-    link: "/solutions/salons",
-  },
-  {
-    icon: Stethoscope,
-    title: "Siohioma for Clinics",
-    description: "Patient records, appointment workflows, billing, and pharmacy inventory for healthcare practices.",
-    badges: ["Smart analytics", "Patient records"],
-    link: "/solutions/clinics",
-  },
-  {
-    icon: Hotel,
-    title: "Siohioma for Hotels",
-    description: "Room booking, guest management, housekeeping workflows, and revenue dashboards for hospitality businesses.",
-    badges: ["Real-time inventory", "Revenue tracking"],
-    link: "/solutions/hotels",
-  },
-  {
-    icon: ShoppingCart,
-    title: "Siohioma for Retail",
-    description: "POS terminals, stock management, supplier ordering, and deni tracking for retail and hardware stores.",
-    badges: ["Real-time inventory", "Deni tracking"],
-    link: "/solutions/retail",
+    icon: Video,
+    title: "Video Portfolios",
+    description: "Applicants create 60-second proof clips demonstrating real technical skills — code execution, architectural design, or strategic pitching.",
+    badges: ["Proof-of-work", "Video-first"],
+    link: "/pricing",
   },
   {
     icon: BarChart3,
-    title: "Smart Analytics",
-    description: "Beautiful reporting dashboards with revenue insights, trend analysis, and actionable KPIs across all sectors.",
-    badges: ["Smart analytics"],
+    title: "Skill Radar",
+    description: "Visualize candidate strengths across technical, operational, and leadership domains with data-driven radial charts.",
+    badges: ["Smart analytics", "Data-driven"],
     link: "/pricing",
   },
   {
-    icon: Package,
-    title: "Supply Chain & Inventory",
-    description: "End-to-end supply chain management — purchase orders, supplier directory, stock alerts, and expense tracking.",
-    badges: ["Real-time inventory", "Smart analytics"],
+    icon: FileText,
+    title: "Dossier Generation",
+    description: "Export high-fidelity PDF dossiers for over 150 participants instantly — ready for offline review or investor presentations.",
+    badges: ["Enterprise-grade", "PDF export"],
     link: "/pricing",
   },
   {
-    icon: Users,
-    title: "Payroll & HR",
-    description: "Staff management, commission calculations, payroll processing, and attendance tracking across all business types.",
-    badges: ["Smart analytics"],
+    icon: Zap,
+    title: "Venture Velocity",
+    description: "Measure the speed of talent movement through your recruitment pipeline with real-time engagement and response metrics.",
+    badges: ["Real-time", "Pipeline tracking"],
+    link: "/pricing",
+  },
+  {
+    icon: MapPin,
+    title: "Geospatial Intelligence",
+    description: "Map talent density across regions with a Kenya-first focus. Identify untapped clusters of verified technical talent.",
+    badges: ["Geo-mapping", "Kenya focus"],
+    link: "/pricing",
+  },
+  {
+    icon: Shield,
+    title: "Biometric-Ready Security",
+    description: "Enterprise-grade login flow powered by Clerk/WebAuthn — passkeys, biometrics, and elite access control built in.",
+    badges: ["WebAuthn", "Zero-trust"],
     link: "/pricing",
   },
 ];
 
 const trustedBy = [
-  "Kike Glam Loft",
+  "Startups Garage",
   "Hotel Karanja",
   "CampusLuku",
-  "Sebai Suites",
+  "Kike Glam Loft",
+];
+
+const testimonials = [
+  {
+    quote: "I stopped reading CVs and started watching 60-second proof clips. My hiring speed increased by 300%.",
+    author: "— A Founder",
+  },
+  {
+    quote: "I finally have a place where my skills speak louder than my school name.",
+    author: "— An Applicant",
+  },
 ];
 
 const Home = () => {
@@ -69,20 +73,19 @@ const Home = () => {
       <section className="neo-extruded p-6 sm:p-12 lg:p-16">
         <div className="max-w-3xl mx-auto text-center space-y-8 animate-fade-in-up">
           <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest">
-            Business Management Suite
+            The Venture Engine
           </p>
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-[1.1] tracking-tight">
-            One Platform. Every Business.
+            Proof Over Promises.
           </h1>
 
           <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            The ultimate Business Suite for Salons, Clinics, Hotels, and Retail.
-            Manage POS, inventory, and payroll with precision.
+            Donjo is the video-first proof-of-work platform for founders who value evidence over adjectives. Built for ecosystems like Startups Garage where talent must be verified at scale.
           </p>
 
           <Link to="/contact" className="neo-pill inline-block">
-            Book a Demo
+            Request Access
           </Link>
         </div>
       </section>
@@ -105,35 +108,35 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Sector Features Grid */}
+      {/* Features Grid */}
       <section className="space-y-8">
         <div className="text-center space-y-4">
           <h2 className="text-3xl sm:text-4xl font-bold text-foreground tracking-tight">
-            Built for Every Sector
+            The Venture Engine Dashboard
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Purpose-built modules for the industries that matter most.
+            Operational intelligence for proof-based hiring. Watch real proof, generate dossiers, and track pipeline velocity.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sectors.map((sector, index) => {
-            const Icon = sector.icon;
+          {features.map((feature, index) => {
+            const Icon = feature.icon;
             return (
               <div
-                key={sector.title}
+                key={feature.title}
                 className="neo-extruded p-6 sm:p-8 space-y-5 flex flex-col animate-fade-in-up"
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
                 <div className="squircle-icon w-14 h-14">
                   <Icon className="w-6 h-6 text-foreground" strokeWidth={1.5} />
                 </div>
-                <h3 className="text-xl font-bold text-foreground">{sector.title}</h3>
+                <h3 className="text-xl font-bold text-foreground">{feature.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed flex-1">
-                  {sector.description}
+                  {feature.description}
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {sector.badges.map((badge) => (
+                  {feature.badges.map((badge) => (
                     <span
                       key={badge}
                       className="neo-pressed px-3 py-1.5 text-xs font-medium text-muted-foreground"
@@ -143,7 +146,7 @@ const Home = () => {
                   ))}
                 </div>
                 <Link
-                  to={sector.link}
+                  to={feature.link}
                   className="text-sm font-semibold text-foreground hover:underline mt-auto"
                 >
                   Learn More →
@@ -154,16 +157,29 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Testimonials */}
+      <section className="space-y-6">
+        <h2 className="text-2xl font-bold text-foreground text-center">What People Are Saying</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {testimonials.map((t) => (
+            <div key={t.author} className="neo-extruded p-6 sm:p-8 space-y-4">
+              <p className="text-muted-foreground leading-relaxed italic">"{t.quote}"</p>
+              <p className="text-sm font-semibold text-foreground">{t.author}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="neo-extruded p-6 sm:p-12 text-center space-y-6">
         <h2 className="text-2xl sm:text-4xl font-bold text-foreground tracking-tight">
-          Ready to streamline your business?
+          Move from CV-centric to proof-centric hiring.
         </h2>
         <p className="text-muted-foreground max-w-xl mx-auto">
-          Join hundreds of businesses across East Africa already using Siohioma to manage operations, track inventory, and grow revenue.
+          Join founders across East Africa already using Donjo to verify talent at scale, generate applicant dossiers, and make data-driven hiring decisions.
         </p>
         <Link to="/contact" className="neo-pill inline-block">
-          Book a Demo
+          Request Access
         </Link>
       </section>
     </div>

@@ -31,10 +31,10 @@ const Connect = () => {
     <div className="space-y-12">
       <div className="text-center space-y-4 animate-fade-in-up">
         <h1 className="text-3xl sm:text-5xl font-bold text-foreground tracking-tight">
-          Book a Demo
+          Request Access
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          See how Siohioma can transform your business operations.
+          See how Donjo's Venture Engine can transform your hiring pipeline.
         </p>
       </div>
 
@@ -47,17 +47,17 @@ const Connect = () => {
                 Let's Get You Started.
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                Whether you're a single salon or a multi-branch retail chain, we'll show you how Siohioma fits your workflow.
+                Whether you're a solo founder or running a 150-person cohort, we'll show you how Donjo fits your workflow.
               </p>
             </div>
 
             <div className="space-y-4">
-              <a href="mailto:hello@siohioma.com" className="flex items-center gap-4 group">
+              <a href="mailto:hello@donjo.dev" className="flex items-center gap-4 group">
                 <div className="squircle-icon w-12 h-12 transition-shadow duration-200 group-hover:shadow-none">
                   <Mail className="w-5 h-5 text-foreground" strokeWidth={1.5} />
                 </div>
                 <span className="text-muted-foreground group-hover:text-foreground transition-colors">
-                  hello@siohioma.com
+                  hello@donjo.dev
                 </span>
               </a>
 
@@ -91,11 +91,11 @@ const Connect = () => {
                   <input type="email" required maxLength={255} value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })} placeholder="you@company.com" className="w-full px-5 py-4 neo-inset text-foreground placeholder:text-muted-foreground/60 outline-none text-sm bg-transparent" disabled={isSubmitting} />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground">Tell us about your business</label>
-                  <textarea required maxLength={1000} rows={5} value={formData.brief} onChange={(e) => setFormData({ ...formData, brief: e.target.value })} placeholder="What type of business do you run? How many locations?" className="w-full px-5 py-4 neo-inset text-foreground placeholder:text-muted-foreground/60 outline-none text-sm bg-transparent resize-none" disabled={isSubmitting} />
+                  <label className="text-sm font-medium text-foreground">Tell us about your hiring needs</label>
+                  <textarea required maxLength={1000} rows={5} value={formData.brief} onChange={(e) => setFormData({ ...formData, brief: e.target.value })} placeholder="What roles are you hiring for? How large is your applicant pool?" className="w-full px-5 py-4 neo-inset text-foreground placeholder:text-muted-foreground/60 outline-none text-sm bg-transparent resize-none" disabled={isSubmitting} />
                 </div>
                 <button type="submit" className="neo-pill w-full text-center flex items-center justify-center gap-2" disabled={isSubmitting}>
-                  {isSubmitting ? (<><Loader2 className="w-4 h-4 animate-spin" />Sending...</>) : "Request Demo"}
+                  {isSubmitting ? (<><Loader2 className="w-4 h-4 animate-spin" />Sending...</>) : "Request Access"}
                 </button>
               </>
             )}
