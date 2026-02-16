@@ -20,12 +20,12 @@ const milestones = [
   { year: "2018", label: "Founded first SaaS startup" },
   { year: "2020", label: "Scaled to $2M ARR" },
   { year: "2022", label: "Launched consultancy practice" },
-  { year: "2024", label: "Advised 30+ early-stage startups" },
+  { year: "2024", label: "Built Donjo — the Venture Engine" },
 ];
 
 const currentRoles = [
   { title: "CTO", org: "Startups Garage", description: "Leading tech strategy and product development for portfolio startups." },
-  { title: "CTO", org: "Hotel Karanja", description: "Building digital infrastructure for hospitality operations.", link: "https://hotelkaranja.pages.dev/" },
+  { title: "Creator", org: "Donjo", description: "Architecting the Venture Engine — a video-first proof-of-work platform for proof-based hiring." },
 ];
 
 const Founder = () => {
@@ -66,17 +66,12 @@ const Founder = () => {
               <span className="text-sm font-medium text-muted-foreground uppercase tracking-widest">{role.title}</span>
               <h3 className="text-xl font-bold text-foreground">{role.org}</h3>
               <p className="text-sm text-muted-foreground">{role.description}</p>
-              {role.link && (
-                <a href={role.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary hover:underline mt-2">
-                  Visit site <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              )}
             </div>
           ))}
         </div>
       </section>
 
-      {/* Startups Garage — side-by-side */}
+      {/* Startups Garage */}
       <section className="neo-extruded p-6 sm:p-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="neo-extruded-sm p-4 overflow-hidden">
@@ -104,7 +99,7 @@ const Founder = () => {
           </p>
           <h2 className="text-3xl font-bold text-foreground">Defense-in-Depth</h2>
           <p className="text-muted-foreground leading-relaxed max-w-2xl">
-            Implemented a comprehensive security architecture for high-traffic student portals and HR systems, achieving a verified 125/100 security rating on the Mozilla Observatory. By leveraging Cloudflare's Edge Proxy and a custom Defense-in-Depth strategy, I eliminated common attack vectors such as XSS, Clickjacking, and Data Leakage before they reach the origin server.
+            Implemented a comprehensive security architecture for high-traffic student portals and HR systems, achieving a verified 125/100 security rating on the Mozilla Observatory.
           </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -114,12 +109,6 @@ const Founder = () => {
               <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
             </div>
           ))}
-        </div>
-        <div className="neo-inset p-6 space-y-2">
-          <p className="text-sm font-semibold text-foreground">The Consultant Pitch</p>
-          <p className="text-sm text-muted-foreground leading-relaxed italic">
-            "Most developers focus only on features. I focus on reliability and risk mitigation. By achieving a 125/100 score, I ensure that the businesses I build for — like Siohioma and Kike Glam Loft — are protected against the automated attacks that take down 90% of small business websites."
-          </p>
         </div>
       </section>
 
@@ -152,7 +141,7 @@ const Founder = () => {
         </div>
       </section>
 
-      {/* Secondary photo — side-by-side */}
+      {/* Secondary photo */}
       <section className="neo-extruded p-6 sm:p-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-4">

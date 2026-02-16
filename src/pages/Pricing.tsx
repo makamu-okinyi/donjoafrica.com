@@ -3,33 +3,29 @@ import { Check } from "lucide-react";
 
 const plans = [
   {
-    name: "Standard",
-    price: "KES 35,000",
-    period: "/month",
-    description: "Everything a single-shop business needs to run smoothly.",
+    name: "Starter",
+    price: "Free",
+    period: "",
+    description: "For individual founders exploring proof-based hiring.",
     features: [
-      "Unlimited users",
-      "Full POS & invoicing",
-      "Real-time inventory tracking",
-      "Customer & supplier directory",
-      "Payroll & commissions",
-      "Smart analytics dashboard",
-      "Email & WhatsApp support",
+      "Up to 25 applicant profiles",
+      "Video portfolio viewing",
+      "Basic Skill Radar",
+      "Email support",
     ],
   },
   {
-    name: "Professional",
-    price: "KES 55,000",
+    name: "Venture",
+    price: "$99",
     period: "/month",
-    description: "For multi-location businesses and complex operations.",
+    description: "For startups and accelerators scaling their talent pipeline.",
     features: [
-      "Everything in Standard",
-      "Multi-branch management",
-      "Inter-branch stock transfers",
-      "Role-based access control",
-      "Advanced reporting & KPIs",
-      "Dedicated account manager",
-      "Priority support & training",
+      "Unlimited applicant profiles",
+      "Full Skill Radar analytics",
+      "Dossier generation (PDF export)",
+      "Venture Velocity metrics",
+      "Geospatial talent mapping",
+      "Priority support",
     ],
     popular: true,
   },
@@ -37,14 +33,14 @@ const plans = [
     name: "Enterprise",
     price: "Custom",
     period: "",
-    description: "Tailored solutions for large-scale operations.",
+    description: "For large cohorts, accelerators, and venture studios.",
     features: [
-      "Everything in Professional",
-      "Custom integrations & API access",
-      "White-label options",
+      "Everything in Venture",
+      "Bulk dossier generation (150+)",
+      "Custom branding & white-label",
+      "API access & integrations",
+      "Dedicated account manager",
       "SLA & uptime guarantees",
-      "On-site deployment & training",
-      "24/7 dedicated support",
     ],
   },
 ];
@@ -57,7 +53,7 @@ const Pricing = () => {
           Simple, Transparent Pricing
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Choose the plan that fits your business. Upgrade or downgrade anytime.
+          Choose the plan that fits your hiring pipeline. Scale as you grow.
         </p>
       </div>
 
@@ -93,7 +89,7 @@ const Pricing = () => {
               className={`text-center ${plan.popular ? "neo-pill" : "neo-extruded-sm px-6 py-3 font-semibold text-sm text-foreground hover:text-foreground/80 transition-colors"}`}
               style={!plan.popular ? { borderRadius: "9999px" } : undefined}
             >
-              {plan.price === "Custom" ? "Contact Sales" : "Book a Demo"}
+              {plan.price === "Custom" ? "Contact Sales" : "Get Started"}
             </Link>
           </div>
         ))}
