@@ -49,7 +49,6 @@ const features = [
 ];
 
 const trustedBy = [
-  "Startups Garage",
   "Hotel Karanja",
   "CampusLuku",
   "Kike Glam Loft",
@@ -81,7 +80,7 @@ const Home = () => {
           </h1>
 
           <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            Donjo is the video-first proof-of-work platform for founders who value evidence over adjectives. Built for ecosystems like Startups Garage where talent must be verified at scale.
+          Donjo is the video-first hiring platform built for HR teams who hire on evidence, not assumption.
           </p>
 
           <Link to="/contact" className="neo-pill inline-block">
