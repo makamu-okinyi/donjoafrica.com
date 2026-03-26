@@ -16,7 +16,7 @@ const Partners = () => {
           Built With the Ecosystem
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          Donjo is trusted by accelerators, universities, and enterprises across East Africa to power proof-based hiring.
+          Donjo is trusted by acceleratorS and enterprises across East Africa to power proof-based hiring.
         </p>
       </section>
 
@@ -40,7 +40,7 @@ const Partners = () => {
           Become a Partner
         </h2>
         <p className="text-muted-foreground max-w-lg mx-auto">
-          Join the proof-based hiring movement. Whether you're an accelerator, university, or enterprise — let's build together.
+          Join the proof-based hiring movement. Whether you're an accelerator, HR or enterprise — let's build together.
         </p>
         <Link to="/contact" className="neo-pill inline-block">
           Partner With Us
