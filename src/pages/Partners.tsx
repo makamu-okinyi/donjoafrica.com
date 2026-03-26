@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 
 const partners = [
-  { name: "Startups Garage", type: "Accelerator", description: "East Africa's leading startup accelerator — where Donjo was born and battle-tested with 150+ applicants." },
   { name: "Hotel Karanja", type: "Hospitality", description: "Pioneering proof-based hospitality recruitment across Kenya's service industry." },
   { name: "CampusLuku", type: "Education", description: "Connecting university talent to verified opportunities through video portfolios." },
   { name: "Kike Glam Loft", type: "Beauty & Wellness", description: "Using Donjo to verify and showcase creative talent in the beauty industry." },
