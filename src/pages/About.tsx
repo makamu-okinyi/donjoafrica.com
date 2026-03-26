@@ -6,7 +6,7 @@ const milestones = [
 ];
 
 const team = [
-  { name: "Allan Mbuthia Nganga", role: "Founder & CTO", bio: "Product-minded technologist with deep experience in early-stage ventures, financial modeling, and scaling teams from zero to one." },
+  { name: "MAKAMU OKINYI", role: "Founder & CEO", bio: "Product-minded technologist with deep experience in early-stage ventures, financial modeling, and scaling teams from zero to one." },
 ];
 
 const About = () => {
@@ -15,10 +15,11 @@ const About = () => {
       <section className="neo-extruded p-6 sm:p-12 lg:p-16 text-center space-y-6">
         <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest">Who We Are</p>
         <h1 className="text-3xl sm:text-5xl font-bold text-foreground leading-[1.1] tracking-tight">
-          The Venture Engine for proof-based hiring.
+          The Engine for proof-based hiring.
         </h1>
         <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-          Donjo is a video-first proof-of-work platform that replaces static CVs with real demonstrations of skill. Founders watch 60-second proof clips, generate applicant dossiers, and make data-driven decisions — all from one dashboard.
+        Donjo integrates real human signal into the first step of hiring.
+With 60-second proof-of-work videos, employers instantly see beyond the CV and make faster, smarter decisions.
         </p>
       </section>
 
@@ -53,7 +54,7 @@ const About = () => {
       <section className="neo-extruded p-6 sm:p-12 space-y-4">
         <h2 className="text-2xl font-bold text-foreground">Our Mission</h2>
         <p className="text-muted-foreground leading-relaxed max-w-2xl">
-          To shift the hiring paradigm from credentials to competence. Every founder deserves to see real proof before making a hire. Every applicant deserves a platform where skills speak louder than school names.
+Hiring should be about who you are, not just what's on paper. Donjo gives every applicant 60 seconds to prove their competence; and every employer the clarity to decide with confidence.
         </p>
       </section>
     </div>
