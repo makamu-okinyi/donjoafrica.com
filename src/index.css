@@ -19,11 +19,20 @@
     --primary: 0 0% 13%;
     --primary-foreground: 0 0% 98%;
 
+    /* Brand accent — Success Orange (shared with the main app).
+       Used sparingly: primary CTAs, focus states, small accents — not large fills.
+       --brand is the vivid display tone; --brand-strong is the AA-accessible
+       fill for white-text CTAs (white on --brand alone fails contrast). */
+    --brand: 14 100% 60%;
+    --brand-strong: 14 88% 44%;
+    --brand-foreground: 0 0% 100%;
+
     --secondary: 220 14% 82%;
     --secondary-foreground: 220 15% 13%;
 
     --muted: 220 14% 82%;
-    --muted-foreground: 215 10% 46%;
+    /* Darkened from 46% -> 38% to meet WCAG AA (4.5:1) on the gray background */
+    --muted-foreground: 220 12% 38%;
 
     --accent: 220 14% 84%;
     --accent-foreground: 220 15% 13%;
@@ -33,7 +42,8 @@
 
     --border: 220 14% 82%;
     --input: 220 14% 82%;
-    --ring: 220 15% 13%;
+    /* Focus ring uses the brand accent for a consistent, on-brand focus state */
+    --ring: 14 100% 60%;
 
     --radius: 2rem;
 
@@ -96,8 +106,8 @@
   }
 
   .neo-pill {
-    background: hsl(var(--primary));
-    color: hsl(var(--primary-foreground));
+    background: hsl(var(--brand-strong));
+    color: hsl(var(--brand-foreground));
     border-radius: 9999px;
     padding: 0.875rem 2.5rem;
     font-weight: 600;
@@ -114,6 +124,11 @@
   .neo-pill:active {
     box-shadow: var(--neo-shadow-pressed);
     transform: translateY(2px);
+  }
+
+  .neo-pill:focus-visible {
+    outline: 2px solid hsl(var(--brand));
+    outline-offset: 3px;
   }
 
   .squircle-icon {

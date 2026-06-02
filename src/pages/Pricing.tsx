@@ -61,7 +61,7 @@ const Pricing = () => {
         {plans.map((plan) => (
           <div
             key={plan.name}
-            className={`neo-extruded p-6 sm:p-8 space-y-6 flex flex-col ${plan.popular ? "ring-2 ring-foreground/20" : ""}`}
+            className={`neo-extruded p-6 sm:p-8 space-y-6 flex flex-col ${plan.popular ? "ring-2 ring-brand/40" : ""}`}
           >
             {plan.popular && (
               <span className="neo-pressed px-4 py-1.5 text-xs font-semibold text-foreground self-start">

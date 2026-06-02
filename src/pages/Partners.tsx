@@ -15,7 +15,7 @@ const Partners = () => {
           Built With the Ecosystem
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          Donjo is trusted by acceleratorS and enterprises across East Africa to power proof-based hiring.
+          Donjo is trusted by accelerators and enterprises across East Africa to power proof-based hiring.
         </p>
       </section>
 
