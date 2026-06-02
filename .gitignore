@@ -20,6 +20,10 @@ dist-ssr
 # Internal working doc — kept locally, not part of the shipped repo
 DONJO_RENOVATION_BRIEF.md
 
+# Supabase CLI local artifacts
+supabase/.temp
+supabase/.branches
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
