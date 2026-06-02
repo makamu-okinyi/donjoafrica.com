@@ -1,0 +1,7 @@
+# Normalize line endings. Keep deploy-critical config files LF so Linux-based
+# CI/CD (Cloudflare Pages) parses them correctly.
+* text=auto eol=lf
+
+.nvmrc text eol=lf
+public/_redirects text eol=lf
+*.sh text eol=lf
