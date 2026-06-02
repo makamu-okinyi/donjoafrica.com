@@ -17,6 +17,9 @@ dist-ssr
 .env.*
 !.env.example
 
+# Internal working doc — kept locally, not part of the shipped repo
+DONJO_RENOVATION_BRIEF.md
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
