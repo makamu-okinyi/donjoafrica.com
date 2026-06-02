@@ -19,7 +19,7 @@ const Connect = () => {
       setFormData({ name: "", email: "", brief: "" });
       toast({ title: "Request sent! ✅", description: "We'll get back to you shortly." });
       setTimeout(() => setIsSubmitted(false), 5000);
-    } catch (err: any) {
+    } catch (err) {
       console.error("Submission error:", err);
       toast({ title: "Something went wrong", description: "Please try again or reach out directly via email.", variant: "destructive" });
     } finally {

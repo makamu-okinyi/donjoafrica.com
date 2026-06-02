@@ -6,7 +6,7 @@ import {
 const features = [
   {
     icon: Video,
-    title: "Video ",
+    title: "Video Proof",
     description: "Applicants create 60-second proof clips demonstrating real technical skills — code execution, architectural design, or strategic pitching.",
     badges: ["Proof-of-work", "Video-first"],
     link: "/pricing",
@@ -175,7 +175,7 @@ const Home = () => {
           Move from CV-centric to proof-centric hiring.
         </h2>
         <p className="text-muted-foreground max-w-xl mx-auto">
-          Join Hrs across East Africa already using Donjo to verify talent at scale, generate applicant dossiers, and make data-driven hiring decisions.
+          Join HR teams across East Africa already using Donjo to verify talent at scale, generate applicant dossiers, and make data-driven hiring decisions.
         </p>
         <Link to="/contact" className="neo-pill inline-block">
           Request Access
