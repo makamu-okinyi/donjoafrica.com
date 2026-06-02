@@ -1,73 +1,67 @@
-# Welcome to your Lovable project
+# Donjo — Landing Site (`donjoafrica.com`)
 
-## Project info
+The public marketing site for **Donjo**, a video-first, proof-of-work hiring platform.
+Applicants submit short "proof" video clips instead of CVs; the product generates skill
+radars and applicant dossiers for HR teams, startups, hackathons, accelerators, and
+enterprise. Brand line: **"Proof Over Promises."** Kenya / East-Africa first.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+This repository is the marketing/brand site. The product application lives separately at
+`hr.donjoafrica.com`.
 
-## How can I edit this code?
+## Tech stack
 
-There are several ways of editing your application.
+- **Vite 5** + **React 18** + **TypeScript**
+- **Tailwind CSS** + **shadcn/ui** (Radix primitives) — neomorphic design system
+- **react-router-dom v6** (`BrowserRouter` / HTML5 history)
+- **Supabase** — backs the contact form (`consultations` table + `notify-consultation` edge function)
+- **TanStack Query** for data fetching
 
-**Use Lovable**
+Path alias: `@/` → `./src`.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Getting started
 
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```bash
+npm install
+cp .env.example .env   # then fill in real Supabase values
+npm run dev            # http://localhost:8080
 ```
 
-**Edit a file directly in GitHub**
+### Scripts
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+| Command | Description |
+|---|---|
+| `npm run dev` | Start the dev server on port 8080 |
+| `npm run build` | Production build to `dist/` |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint` | Run ESLint |
+| `npm test` | Run the test suite (Vitest) |
 
-**Use GitHub Codespaces**
+## Environment variables
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Set these in `.env` for local dev, and in the hosting provider's dashboard for deploys.
+All are **publishable/anon** values (safe in the browser); `.env` itself must stay
+git-ignored. See `.env.example`.
 
-## What technologies are used for this project?
+| Variable | Description |
+|---|---|
+| `VITE_SUPABASE_URL` | Supabase project URL |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase anon/publishable key |
+| `VITE_SUPABASE_PROJECT_ID` | Supabase project ref id |
 
-This project is built with:
+## Deployment (Cloudflare Pages)
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- **Build command:** `npm run build`
+- **Output directory:** `dist`
+- **SPA fallback:** `public/_redirects` rewrites all paths to `index.html` (status 200) so
+  deep links and refreshes don't 404 under `BrowserRouter`.
+- Set the `VITE_*` environment variables in the Cloudflare Pages project (Production **and**
+  Preview). Because Vite inlines them at build time, changing a value requires a redeploy.
 
-## How can I deploy this project?
+## Backend (Supabase)
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+- Table: `consultations` (`id`, `name`, `email`, `brief`, `created_at`).
+- Edge function: `notify-consultation` (emails on contact-form submission via Resend).
+- Migrations live in `supabase/migrations/`.
 
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Function secrets (e.g. `RESEND_API_KEY`) are set in the Supabase dashboard, **not** in the
+front-end `.env`.
