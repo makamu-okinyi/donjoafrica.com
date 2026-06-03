@@ -18,10 +18,10 @@ const solutionLinks = [
 ];
 
 const platformLinks = [
-  { label: "Video Portfolios", to: "/pricing" },
-  { label: "Skill Radar", to: "/pricing" },
-  { label: "Dossier Generation", to: "/pricing" },
-  { label: "Venture Velocity", to: "/pricing" },
+  { label: "Video Proof", to: "/#video-proof" },
+  { label: "Skill Radar", to: "/#skill-radar" },
+  { label: "Dossier Generation", to: "/#dossier-generation" },
+  { label: "Venture Velocity", to: "/#venture-velocity" },
 ];
 
 const Footer = () => {

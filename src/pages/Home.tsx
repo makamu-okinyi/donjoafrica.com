@@ -5,46 +5,46 @@ import {
 
 const features = [
   {
+    slug: "video-proof",
     icon: Video,
     title: "Video Proof",
     description: "Applicants create 60-second proof clips demonstrating real technical skills — code execution, architectural design, or strategic pitching.",
     badges: ["Proof-of-work", "Video-first"],
-    link: "/pricing",
   },
   {
+    slug: "skill-radar",
     icon: BarChart3,
     title: "Skill Radar",
     description: "Visualize candidate strengths across technical, operational, and leadership domains with data-driven radial charts.",
     badges: ["Smart analytics", "Data-driven"],
-    link: "/pricing",
   },
   {
+    slug: "dossier-generation",
     icon: FileText,
     title: "Dossier Generation",
     description: "Export high-fidelity PDF dossiers for over 150 participants instantly — ready for offline review or investor presentations.",
     badges: ["Enterprise-grade", "PDF export"],
-    link: "/pricing",
   },
   {
+    slug: "venture-velocity",
     icon: Zap,
     title: "Venture Velocity",
     description: "Measure the speed of talent movement through your recruitment pipeline with real-time engagement and response metrics.",
     badges: ["Real-time", "Pipeline tracking"],
-    link: "/pricing",
   },
   {
+    slug: "geospatial-intelligence",
     icon: MapPin,
     title: "Geospatial Intelligence",
     description: "Map talent density across regions with a Kenya-first focus. Identify untapped clusters of verified technical talent.",
     badges: ["Geo-mapping", "Kenya focus"],
-    link: "/pricing",
   },
   {
+    slug: "biometric-security",
     icon: Shield,
     title: "Biometric-Ready Security",
     description: "Enterprise-grade login flow powered by Clerk/WebAuthn — passkeys, biometrics, and elite access control built in.",
     badges: ["WebAuthn", "Zero-trust"],
-    link: "/pricing",
   },
 ];
 
@@ -108,7 +108,7 @@ const Home = () => {
       </section>
 
       {/* Features Grid */}
-      <section className="space-y-8">
+      <section id="features" className="space-y-8 scroll-mt-28">
         <div className="text-center space-y-4">
           <h2 className="text-3xl sm:text-4xl font-bold text-foreground tracking-tight">
             The Venture Engine Dashboard
@@ -124,7 +124,8 @@ const Home = () => {
             return (
               <div
                 key={feature.title}
-                className="neo-extruded p-6 sm:p-8 space-y-5 flex flex-col animate-fade-in-up"
+                id={feature.slug}
+                className="neo-extruded p-6 sm:p-8 space-y-5 flex flex-col animate-fade-in-up scroll-mt-28"
                 style={{ animationDelay: `${index * 0.05}s` }}
               >
                 <div className="squircle-icon w-14 h-14">
@@ -145,7 +146,7 @@ const Home = () => {
                   ))}
                 </div>
                 <Link
-                  to={feature.link}
+                  to={`/#${feature.slug}`}
                   className="text-sm font-semibold text-foreground hover:underline mt-auto"
                 >
                   Learn More →

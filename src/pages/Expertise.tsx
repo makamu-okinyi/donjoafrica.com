@@ -1,3 +1,4 @@
+// TODO(renovation): Expertise.tsx is unlinked advisory copy; decide later whether to repurpose, merge into Founder, or remove.
 import { Server, GitBranch, Rocket, Lightbulb } from "lucide-react";
 import { type LucideIcon } from "lucide-react";
 
