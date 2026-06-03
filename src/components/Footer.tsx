@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 const siteLinks = [
   { label: "Home", to: "/" },
   { label: "About", to: "/about" },
+  { label: "Founder", to: "/founder" },
   { label: "Pricing", to: "/pricing" },
   { label: "Partners", to: "/partners" },
   { label: "Contact", to: "/contact" },

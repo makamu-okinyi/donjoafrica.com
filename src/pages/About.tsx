@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const milestones = [
   { year: "2018", label: "Donjo concept incubated" },
   { year: "2020", label: "Video portfolio MVP launched" },
@@ -46,6 +48,9 @@ With 60-second proof-of-work videos, employers instantly see beyond the CV and m
               <h3 className="text-xl font-bold text-foreground">{person.name}</h3>
               <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest">{person.role}</p>
               <p className="text-sm text-muted-foreground leading-relaxed">{person.bio}</p>
+              <Link to="/founder" className="text-sm font-semibold text-foreground hover:underline">
+                Meet the founder →
+              </Link>
             </div>
           ))}
         </div>
