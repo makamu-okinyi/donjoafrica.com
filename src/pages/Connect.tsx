@@ -52,12 +52,12 @@ const Connect = () => {
             </div>
 
             <div className="space-y-4">
-              <a href="mailto:hello@donjo.dev" className="flex items-center gap-4 group">
+              <a href="mailto:makamubetsy@gmail.com" className="flex items-center gap-4 group">
                 <div className="squircle-icon w-12 h-12 transition-shadow duration-200 group-hover:shadow-none">
                   <Mail className="w-5 h-5 text-foreground" strokeWidth={1.5} />
                 </div>
                 <span className="text-muted-foreground group-hover:text-foreground transition-colors">
-                  hello@donjo.dev
+                  makamubetsy@gmail.com
                 </span>
               </a>
 

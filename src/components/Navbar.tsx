@@ -5,6 +5,7 @@ import { Menu, X, ChevronDown } from "lucide-react";
 const mainNav = [
   { label: "Home", path: "/" },
   { label: "About", path: "/about" },
+  { label: "Expertise", path: "/expertise" },
   {
     label: "Solutions",
     path: "/solutions",
