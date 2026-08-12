@@ -1,6 +1,5 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { Mail, MessageCircle, Loader2, CheckCircle } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
 const Connect = () => {
@@ -13,8 +12,13 @@ const Connect = () => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const { error } = await supabase.functions.invoke("notify-consultation", { body: formData });
-      if (error) throw error;
+      const convexSiteUrl = import.meta.env.VITE_CONVEX_SITE_URL;
+      const response = await fetch(`${convexSiteUrl}/notify-consultation`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+      if (!response.ok) throw new Error("Request failed");
       setIsSubmitted(true);
       setFormData({ name: "", email: "", brief: "" });
       toast({ title: "Request sent! ✅", description: "We'll get back to you shortly." });
