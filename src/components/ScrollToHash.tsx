@@ -2,23 +2,21 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
 /**
- * Scrolls to the element matching location.hash on navigation.
+ * Scrolls to the element matching location.hash on navigation, or to the top
+ * of the page when navigating to a new route with no hash.
  *
- * React Router v6 does not scroll to hash anchors on its own, so deep links
- * like /solutions#hackathons would otherwise land at the top of the page.
- * This handles both cases:
- *   - client-side navigation (clicking a dropdown/footer hash link), and
- *   - a fresh full-page load of a deep link (content may mount a frame later,
- *     so we retry briefly until the target exists).
- *
- * scrollIntoView honours the target's CSS scroll-margin-top (scroll-mt-28),
- * keeping the heading clear of the fixed navbar.
+ * React Router v6 does neither of these on its own. Without this, clicking a
+ * plain nav link while scrolled down on the previous page leaves the new
+ * page's content wherever the old scroll position happened to land.
  */
 const ScrollToHash = () => {
   const { pathname, hash, key } = useLocation();
 
   useEffect(() => {
-    if (!hash) return;
+    if (!hash) {
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      return;
+    }
 
     const id = decodeURIComponent(hash.slice(1));
     let frame = 0;
