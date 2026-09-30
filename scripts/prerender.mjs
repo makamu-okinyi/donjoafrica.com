@@ -34,6 +34,9 @@ if (!executablePath) {
 const shell = fs.readFileSync(path.join(dist, "index.html"), "utf8");
 // Client-only shell used for /admin: never indexable, even before JS runs.
 fs.writeFileSync(path.join(dist, "spa.html"), shell.replace(/<meta name="robots"[^>]*>/, '<meta name="robots" content="noindex, nofollow, noarchive" />'));
+// Admin shell as a real file: rewriting to /spa.html makes Pages clean-URL it to /spa (404)
+fs.mkdirSync(path.join(dist, "admin"), { recursive: true });
+fs.copyFileSync(path.join(dist, "spa.html"), path.join(dist, "admin", "index.html"));
 
 const mime = {
   ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".png": "image/png",
@@ -118,7 +121,7 @@ fs.writeFileSync(path.join(dist, "sitemap.xml"), sitemap);
 fs.writeFileSync(path.join(dist, "robots.txt"), `User-agent: *\nAllow: /\nDisallow: /admin\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
 // Cloudflare Pages: static files first; /admin is client-only; anything else gets 404.html
-fs.writeFileSync(path.join(dist, "_redirects"), "/admin /spa.html 200\n/admin/* /spa.html 200\n");
+fs.writeFileSync(path.join(dist, "_redirects"), "/admin/* /admin/index.html 200\n");
 
 // Branded social card (no stock imagery)
 const font = fs.readFileSync(path.join(root, "public/fonts/dm-sans-latin-wght.woff2")).toString("base64");
