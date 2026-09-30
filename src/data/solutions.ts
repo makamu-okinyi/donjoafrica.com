@@ -1,7 +1,7 @@
 import {
   Users, Zap, Rocket, GraduationCap, Building2, Video, ListChecks, MessageSquare, Bell,
   FileText, ClipboardCheck, Trophy, Gavel, Tags, Layers, LayoutDashboard, KeyRound,
-  Briefcase, Share2, Eye, MapPin, Presentation, Handshake, UserCog,
+  Briefcase, Share2, Eye, MapPin, Presentation, UserCog, Timer,
 } from "lucide-react";
 import type { DetailContent } from "./types";
 
@@ -61,7 +61,10 @@ export const solutions: DetailContent[] = [
     faq: [
       { q: "Must candidates record a video?", a: "Where you set a video prompt, yes. They can record in the browser or upload a clip." },
       { q: "Can I still read written applications?", a: "Yes. Applicants add a cover message, bio and skills too." },
-      { q: "Is there a free plan?", a: "Yes. Starter is free for up to 25 applicant profiles." },
+      { q: "Is there a free plan?", a: "Yes. Starter is free and includes jobs with a video question, applicant video portfolios, shortlisting, the applicant dossier with ratings, and PDF or CSV export. Plans differ in how many jobs, challenges and shortlist places you can keep active." },
+      { q: "How do I contact candidates?", a: "Once you shortlist someone you can message them inside Donjo." },
+      { q: "Are candidates told about my decision?", a: "Yes. When you shortlist or reject an application, the applicant gets a notification in the app." },
+      { q: "Do I see who has applied to which job?", a: "Yes. Each job has its own applicant list with video portfolios, cover messages and a status for every applicant." },
     ],
     related: ["/platform/video-proof", "/platform/dossier-generation", "/solutions/accelerators"],
   },
@@ -75,24 +78,24 @@ export const solutions: DetailContent[] = [
     summary: "Video submissions, judging and profiles that outlast the weekend.",
     metaTitle: "Hackathon Hiring Software | Donjo",
     metaDescription:
-      "Hackathon hiring software with video submissions, a judge role and lasting participant profiles that sponsors can act on. Request access.",
+      "Hackathon hiring software with video submissions, winner marking and lasting participant profiles that sponsors can act on. Request access.",
     eyebrow: "Solution",
     headline: "Judge the demo. Keep the talent.",
-    subhead: "Hackathon hiring software where every entry is a video, judges compare fairly, and participants keep a portfolio.",
+    subhead: "Hackathon hiring software where every entry is a video, the organiser picks the winner, and participants keep a portfolio.",
     glance: {
       title: "You get",
-      items: ["Challenges with prize and deadline", "One video entry per participant", "A dedicated judge role"],
+      items: ["Challenges with prize and deadline", "One video entry per participant", "You choose the winner"],
     },
     problem: {
       title: "The event ends and the signal vanishes",
-      points: ["Entries scattered across forms and drives", "Judges compare pitches from memory", "Sponsors leave with names, not evidence"],
+      points: ["Entries scattered across forms and drives", "Pitches are compared from memory", "Sponsors leave with names, not evidence"],
     },
     help: {
       title: "A challenge that leaves a record",
       intro: "One brief, one video format, and profiles that stay useful afterwards.",
       pillars: [
         { title: "One brief", body: "Prompt, prize, deadline and skills tags." },
-        { title: "Clean judging", body: "Submitted, reviewed, winner." },
+        { title: "Clear outcome", body: "Mark the winning entry. Every entry stays on record." },
         { title: "Lasting talent", body: "Sponsors find and shortlist participants." },
       ],
     },
@@ -100,16 +103,16 @@ export const solutions: DetailContent[] = [
     capabilities: [
       { icon: Trophy, title: "Challenge pages", body: "Prize, deadline and skills tags." },
       { icon: Video, title: "Video submissions", body: "One entry per participant." },
-      { icon: ClipboardCheck, title: "Submission status", body: "Track submitted, reviewed and winner." },
-      { icon: Gavel, title: "Judge role", body: "Reviewers see what they need, no more." },
-      { icon: Rocket, title: "Hackathon tags", body: "Tag team applications by event and cohort." },
-      { icon: Bell, title: "Notifications", body: "Nobody misses an update." },
+      { icon: Gavel, title: "Winner marking", body: "The organiser marks the winning entry." },
+      { icon: Users, title: "Participant profiles", body: "Every entry sits on a profile sponsors can shortlist." },
+      { icon: Tags, title: "Skills tags", body: "Tag a challenge with the skills it tests." },
+      { icon: Bell, title: "Notifications", body: "Updates appear in the app." },
     ],
     workflowTitle: "Run a hackathon on Donjo",
     workflow: [
       { title: "Define", body: "Write the brief and prompt." },
       { title: "Collect", body: "Participants submit a video." },
-      { title: "Judge", body: "Panel reviews, you set statuses." },
+      { title: "Decide", body: "Watch the entries and pick the winner." },
       { title: "Connect", body: "Sponsors shortlist participants." },
     ],
     audienceTitle: "Who it fits",
@@ -119,9 +122,13 @@ export const solutions: DetailContent[] = [
       { title: "Competition hosts", body: "Pitch and skills contests." },
     ],
     faq: [
-      { q: "Does Donjo score teams automatically?", a: "No. Judges watch entries and organisers set statuses, including winners." },
-      { q: "Can we run several challenges?", a: "Yes. Each has its own brief, deadline and submissions." },
+      { q: "Does Donjo score teams automatically?", a: "No. The organiser watches the entries and marks the winner. Nothing is scored by software." },
+      { q: "Is there a judging panel with scorecards?", a: "Not for challenge entries. The account that posted the challenge reviews the entries and marks the winner. Donjo has a judge account type, but it is for viewing venture applications and pitch decks, not for scoring challenge entries." },
+      { q: "Can we run several challenges?", a: "Yes. Each has its own brief, prize, deadline and submissions." },
+      { q: "How do entries work?", a: "Each participant submits one video per challenge, recorded in the browser or uploaded." },
       { q: "Do participants need accounts?", a: "Yes. A profile turns one entry into a lasting portfolio." },
+      { q: "Can sponsors hire from the event?", a: "Sponsors with an employer account can shortlist and message participants they want to talk to." },
+      { q: "Does Donjo handle prize money?", a: "No. Donjo records the prize on the challenge page. It does not collect or pay out money." },
     ],
     related: ["/platform/video-proof", "/solutions/accelerators", "/platform/venture-velocity"],
   },
@@ -145,7 +152,7 @@ export const solutions: DetailContent[] = [
     },
     problem: {
       title: "Selection is slow and uneven",
-      points: ["Applications arrive in mixed formats", "Later files get less attention", "Cohort reports are rebuilt by hand"],
+      points: ["Applications arrive in mixed formats", "Later files get less attention", "Committee packs are assembled by hand"],
     },
     help: {
       title: "One structure, one queue, one record",
@@ -153,7 +160,7 @@ export const solutions: DetailContent[] = [
       pillars: [
         { title: "Consistent", body: "Same fields for every venture." },
         { title: "Decisive", body: "Shortlist or reject, founders notified." },
-        { title: "Reportable", body: "Cohort views and PDF export." },
+        { title: "Exportable", body: "A PDF summary for the committee." },
       ],
     },
     capabilitiesTitle: "Tools for selection",
@@ -162,8 +169,8 @@ export const solutions: DetailContent[] = [
       { icon: Video, title: "Pitch video and decks", body: "Current material always attached." },
       { icon: ClipboardCheck, title: "Review queue", body: "Shortlist or reject with founder notice." },
       { icon: FileText, title: "Dossier export", body: "PDF summary for committees." },
-      { icon: Layers, title: "Cohort composition", body: "See the shape of an intake." },
-      { icon: MapPin, title: "County applicant map", body: "See where in Kenya applicants come from.", status: "building" },
+      { icon: Timer, title: "Time-to-decision", body: "How long reviews take, in the admin console." },
+      { icon: MapPin, title: "County map", body: "Where ventures and applicants are, in the admin console." },
     ],
     workflowTitle: "From open call to cohort",
     workflow: [
@@ -179,9 +186,12 @@ export const solutions: DetailContent[] = [
       { title: "Investors and mentors", body: "Bookmark, pass or highlight ventures." },
     ],
     faq: [
-      { q: "Can we tag applicants by intake?", a: "Yes. Ventures carry optional hackathon and cohort fields." },
-      { q: "Is the county map live?", a: "Not yet. It is being built, and we will say when it ships." },
-      { q: "Can several staff review?", a: "Admin access is role-based. Tell us how many reviewers you need." },
+      { q: "What does a founder fill in?", a: "Six guided steps: basics, problem, team, tech, pitch and review. They attach a pitch video and can upload deck versions." },
+      { q: "How are founders told about decisions?", a: "When a reviewer shortlists or rejects a venture, the founder is notified." },
+      { q: "Is the county map live?", a: "Yes, in the admin console. It shows where ventures and applicants are, from the county each entered. People who did not set a location are counted separately." },
+      { q: "Can several staff review?", a: "Reviewing happens in admin accounts, which our team sets up for you. Tell us how many reviewers you need." },
+      { q: "Can investors and mentors see applications?", a: "Investor and judge accounts, assigned by admins, can view ventures and pitch decks. Investors can bookmark, pass or highlight a venture." },
+      { q: "Can we tag applicants by intake or cohort?", a: "Not yet in the forms. Ventures do not have an intake or cohort field that founders or reviewers can fill in today." },
     ],
     related: ["/platform/venture-velocity", "/platform/dossier-generation", "/solutions/hackathons"],
   },
@@ -223,7 +233,7 @@ export const solutions: DetailContent[] = [
       { icon: Share2, title: "Public profile", body: "Bio, links and videos." },
       { icon: Trophy, title: "Challenges", body: "Submit to live employer briefs." },
       { icon: Eye, title: "Employer discovery", body: "Browse, shortlist and message." },
-      { icon: LayoutDashboard, title: "Cohort reporting", body: "Programme-level views for careers offices.", status: "roadmap" },
+      { icon: MessageSquare, title: "Messaging", body: "Employers can message students they shortlist." },
     ],
     workflowTitle: "From project to opportunity",
     workflow: [
@@ -241,10 +251,12 @@ export const solutions: DetailContent[] = [
     faq: [
       { q: "Do students pay?", a: "No. Pricing applies to teams who hire and run programmes." },
       { q: "Can videos be private?", a: "Yes. Students control visibility." },
-      { q: "Is there skill-progression tracking?", a: "Not yet. Institutional reporting is on the roadmap." },
+      { q: "Can a careers office see all its students?", a: "No. There is no institution or cohort view. Each student has their own profile." },
+      { q: "Is there skill-progression tracking?", a: "No. Donjo shows the work a student chooses to post, not progress over time." },
+      { q: "Can students enter employer challenges?", a: "Yes. They submit one video to a live employer challenge." },
+      { q: "Who can see a student's profile?", a: "Public videos, bio and links appear on the public profile. Private videos stay hidden." },
     ],
     related: ["/platform/video-proof", "/solutions/hackathons", "/solutions/hr-for-startups"],
-    statusNote: "Programme-level reporting is on the roadmap.",
   },
 
   {
@@ -258,11 +270,11 @@ export const solutions: DetailContent[] = [
     metaDescription:
       "Enterprise video hiring with role-based access, employer dashboards, passkey sign-in and dossier export for structured recruitment. Talk to Donjo.",
     eyebrow: "Solution",
-    headline: "Proof-based hiring with enterprise controls.",
-    subhead: "An enterprise video hiring platform: one consistent first look, role-based access, modern sign-in.",
+    headline: "Proof-based hiring with role-based access.",
+    subhead: "An enterprise video hiring platform: one consistent first look, role-based access, passkey or password sign-in.",
     glance: {
       title: "You get",
-      items: ["Role-based access", "Employer dashboards", "Passkey sign-in (in development)"],
+      items: ["Role-based access", "Employer dashboards", "Passkey sign-in"],
     },
     problem: {
       title: "Volume hiring loses good people",
@@ -274,7 +286,7 @@ export const solutions: DetailContent[] = [
       pillars: [
         { title: "Consistent", body: "Same evidence for every panel." },
         { title: "Controlled", body: "Six account roles." },
-        { title: "Modern", body: "Passkeys, not passwords." },
+        { title: "Flexible sign-in", body: "Passkeys or passwords." },
       ],
     },
     capabilitiesTitle: "Controls for structured recruitment",
@@ -282,9 +294,9 @@ export const solutions: DetailContent[] = [
       { icon: UserCog, title: "Role-based access", body: "Talent, employer, admin, judge and more." },
       { icon: LayoutDashboard, title: "Employer dashboard", body: "Postings and applicants together." },
       { icon: Briefcase, title: "Structured postings", body: "Shared video prompt per role." },
-      { icon: KeyRound, title: "Passkey sign-in", body: "WebAuthn instead of passwords.", status: "building" },
+      { icon: KeyRound, title: "Passkey sign-in", body: "WebAuthn passkeys, added in account settings." },
       { icon: FileText, title: "Dossier export", body: "PDF summary for panels." },
-      { icon: Handshake, title: "Branding and integrations", body: "Scoped with our team.", status: "roadmap" },
+      { icon: ClipboardCheck, title: "Audit log", body: "Admin sign-ins and actions are recorded." },
     ],
     workflowTitle: "Bringing Donjo into your process",
     workflow: [
@@ -301,10 +313,12 @@ export const solutions: DetailContent[] = [
     ],
     faq: [
       { q: "Which certifications do you hold?", a: "We don't list any here. Share your requirements and we'll answer directly." },
-      { q: "Do you offer SSO or ATS integration?", a: "Not as shipped features. We scope integrations per customer." },
-      { q: "Is passkey login live?", a: "It is being implemented now." },
+      { q: "Do you offer SSO or ATS integration?", a: "No. Donjo does not have single sign-on or applicant-tracking integrations today." },
+      { q: "Is passkey login live?", a: "Yes. Users add a passkey in their account settings and can then sign in with it. Passwords remain available." },
+      { q: "Can we brand the platform?", a: "No. There is no white-labelling." },
+      { q: "How is access controlled?", a: "Every account has one role: talent, employer, founder, investor, judge or admin. Admin and judge roles can only be assigned by an administrator." },
+      { q: "Is there an audit trail?", a: "Yes. Admin sign-ins and privileged actions are written to an audit log that admins can read." },
     ],
     related: ["/platform/dossier-generation", "/platform/venture-velocity", "/solutions/hr-for-startups"],
-    statusNote: "Passkeys are rolling out. Branding and integrations are scoped case by case.",
   },
 ];

@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { Mail, MessageCircle, Loader2, CheckCircle, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Reveal from "@/components/Reveal";
@@ -9,7 +9,7 @@ import { usePageMeta } from "@/hooks/usePageMeta";
 
 const nextSteps = [
   { title: "Tell us", body: "Share your name, email and what you need." },
-  { title: "We read it", body: "It's saved and forwarded to the team." },
+  { title: "We read it", body: "It's saved for our team to review." },
   { title: "We reply", body: "A walkthrough, a pilot idea or a straight answer." },
 ];
 
@@ -21,8 +21,11 @@ const reasons = [
 ];
 
 const faq = [
-  { q: "How quickly will I hear back?", a: "We reply as soon as we can. For urgent questions, use WhatsApp." },
+  { q: "How quickly will I hear back?", a: "We reply as soon as we can. There is no fixed response time. For urgent questions, use WhatsApp." },
   { q: "Do I need to be ready to buy?", a: "No. Questions and rough ideas are welcome." },
+  { q: "What happens to my message?", a: "It is saved for our team to read in our admin console. No automatic email is sent, so please include a way to reach you." },
+  { q: "What should I include?", a: "Who you are, what you hire for or run, and roughly how many applicants you expect. A few lines is enough." },
+  { q: "Is there a limit on messages?", a: "Yes. To prevent abuse, the form accepts only a few messages per email address. If yours is refused, use WhatsApp." },
   { q: "Where are you based?", a: "Kenya, working with teams across East Africa, including remotely." },
 ];
 
@@ -146,7 +149,7 @@ const Connect = () => {
                   {isSubmitting ? (<><Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />Sending...</>) : "Request Access"}
                 </button>
                 <p className="text-xs text-muted-foreground text-center">
-                  By sending this you agree to our <Link to="/privacy" className="underline underline-offset-4 hover:text-foreground">Privacy Policy</Link> and <Link to="/terms" className="underline underline-offset-4 hover:text-foreground">Terms of Use</Link>. We only use your details to reply.
+                  By sending this you agree to our <a href="/privacy" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-foreground">Privacy Policy<span className="sr-only"> (opens in a new tab)</span></a> and <a href="/terms" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-foreground">Terms of Use<span className="sr-only"> (opens in a new tab)</span></a>. We only use your details to reply.
                 </p>
               </>
             )}

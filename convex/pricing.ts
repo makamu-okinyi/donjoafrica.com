@@ -8,27 +8,21 @@ import { audit, requireAdmin } from "./lib/adminAuth";
  */
 const DEFAULT_PLANS = [
   {
-    slug: "starter", name: "Starter", tagline: "For individual founders exploring proof-based hiring.",
+    slug: "starter", name: "Starter", tagline: "For small teams trying proof-based hiring.",
     priceAmount: undefined, currency: "USD", billingPeriod: "free" as const,
-    features: ["Up to 25 applicant profiles", "Video portfolio viewing", "Skill and industry tagging", "Email support"],
-    limits: { profiles: 25 }, highlighted: false, ctaLabel: "Get Started", ctaHref: "/contact", order: 1,
+    features: ["Post jobs with a video question", "Watch applicants' video portfolios", "Shortlist or reject, with private notes", "Skill tags and a skill match on every applicant", "Applicant dossier, reviewer ratings and radar", "PDF and CSV export of applicants"],
+    limits: undefined, highlighted: false, ctaLabel: "Get Started", ctaHref: "/contact", order: 1,
   },
   {
-    slug: "venture", name: "Venture", tagline: "For startups and accelerators scaling their talent pipeline.",
+    slug: "venture", name: "Venture", tagline: "For startups and accelerators with a growing pipeline.",
     priceAmount: 99, currency: "USD", billingPeriod: "monthly" as const,
-    features: [
-      "Unlimited applicant profiles", "Cohort skill radar", "Dossier generation (PDF export)",
-      "Venture Velocity analytics", "County-level applicant map (in development)", "Priority support",
-    ],
+    features: ["Everything in Starter", "Higher limits on active jobs, challenges and shortlist size", "Plan set up and invoiced directly by our team"],
     limits: undefined, highlighted: true, ctaLabel: "Get Started", ctaHref: "/contact", order: 2,
   },
   {
-    slug: "enterprise", name: "Enterprise", tagline: "For large cohorts, accelerators, universities and venture studios.",
+    slug: "enterprise", name: "Enterprise", tagline: "For large cohorts, universities and venture studios.",
     priceAmount: undefined, currency: "USD", billingPeriod: "custom" as const,
-    features: [
-      "Everything in Venture", "Dossier export for large cohorts", "Custom branding, scoped with our team",
-      "Integrations, scoped with our team", "Dedicated account manager", "Service terms agreed in contract",
-    ],
+    features: ["Everything in Venture", "Limits and terms agreed with you in writing"],
     limits: undefined, highlighted: false, ctaLabel: "Contact Sales", ctaHref: "/contact", order: 3,
   },
 ];
@@ -58,6 +52,16 @@ export const seed = internalMutation({
       inserted++;
     }
     return { inserted };
+  },
+});
+
+/** Replace every plan with the current defaults. CLI only: npx convex run pricing:reseed */
+export const reseed = internalMutation({
+  args: {},
+  handler: async (ctx) => {
+    for (const row of await ctx.db.query("pricingPlans").collect()) await ctx.db.delete(row._id);
+    for (const plan of DEFAULT_PLANS) await ctx.db.insert("pricingPlans", { ...plan, isPublished: true, updatedAt: Date.now() });
+    return { plans: DEFAULT_PLANS.length };
   },
 });
 

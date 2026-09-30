@@ -320,7 +320,7 @@ export function SkillTagging({ t }: S) {
   );
 }
 
-const axes = ["Tech", "Product", "Growth", "Operations", "Leadership"];
+const axes = ["Communication", "Technical", "Problem solving", "Role fit", "Presentation"];
 const vals = [0.82, 0.6, 0.45, 0.55, 0.7];
 export function radarPts(cx: number, cy: number, r: number, scale: number) {
   return axes.map((_, i) => {
@@ -336,7 +336,7 @@ export function CohortRadar({ t }: S) {
     <Shell active={0} crumb="Analytics" admin>
       <h3 className="text-[34px] font-bold tracking-tight text-foreground">Analytics</h3>
       <Card className="left-0 top-[64px] h-[480px] w-[520px]">
-        <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">Skill radar - cohort</p>
+        <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">Reviewer ratings - sample data</p>
         <svg viewBox="0 0 500 460" className="absolute left-0 top-6 h-[420px] w-full">
           {[0.25, 0.5, 0.75, 1].map((k) => (
             <polygon key={k} points={radarPts(cx, cy, r / 0.82 * 0.82, 1).map((_, i) => { const a = -Math.PI / 2 + (i * 2 * Math.PI) / 5; return `${cx + Math.cos(a) * r * k},${cy + Math.sin(a) * r * k}`; }).join(" ")} fill="none" stroke="hsl(220 10% 60% / .5)" />
@@ -346,17 +346,16 @@ export function CohortRadar({ t }: S) {
         </svg>
       </Card>
       <Card className="right-0 top-[64px] h-[220px] w-[360px]" style={pop(t, 1.2)}>
-        <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">Built from tags</p>
-        <div className="mt-3 flex flex-wrap gap-2">{["Tech", "Product", "Growth", "Operations", "Leadership"].map((a) => <Pill key={a} tone="soft">{a}</Pill>)}</div>
-        <p className="mt-4 text-[14px] text-muted-foreground">Applicant industries grouped into five domains.</p>
+        <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">Five areas, rated 1 to 5</p>
+        <div className="mt-3 flex flex-wrap gap-2">{["Communication", "Technical", "Problem solving", "Role fit", "Presentation"].map((a) => <Pill key={a} tone="soft">{a}</Pill>)}</div>
+        <p className="mt-4 text-[14px] text-muted-foreground">Reviewers rate each area after watching the proof.</p>
       </Card>
       <Card className="right-0 top-[300px] h-[244px] w-[360px]" style={pop(t, 3.6, 0.5)}>
-        <div className="flex items-center justify-between"><p className="text-[16px] font-bold text-foreground">Per-applicant radar</p><Pill tone="soft">On the roadmap</Pill></div>
+        <div className="flex items-center justify-between"><p className="text-[16px] font-bold text-foreground">Per-applicant radar</p><Pill tone="soft">Sample</Pill></div>
         <div className="mt-4 flex items-center gap-4 opacity-60">
-          <svg width="110" height="110" viewBox="0 0 110 110"><polygon points={radarPts(55, 55, 42, 1).map((p) => p.join(",")).join(" ")} fill="none" stroke="hsl(220 10% 50%)" strokeDasharray="4 4" strokeWidth="2" /></svg>
-          <Lock className="h-6 w-6 text-muted-foreground" />
-        </div>
-        <p className="mt-2 text-[13px] text-muted-foreground">Not built yet.</p>
+          <svg width="110" height="110" viewBox="0 0 110 110"><polygon points={radarPts(55, 55, 42, 1).map((p) => p.join(",")).join(" ")} fill="hsl(14 88% 44% / .25)" stroke="hsl(14 88% 44%)" strokeWidth="2" /></svg>
+          </div>
+        <p className="mt-2 text-[13px] text-muted-foreground">Your ratings, drawn in the applicant dossier.</p>
       </Card>
     </Shell>
   );
@@ -388,11 +387,11 @@ export function AdminOverview({ t, cursor = true, exportAt = 3.6 }: S & { cursor
         ))}
       </div>
       <div className="absolute inset-x-0 top-[240px] grid h-[372px] grid-cols-[1fr_262px] gap-4"><Card className="!relative">
-        <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">Application velocity</p>
+        <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">Signups per day</p>
         <svg viewBox="0 0 620 140" preserveAspectRatio="none" className="absolute bottom-6 left-6 right-6 h-[290px] w-[calc(100%-3rem)]"><path d={d} fill="none" stroke="hsl(14 88% 44%)" strokeWidth="3.5" strokeLinecap="round" /></svg>
       </Card>
       <Card className="!relative">
-        <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">Cohort composition</p>
+        <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">Ventures by status</p>
         <svg viewBox="0 0 120 120" className="mx-auto mt-8 h-[210px] w-[210px] -rotate-90">
           {arcs.map((a, i) => { const c = 2 * Math.PI * 42; const len = a * c * easeOut(seg(t, 0.8 + i * 0.3, 1.8 + i * 0.3)); const off = -acc * c; acc += a; return <circle key={i} cx="60" cy="60" r="42" fill="none" strokeWidth="16" stroke={["hsl(14 88% 44%)", "hsl(14 70% 62%)", "hsl(220 12% 38%)", "hsl(220 12% 68%)"][i]} strokeDasharray={`${len} ${c}`} strokeDashoffset={off} />; })}
         </svg>
@@ -488,7 +487,7 @@ const GRID: [number, number][] = [
 export function VelocityMap({ t }: S) {
   return (
     <Shell active={0} crumb="Analytics" admin>
-      <div className="flex items-center gap-3"><h3 className="text-[34px] font-bold tracking-tight text-foreground">Applicants by county</h3><Pill tone="soft">In development</Pill></div>
+      <div className="flex items-center gap-3"><h3 className="text-[34px] font-bold tracking-tight text-foreground">Applicants by county</h3><Pill tone="soft">Sample data</Pill></div>
       <Card className="left-0 top-[64px] h-[480px] w-[520px]">
         <div className="absolute left-8 top-8">
           {GRID.map(([c, r], i) => {
@@ -659,7 +658,7 @@ export function Passkey({ t }: S) {
         <Field label="Email" value={typed("you@example.org", t, 0.3, 18)} className="left-8 right-8 top-[90px]" />
         <Btn primary className="absolute left-8 right-8 top-[190px] !py-4"><Fingerprint className="h-5 w-5" />Use a passkey</Btn>
         <p className="absolute left-8 right-8 top-[262px] text-center text-[13px] text-muted-foreground">Your fingerprint or face never leaves your device.</p>
-        <div className="absolute left-1/2 top-[320px] -translate-x-1/2"><Pill tone="soft">In development</Pill></div>
+        <div className="absolute left-1/2 top-[320px] -translate-x-1/2"><Pill tone="soft">Sample screen</Pill></div>
       </Card>
       <div className="absolute inset-0 bg-foreground/30" style={{ opacity: sheet * (ok ? 0 : 1) }} />
       <div className="absolute left-1/2 top-1/2 flex h-[280px] w-[380px] -translate-x-1/2 flex-col items-center justify-center rounded-3xl bg-white text-center shadow-2xl" style={{ opacity: sheet * (ok ? 0 : 1), transform: `translate(-50%, ${-50 + (1 - sheet) * 20}%)` }}>

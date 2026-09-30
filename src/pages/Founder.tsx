@@ -1,26 +1,24 @@
 import { Link } from "react-router-dom";
-import { ShieldCheck, Globe, Server, Terminal, ArrowRight } from "lucide-react";
+import { ShieldCheck, KeyRound, UserCog, ClipboardCheck, ArrowRight } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import { CtaBand, Eyebrow, SectionHeader } from "@/components/PageBits";
 import { usePageMeta } from "@/hooks/usePageMeta";
 
-// TODO(owner): confirm the Journey milestones and the Mozilla Observatory result below are current and approved for public use.
+// TODO(owner): confirm the milestones and roles below are accurate and approved for public use.
 
 const techStack = [
-  "React", "TypeScript", "Node.js", "Python", "AWS", "Supabase",
-  "Figma", "Tableau", "Cloudflare WAF", "CSP / HSTS", "Bash", "Defense-in-Depth",
+  "React", "TypeScript", "Convex", "Cloudflare Pages", "WebAuthn passkeys", "CSP / HSTS",
 ];
 
 const securityHighlights = [
-  { icon: ShieldCheck, title: "Infrastructure hardening", description: "Strict CSP, HSTS and Permissions-Policy." },
-  { icon: Globe, title: "Edge protection", description: "Custom WAF rules against scanning." },
-  { icon: Terminal, title: "Automated auditing", description: "Bash scripts that regression-test security." },
-  { icon: Server, title: "Origin masking", description: "Proxied origin IPs, inspected at the edge." },
+  { icon: ShieldCheck, title: "Hardened headers", description: "A strict Content-Security-Policy, HSTS and Permissions-Policy on both sites." },
+  { icon: KeyRound, title: "Passkey sign-in", description: "WebAuthn passkeys, with passwords still available." },
+  { icon: UserCog, title: "Role-based access", description: "Every account has one role, checked on the server on every request." },
+  { icon: ClipboardCheck, title: "Audit log", description: "Admin sign-ins and privileged actions are recorded." },
 ];
 
 const milestones = [
   { year: "2018", label: "Founded first SaaS startup" },
-  { year: "2020", label: "Scaled to $2M ARR" },
   { year: "2022", label: "Launched consultancy practice" },
   { year: "Now", label: "Building Donjo, the Venture Engine" },
 ];
@@ -69,7 +67,7 @@ const Founder = () => {
           align="center"
           eyebrow="Security engineering"
           title="Defense-in-depth"
-          intro="A verified 125/100 rating on the Mozilla Observatory for student and HR portals."
+          intro="How applicant data is protected in Donjo today."
           id="sec-title"
         />
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

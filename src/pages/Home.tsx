@@ -20,11 +20,11 @@ const features: {
   status?: FeatureStatus;
 }[] = [
   { to: "/platform/video-proof", icon: Video, title: "Video Proof", description: "Short clips that show real skill instead of a CV." },
-  { to: "/platform/skill-radar", icon: BarChart3, title: "Skill Radar", description: "Skill and industry tags, plotted for the whole cohort." },
-  { to: "/platform/dossier-generation", icon: FileText, title: "Dossier Generation", description: "A printable PDF of applicants with video links." },
-  { to: "/platform/venture-velocity", icon: Zap, title: "Venture Velocity", description: "Applications, outcomes and decision time at a glance.", status: "building" },
-  { to: "/platform/venture-velocity", icon: MapPin, title: "Geospatial view", description: "See which Kenyan counties applicants come from.", status: "building" },
-  { to: "/platform#security", icon: Shield, title: "Secure sign-in", description: "Passkeys and role-based access for applicant data.", status: "building" },
+  { to: "/platform/skill-radar", icon: BarChart3, title: "Skill Radar", description: "Rate an applicant on five areas and see their strengths at a glance." },
+  { to: "/platform/dossier-generation", icon: FileText, title: "Dossier", description: "Everything about one applicant, plus a PDF or CSV summary." },
+  { to: "/platform/venture-velocity", icon: Zap, title: "Venture Velocity", description: "See how long decisions take, from real status changes." },
+  { to: "/platform/venture-velocity", icon: MapPin, title: "Geospatial view", description: "A county map of where your applicants are." },
+  { to: "/platform#security", icon: Shield, title: "Secure sign-in", description: "Passkeys and role-based access for applicant data." },
 ];
 
 const steps = [

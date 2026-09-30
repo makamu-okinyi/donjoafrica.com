@@ -40,8 +40,8 @@ const milestones = [
   },
   {
     period: "Now",
-    title: "Passkeys, counties, decision time",
-    story: "Passkey sign-in, a county-level applicant map and real time-to-decision are being built.",
+    title: "Passkeys, dossiers, insights",
+    story: "Passkey sign-in, applicant dossiers with reviewer ratings, a county applicant map and real time-to-decision are live.",
     icon: Fingerprint,
     current: true,
   },

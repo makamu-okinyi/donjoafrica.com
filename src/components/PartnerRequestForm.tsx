@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
 import { AlertCircle, CheckCircle, Loader2 } from "lucide-react";
 import { api, getConvex } from "@/lib/convexClient";
 import { Field, Input, Textarea } from "@/components/ui/field";
@@ -156,7 +155,7 @@ const PartnerRequestForm = () => {
       </div>
 
       <p className="text-xs text-muted-foreground text-center">
-        By sending this you agree to our <Link to="/privacy" className="underline underline-offset-4 hover:text-foreground">Privacy Policy</Link> and <Link to="/terms" className="underline underline-offset-4 hover:text-foreground">Terms of Use</Link>.
+        By sending this you agree to our <a href="/privacy" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-foreground">Privacy Policy<span className="sr-only"> (opens in a new tab)</span></a> and <a href="/terms" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-foreground">Terms of Use<span className="sr-only"> (opens in a new tab)</span></a>.
       </p>
       <button type="submit" className="neo-pill w-full flex items-center justify-center gap-2 disabled:opacity-70" disabled={busy}>
         {busy ? (<><Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />Sending...</>) : "Send partnership request"}

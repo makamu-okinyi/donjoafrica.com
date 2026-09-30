@@ -85,7 +85,7 @@ export const designs: Record<string, PageDesign> = {
       rows: [
         ["First look", "Varies by screener", "Same video prompt for all"],
         ["Access", "Shared inboxes", "Role-based accounts"],
-        ["Sign-in", "Passwords", "Passwords now, passkeys in development"],
+        ["Sign-in", "Passwords", "Passkeys or passwords"],
         ["Panel pack", "Manual", "PDF dossier"],
       ],
     },
@@ -100,11 +100,11 @@ export const designs: Record<string, PageDesign> = {
   },
   "platform/skill-radar": {
     trailer: "skill-radar", hero: "wide",
-    primary: { label: "See the cohort radar", to: "/contact" },
-    secondary: { label: "What's live and what's next", kind: "anchor", target: "status" },
-    layout: ["pinned", "status", "bento", "cta", "faq", "related"],
+    primary: { label: "Request access", to: "/contact" },
+    secondary: { label: "Watch the trailer", kind: "trailer" },
+    layout: ["pinned", "bento", "cta", "faq", "related"],
     stepScenes: [1, 1, 3, 3],
-    closing: { title: "Read your cohort at a glance.", body: "Tell us the skills your programme cares about." },
+    closing: { title: "See every applicant's strengths.", body: "Tell us what you hire for." },
   },
   "platform/dossier-generation": {
     trailer: "dossier-generation", hero: "cinematic",
@@ -117,8 +117,8 @@ export const designs: Record<string, PageDesign> = {
   "platform/venture-velocity": {
     trailer: "venture-velocity", hero: "reverse",
     primary: { label: "Track your pipeline", to: "/contact" },
-    secondary: { label: "See what's in development", kind: "anchor", target: "status" },
-    layout: ["status", "pinned", "day", "bento", "faq", "related", "cta"],
+    secondary: { label: "Watch the trailer", kind: "trailer" },
+    layout: ["pinned", "day", "bento", "faq", "related", "cta"],
     stepScenes: [1, 1, 3, 2],
     closing: { title: "Know your pace before your applicants do.", body: "Tell us your intake and how you report." },
   },

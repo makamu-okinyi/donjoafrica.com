@@ -18,8 +18,7 @@ const trust = [
   {
     icon: Fingerprint,
     title: "Passkey sign-in",
-    body: "Sign in with a device biometric instead of a password.",
-    status: "building" as const,
+    body: "Sign in with a passkey on your device, or keep using a password.",
   },
   {
     icon: UserCog,
@@ -121,11 +120,8 @@ const Platform = () => {
             const Icon = t.icon;
             return (
               <Reveal key={t.title} delay={i * 0.08} className="neo-extruded p-6 sm:p-8 space-y-4">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="squircle-icon w-12 h-12">
-                    <Icon className="w-5 h-5 text-foreground" strokeWidth={1.5} aria-hidden="true" />
-                  </div>
-                  <StatusBadge status={t.status} />
+                <div className="squircle-icon w-12 h-12">
+                  <Icon className="w-5 h-5 text-foreground" strokeWidth={1.5} aria-hidden="true" />
                 </div>
                 <h3 className="text-xl font-bold text-foreground">{t.title}</h3>
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{t.body}</p>

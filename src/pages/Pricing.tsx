@@ -7,10 +7,12 @@ import type { PricingPlan } from "@/data/pricing";
 import PlanCard from "@/components/PlanCard";
 
 const faq = [
-  { q: "Can I start for free?", a: "Yes. Starter is free for up to 25 applicant profiles." },
-  { q: "Why is Enterprise unpriced?", a: "Volume, reviewers and integrations vary. We quote what fits." },
-  { q: "How do I pay?", a: "List prices are in US dollars. We confirm payment options when you get in touch." },
-  { q: "Do universities and hackathons pay the same?", a: "Talk to us. We'll scope a plan around your programme." },
+  { q: "Can I start for free?", a: "Yes. Starter costs nothing and includes the core tools: jobs with a video question, applicant video portfolios, shortlisting, the applicant dossier with reviewer ratings and radar, and PDF or CSV export." },
+  { q: "What is different on Venture?", a: "Limits. Plans set how many jobs and challenges you can keep active and how large a shortlist can be. Venture raises those limits, and our team sets them up with you." },
+  { q: "How do I pay?", a: "List prices are in US dollars. There is no online checkout: our team agrees payment options with you and invoices you directly." },
+  { q: "Why is Enterprise unpriced?", a: "Volume and terms vary. We quote what fits and put the limits and terms in writing." },
+  { q: "Do universities and hackathons pay the same?", a: "Talk to us. We will scope a plan around your programme." },
+  { q: "Are the features the same on every plan?", a: "The tools are the same. What changes is how much you can have active at once." },
 ];
 
 /** Features a plan gets, including those inherited via an "Everything in X" line. */

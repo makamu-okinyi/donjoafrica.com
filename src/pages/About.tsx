@@ -8,18 +8,18 @@ import type { FeatureStatus } from "@/data/types";
 
 const beliefs = [
   { icon: Eye, title: "Evidence first", body: "A minute of video shows what a paragraph only claims." },
-  { icon: Scale, title: "Fair to everyone", body: "Skill counts more than school or employer names." },
+  { icon: Scale, title: "Skill in focus", body: "Profiles lead with video and skills." },
   { icon: Users, title: "Humans decide", body: "Donjo organises proof. Reviewers make the call." },
-  { icon: ClipboardCheck, title: "Honest roadmap", body: "We say what is live and what is still being built." },
+  { icon: ClipboardCheck, title: "Plain claims", body: "We describe what the product does today, nothing more." },
 ];
 
 const today: { icon: typeof Video; title: string; status?: FeatureStatus }[] = [
   { icon: Video, title: "Video proof and portfolios" },
   { icon: Briefcase, title: "Jobs with video applications" },
   { icon: Trophy, title: "Challenges and venture applications" },
-  { icon: FileText, title: "PDF applicant dossiers" },
-  { icon: ShieldCheck, title: "Passkey sign-in", status: "building" },
-  { icon: MapPin, title: "County map and decision timing", status: "building" },
+  { icon: FileText, title: "Applicant dossiers with reviewer ratings" },
+  { icon: ShieldCheck, title: "Passkey sign-in" },
+  { icon: MapPin, title: "County map and decision timing" },
 ];
 
 const About = () => {
