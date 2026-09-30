@@ -1,128 +1,85 @@
 import { Link } from "react-router-dom";
-import { Users, Zap, GraduationCap, Building2, Rocket, Check } from "lucide-react";
+import { ArrowRight, Video, ClipboardCheck, MessageSquare, FileText } from "lucide-react";
+import Reveal from "@/components/Reveal";
+import LegacyHashRedirect from "@/components/LegacyHashRedirect";
+import { CtaBand, PageHero, SectionHeader } from "@/components/PageBits";
+import { usePageMeta } from "@/hooks/usePageMeta";
+import { solutions } from "@/data/solutions";
 
-const solutions = [
-  {
-    slug: "hr-for-startups",
-    icon: Users,
-    title: "HR for Startups",
-    tagline: "Hire your first 10 like you'd hire your hundredth.",
-    description: "Replace gut-feeling hires with video proof. Watch candidates demonstrate real skills before committing runway to talent.",
-    highlights: [
-      "60-second video proof clips",
-      "Skill Radar for technical & leadership traits",
-      "Dossier generation for co-founder review",
-      "Pipeline velocity tracking",
-    ],
-  },
-  {
-    slug: "hackathons",
-    icon: Zap,
-    title: "Hackathons & Competitions",
-    tagline: "Judge by proof, not by pitch decks.",
-    description: "Enable hackathon organizers to collect video submissions, auto-generate participant dossiers, and rank teams by demonstrated output.",
-    highlights: [
-      "Video submission collection",
-      "Automated participant dossiers",
-      "Judging dashboards with Skill Radar",
-      "Cohort-wide analytics & ranking",
-    ],
-  },
-  {
-    slug: "accelerators",
-    icon: Rocket,
-    title: "Accelerators & Incubators",
-    tagline: "Scale your cohort evaluation.",
-    description: "Screen hundreds of applicants with proof-based portfolios. Generate investor-ready dossiers and track cohort velocity from day one.",
-    highlights: [
-      "Bulk dossier generation (150+)",
-      "Venture Velocity metrics per cohort",
-      "Geospatial talent mapping",
-      "Investor-ready PDF exports",
-    ],
-  },
-  {
-    slug: "universities",
-    icon: GraduationCap,
-    title: "Universities & Training",
-    tagline: "Graduate with proof, not just a transcript.",
-    description: "Let students build video portfolios of real project work. Universities can track skill development and connect graduates to verified opportunities.",
-    highlights: [
-      "Student video portfolio builder",
-      "Skill progression tracking",
-      "Employer-facing proof dashboards",
-      "Institutional analytics & reporting",
-    ],
-  },
-  {
-    slug: "enterprise",
-    icon: Building2,
-    title: "Enterprise Talent Ops",
-    tagline: "Proof-based hiring at scale.",
-    description: "For large organisations running structured recruitment. White-label Donjo, integrate via API, and generate compliance-ready dossiers at volume.",
-    highlights: [
-      "White-label & custom branding",
-      "API access & ATS integrations",
-      "SLA & uptime guarantees",
-      "Dedicated account management",
-    ],
-  },
+const foundation = [
+  { icon: Video, title: "Proof clips", body: "Every context starts with video." },
+  { icon: ClipboardCheck, title: "One review flow", body: "Clear statuses in a single queue." },
+  { icon: MessageSquare, title: "Direct follow-up", body: "Message people in-app." },
+  { icon: FileText, title: "Shareable summaries", body: "PDF dossiers for panels." },
 ];
 
 const Solutions = () => {
+  usePageMeta("/solutions");
   return (
-    <div className="space-y-16 animate-fade-in-up">
-      <section className="neo-extruded p-6 sm:p-12 lg:p-16 text-center space-y-6">
-        <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest">Solutions</p>
-        <h1 className="text-3xl sm:text-5xl font-bold text-foreground tracking-tight">
-          Proof-Based Hiring for Every Stage
-        </h1>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          From your first startup hire to enterprise-scale cohort evaluation — Donjo adapts to your context.
-        </p>
+    <div className="space-y-20 sm:space-y-28">
+      <LegacyHashRedirect />
+
+      <PageHero
+        eyebrow="Solutions"
+        title="Proof-based hiring for every team."
+        intro="Pick the context closest to yours."
+      />
+
+      <section className="space-y-10" aria-labelledby="sol-list">
+        <SectionHeader align="center" eyebrow="Five contexts" title="Choose yours" id="sol-list" />
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {solutions.map((s, i) => {
+            const Icon = s.icon;
+            return (
+              <li key={s.slug} className={i === solutions.length - 1 && solutions.length % 2 === 1 ? "md:col-span-2" : ""}>
+                <Reveal delay={(i % 2) * 0.08} className="h-full">
+                  <Link
+                    to={`/solutions/${s.slug}`}
+                    className="group neo-extruded h-full p-6 sm:p-10 flex flex-col gap-5 hover:shadow-none transition-shadow"
+                  >
+                    <div className="squircle-icon w-14 h-14">
+                      <Icon className="w-6 h-6 text-foreground" strokeWidth={1.5} aria-hidden="true" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-foreground tracking-tight">{s.name}</h3>
+                    <p className="text-muted-foreground leading-relaxed flex-1">{s.summary}</p>
+                    <span className="inline-flex items-center gap-2 text-sm font-semibold text-foreground">
+                      Explore {s.name}
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                    </span>
+                  </Link>
+                </Reveal>
+              </li>
+            );
+          })}
+        </ul>
       </section>
 
-      {solutions.map((s, i) => {
-        const Icon = s.icon;
-        const isEven = i % 2 === 0;
-        return (
-          <section key={s.slug} id={s.slug} className="scroll-mt-28">
-            <div className={`neo-extruded p-6 sm:p-10 lg:p-14 flex flex-col ${isEven ? "lg:flex-row" : "lg:flex-row-reverse"} gap-8 lg:gap-14 items-start`}>
-              <div className="flex-1 space-y-6">
-                <div className="squircle-icon w-14 h-14">
-                  <Icon className="w-6 h-6 text-foreground" strokeWidth={1.5} />
-                </div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">{s.title}</h2>
-                <p className="text-xl text-muted-foreground font-medium">{s.tagline}</p>
-                <p className="text-sm text-muted-foreground leading-relaxed">{s.description}</p>
-                <Link to="/contact" className="neo-pill inline-block text-sm">
-                  Book a Demo
-                </Link>
-              </div>
-              <div className="flex-1 w-full space-y-3">
-                {s.highlights.map((h) => (
-                  <div key={h} className="neo-extruded-sm p-4 flex items-start gap-3">
-                    <Check className="w-4 h-4 text-foreground mt-0.5 shrink-0" strokeWidth={2} />
-                    <span className="text-sm text-muted-foreground">{h}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-        );
-      })}
-
-      <section className="neo-extruded p-6 sm:p-12 text-center space-y-6">
-        <h2 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">
-          Don't see your use case?
-        </h2>
-        <p className="text-muted-foreground max-w-lg mx-auto">
-          Donjo is flexible enough for any proof-based workflow. Talk to us and we'll build a solution that fits.
-        </p>
-        <Link to="/contact" className="neo-pill inline-block">
-          Get in Touch
-        </Link>
+      <section className="space-y-10" aria-labelledby="sol-foundation">
+        <SectionHeader
+          align="center"
+          eyebrow="Shared foundation"
+          title="Different contexts, one platform"
+          id="sol-foundation"
+        />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {foundation.map((f, i) => {
+            const Icon = f.icon;
+            return (
+              <Reveal key={f.title} delay={i * 0.06} className="neo-extruded-sm p-6 space-y-3">
+                <Icon className="w-5 h-5 text-foreground" strokeWidth={1.5} aria-hidden="true" />
+                <h3 className="text-lg font-bold text-foreground">{f.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{f.body}</p>
+              </Reveal>
+            );
+          })}
+        </div>
       </section>
+
+      <CtaBand
+        title="Don't see your use case?"
+        body="If you select people on evidence, we can shape Donjo to fit."
+        secondary={{ label: "Explore the platform", to: "/platform" }}
+      />
     </div>
   );
 };

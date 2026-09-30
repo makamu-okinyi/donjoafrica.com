@@ -1,49 +1,63 @@
-import { Link } from "react-router-dom";
+import { GraduationCap, Rocket, Building2, Handshake } from "lucide-react";
+import Reveal from "@/components/Reveal";
+import PartnerWall from "@/components/PartnerWall";
+import PartnerRequestForm from "@/components/PartnerRequestForm";
+import { PageHero, SectionHeader } from "@/components/PageBits";
+import { usePageMeta } from "@/hooks/usePageMeta";
 
-const partners = [
-  { name: "Hotel Karanja", type: "Hospitality", description: "Pioneering proof-based hospitality recruitment across Kenya's service industry." },
-  { name: "CampusLuku", type: "Education", description: "Connecting university talent to verified opportunities through video portfolios." },
-  { name: "Kike Glam Loft", type: "Beauty & Wellness", description: "Using Donjo to verify and showcase creative talent in the beauty industry." },
+const partnerTypes = [
+  { icon: Rocket, title: "Accelerators and hubs", body: "Run selection on proof, not pitch decks." },
+  { icon: GraduationCap, title: "Universities and trainers", body: "Give students a video portfolio employers can watch." },
+  { icon: Building2, title: "Employers and sponsors", body: "Find talent through proof clips and challenges." },
+  { icon: Handshake, title: "Ecosystem organisations", body: "Open fairer routes into work across East Africa." },
 ];
 
 const Partners = () => {
+  usePageMeta("/partners");
   return (
-    <div className="space-y-16 animate-fade-in-up">
-      <section className="neo-extruded p-6 sm:p-12 lg:p-16 text-center space-y-6">
-        <p className="text-sm font-medium text-muted-foreground uppercase tracking-widest">Our Partners</p>
-        <h1 className="text-3xl sm:text-5xl font-bold text-foreground tracking-tight">
-          Built With the Ecosystem
-        </h1>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          Donjo is trusted by accelerators and enterprises across East Africa to power proof-based hiring.
-        </p>
+    <div className="space-y-20 sm:space-y-28">
+      <PageHero
+        eyebrow="Partners"
+        title="Build the proof economy with us."
+        intro="We work with organisations that select, train or develop people."
+      >
+        <a href="#partner-form" className="neo-pill inline-block">Partner With Us</a>
+      </PageHero>
+
+      <PartnerWall />
+
+      <section className="space-y-10" aria-labelledby="types-title">
+        <SectionHeader align="center" eyebrow="Who we partner with" title="Four kinds of partner" id="types-title" />
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {partnerTypes.map((t, i) => {
+            const Icon = t.icon;
+            return (
+              <li key={t.title}>
+                <Reveal delay={i * 0.06} className="neo-extruded-sm p-6 space-y-3 h-full">
+                  <Icon className="w-5 h-5 text-foreground" strokeWidth={1.5} aria-hidden="true" />
+                  <h3 className="text-lg font-bold text-foreground">{t.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{t.body}</p>
+                </Reveal>
+              </li>
+            );
+          })}
+        </ul>
       </section>
 
-      <section className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-        {partners.map((p) => (
-          <div key={p.name} className="neo-extruded p-6 sm:p-8 space-y-4">
-            <div className="squircle-icon w-14 h-14 text-xl font-bold text-foreground">
-              {p.name.charAt(0)}
-            </div>
-            <h3 className="text-xl font-bold text-foreground">{p.name}</h3>
-            <span className="neo-pressed px-3 py-1.5 text-xs font-medium text-muted-foreground inline-block">
-              {p.type}
-            </span>
-            <p className="text-sm text-muted-foreground leading-relaxed">{p.description}</p>
+      <section id="partner-form" className="scroll-mt-28 neo-extruded p-6 sm:p-12 lg:p-16" aria-labelledby="pform-title">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-16">
+          <div className="lg:col-span-2 space-y-4">
+            <h2 id="pform-title" className="text-2xl sm:text-4xl font-bold text-foreground tracking-tight text-balance">
+              Partner with us
+            </h2>
+            <p className="text-muted-foreground leading-relaxed">
+              Tell us who you are and how you'd like to work together. A person reads every request.
+            </p>
           </div>
-        ))}
-      </section>
-
-      <section className="neo-extruded p-6 sm:p-12 text-center space-y-6">
-        <h2 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">
-          Become a Partner
-        </h2>
-        <p className="text-muted-foreground max-w-lg mx-auto">
-          Join the proof-based hiring movement. Whether you're an accelerator, HR or enterprise — let's build together.
-        </p>
-        <Link to="/contact" className="neo-pill inline-block">
-          Partner With Us
-        </Link>
+          <div className="lg:col-span-3 relative">
+            <PartnerRequestForm />
+          </div>
+        </div>
       </section>
     </div>
   );

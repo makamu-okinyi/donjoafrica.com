@@ -1,111 +1,215 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NavLink as RouterNavLink, useLocation, Link } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
+import { solutionLinks, platformLinks } from "@/data/nav";
 
-const mainNav = [
-  { label: "Home", path: "/" },
-  { label: "About", path: "/about" },
-  { label: "Expertise", path: "/expertise" },
-  {
-    label: "Solutions",
-    path: "/solutions",
-    children: [
-      { label: "HR for Startups", hash: "#hr-for-startups" },
-      { label: "Hackathons", hash: "#hackathons" },
-      { label: "Accelerators", hash: "#accelerators" },
-      { label: "Universities", hash: "#universities" },
-      { label: "Enterprise", hash: "#enterprise" },
-    ],
-  },
-  { label: "Partners", path: "/partners" },
-  { label: "Pricing", path: "/pricing" },
-  { label: "Contact", path: "/contact" },
+const APP_URL = import.meta.env.VITE_APP_URL || "https://hr.donjoafrica.com";
+
+interface NavGroup {
+  label: string;
+  path: string;
+  overview: string;
+  children: { label: string; to: string; summary: string }[];
+}
+
+const plainNav = {
+  before: [
+    { label: "Home", path: "/" },
+    { label: "About", path: "/about" },
+  ],
+  after: [
+    { label: "Partners", path: "/partners" },
+    { label: "Pricing", path: "/pricing" },
+    { label: "Contact", path: "/contact" },
+  ],
+};
+
+const groups: NavGroup[] = [
+  { label: "Solutions", path: "/solutions", overview: "All solutions", children: solutionLinks },
+  { label: "Platform", path: "/platform", overview: "Platform overview", children: platformLinks },
 ];
 
+const linkBase =
+  "px-3 xl:px-4 py-2.5 rounded-[calc(var(--radius)-0.5rem)] text-sm font-medium transition-all duration-200";
+
+const isActive = (pathname: string, path: string) =>
+  path === "/" ? pathname === "/" : pathname === path || pathname.startsWith(`${path}/`);
+
+/** Desktop dropdown: opens on hover, focus or click; closes on Escape or outside click. */
+const DesktopDropdown = ({ group, pathname }: { group: NavGroup; pathname: string }) => {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const menuId = `menu-${group.label.toLowerCase()}`;
+
+  useEffect(() => setOpen(false), [pathname]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    document.addEventListener("mousedown", onClick);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("mousedown", onClick);
+    };
+  }, [open]);
+
+  const active = isActive(pathname, group.path);
+
+  return (
+    <div
+      ref={ref}
+      className="relative"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls={menuId}
+        onClick={() => setOpen((o) => !o)}
+        className={`${linkBase} inline-flex items-center gap-1 ${active ? "neo-pressed text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+      >
+        {group.label}
+        <ChevronDown className={`w-3 h-3 transition-transform ${open ? "rotate-180" : ""}`} aria-hidden="true" />
+      </button>
+      {open && (
+        <div id={menuId} className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50">
+          <div className="neo-extruded-sm p-2 w-72 space-y-1">
+            <Link
+              to={group.path}
+              className="block px-4 py-2.5 rounded-[calc(var(--radius)-0.5rem)] text-sm font-semibold text-foreground hover:neo-pressed"
+            >
+              {group.overview}
+            </Link>
+            <div className="h-px bg-foreground/10 mx-3" aria-hidden="true" />
+            {group.children.map((child) => (
+              <Link
+                key={child.to}
+                to={child.to}
+                className="block px-4 py-2.5 rounded-[calc(var(--radius)-0.5rem)] text-sm text-muted-foreground hover:text-foreground hover:neo-pressed transition-all"
+              >
+                {child.label}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const Navbar = () => {
-  const location = useLocation();
+  const { pathname } = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [solOpen, setSolOpen] = useState(false);
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
+
+  useEffect(() => {
+    setMobileOpen(false);
+    setOpenGroup(null);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMobileOpen(false);
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [mobileOpen]);
+
+  const renderLink = (item: { label: string; path: string }) => (
+    <RouterNavLink
+      key={item.path}
+      to={item.path}
+      end={item.path === "/"}
+      className={`${linkBase} ${isActive(pathname, item.path) ? "neo-pressed text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+    >
+      {item.label}
+    </RouterNavLink>
+  );
 
   return (
     <>
-      <nav className="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] sm:w-auto max-w-5xl">
-        <div className="neo-extruded-sm px-3 py-3 flex items-center justify-between sm:justify-start gap-2">
-          <Link to="/" className="flex items-center gap-2 px-2 sm:px-4">
+      <header className="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] lg:w-auto max-w-6xl">
+        <nav aria-label="Primary" className="neo-extruded-sm px-3 py-3 flex items-center justify-between lg:justify-start gap-2">
+          <Link to="/" className="flex items-center gap-2 px-2 sm:px-4 rounded-lg" aria-label="Donjo home">
             <span className="font-sans font-bold text-foreground text-lg tracking-tight">Donjo</span>
           </Link>
 
           {/* Desktop */}
-          <div className="hidden sm:flex items-center gap-1">
-            {mainNav.map((item) =>
-              item.children ? (
-                <div key={item.path} className="relative group">
-                  <RouterNavLink
-                    to={item.path}
-                    className={`px-4 py-2.5 rounded-[calc(var(--radius)-0.5rem)] text-sm font-medium transition-all duration-200 inline-flex items-center gap-1 ${location.pathname === item.path ? "neo-pressed text-foreground" : "text-muted-foreground hover:text-foreground"}`}
-                  >
-                    {item.label}
-                    <ChevronDown className="w-3 h-3" />
-                  </RouterNavLink>
-                  <div className="absolute top-full left-0 pt-2 hidden group-hover:block">
-                    <div className="neo-extruded-sm p-2 min-w-[200px] space-y-1">
-                      {item.children.map((child) => (
-                        <Link
-                          key={child.hash}
-                          to={`${item.path}${child.hash}`}
-                          className="block px-4 py-2.5 rounded-[calc(var(--radius)-0.5rem)] text-sm text-muted-foreground hover:text-foreground hover:neo-pressed transition-all"
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <RouterNavLink
-                  key={item.path}
-                  to={item.path}
-                  className={`px-4 py-2.5 rounded-[calc(var(--radius)-0.5rem)] text-sm font-medium transition-all duration-200 ${location.pathname === item.path ? "neo-pressed text-foreground" : "text-muted-foreground hover:text-foreground"}`}
-                >
-                  {item.label}
-                </RouterNavLink>
-              )
-            )}
+          <div className="hidden lg:flex items-center gap-1">
+            {plainNav.before.map(renderLink)}
+            {groups.map((g) => (
+              <DesktopDropdown key={g.label} group={g} pathname={pathname} />
+            ))}
+            {plainNav.after.map(renderLink)}
+            <a
+              href={`${APP_URL}/auth`}
+              className="ml-1 px-5 py-2.5 rounded-full whitespace-nowrap text-sm font-semibold bg-[hsl(var(--brand-strong))] text-[hsl(var(--brand-foreground))] hover:opacity-90 transition-opacity"
+            >
+              Log in
+            </a>
           </div>
 
           {/* Mobile hamburger */}
           <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="sm:hidden neo-extruded-sm w-10 h-10 flex items-center justify-center rounded-[calc(var(--radius)-0.5rem)]"
-            aria-label="Toggle menu"
+            type="button"
+            onClick={() => setMobileOpen((o) => !o)}
+            className="lg:hidden neo-extruded-sm w-11 h-11 flex items-center justify-center rounded-[calc(var(--radius)-0.5rem)]"
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+            aria-controls="mobile-menu"
           >
             {mobileOpen ? <X className="w-5 h-5 text-foreground" /> : <Menu className="w-5 h-5 text-foreground" />}
           </button>
-        </div>
-      </nav>
+        </nav>
+      </header>
 
       {/* Mobile drawer */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-40 sm:hidden" onClick={() => setMobileOpen(false)}>
+        <div className="fixed inset-0 z-40 lg:hidden" onClick={() => setMobileOpen(false)}>
           <div className="absolute inset-0 bg-foreground/20 backdrop-blur-sm" />
-          <div className="absolute top-20 left-4 right-4 neo-extruded p-4 space-y-1 animate-fade-in-up" onClick={(e) => e.stopPropagation()}>
-            {mainNav.map((item) =>
-              item.children ? (
-                <div key={item.path}>
+          <div
+            id="mobile-menu"
+            className="absolute top-20 left-4 right-4 max-h-[calc(100dvh-6rem)] overflow-y-auto neo-extruded p-4 space-y-1"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {plainNav.before.map((item) => (
+              <RouterNavLink
+                key={item.path}
+                to={item.path}
+                end={item.path === "/"}
+                className={`block px-5 py-3.5 rounded-[calc(var(--radius)-0.5rem)] text-base font-medium ${isActive(pathname, item.path) ? "neo-pressed text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+              >
+                {item.label}
+              </RouterNavLink>
+            ))}
+
+            {groups.map((g) => {
+              const open = openGroup === g.label;
+              return (
+                <div key={g.label}>
                   <button
-                    onClick={() => setSolOpen(!solOpen)}
-                    className="w-full text-left px-5 py-4 rounded-[calc(var(--radius)-0.5rem)] text-base font-medium text-muted-foreground hover:text-foreground flex items-center justify-between"
+                    type="button"
+                    aria-expanded={open}
+                    aria-controls={`m-${g.label}`}
+                    onClick={() => setOpenGroup(open ? null : g.label)}
+                    className={`w-full text-left px-5 py-3.5 rounded-[calc(var(--radius)-0.5rem)] text-base font-medium flex items-center justify-between ${isActive(pathname, g.path) ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}
                   >
-                    {item.label}
-                    <ChevronDown className={`w-4 h-4 transition-transform ${solOpen ? "rotate-180" : ""}`} />
+                    {g.label}
+                    <ChevronDown className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`} aria-hidden="true" />
                   </button>
-                  {solOpen && (
-                    <div className="pl-6 space-y-1">
-                      {item.children.map((child) => (
+                  {open && (
+                    <div id={`m-${g.label}`} className="pl-4 space-y-1">
+                      <Link to={g.path} className="block px-5 py-3 rounded-[calc(var(--radius)-0.5rem)] text-sm font-semibold text-foreground">
+                        {g.overview}
+                      </Link>
+                      {g.children.map((child) => (
                         <Link
-                          key={child.hash}
-                          to={`${item.path}${child.hash}`}
-                          onClick={() => setMobileOpen(false)}
+                          key={child.to}
+                          to={child.to}
                           className="block px-5 py-3 rounded-[calc(var(--radius)-0.5rem)] text-sm text-muted-foreground hover:text-foreground"
                         >
                           {child.label}
@@ -114,17 +218,24 @@ const Navbar = () => {
                     </div>
                   )}
                 </div>
-              ) : (
-                <RouterNavLink
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => setMobileOpen(false)}
-                  className={`block px-5 py-4 rounded-[calc(var(--radius)-0.5rem)] text-base font-medium transition-all duration-200 ${location.pathname === item.path ? "neo-pressed text-foreground" : "text-muted-foreground hover:text-foreground"}`}
-                >
-                  {item.label}
-                </RouterNavLink>
-              )
-            )}
+              );
+            })}
+
+            {plainNav.after.map((item) => (
+              <RouterNavLink
+                key={item.path}
+                to={item.path}
+                className={`block px-5 py-3.5 rounded-[calc(var(--radius)-0.5rem)] text-base font-medium ${isActive(pathname, item.path) ? "neo-pressed text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+              >
+                {item.label}
+              </RouterNavLink>
+            ))}
+            <a
+              href={`${APP_URL}/auth`}
+              className="block mt-2 px-5 py-4 rounded-full text-base font-semibold text-center bg-[hsl(var(--brand-strong))] text-[hsl(var(--brand-foreground))]"
+            >
+              Log in
+            </a>
           </div>
         </div>
       )}

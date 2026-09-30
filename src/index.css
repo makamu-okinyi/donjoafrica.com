@@ -1,4 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+/* DM Sans (variable, latin) is self-hosted from /fonts and preloaded in index.html. */
+@font-face {
+  font-family: "DM Sans";
+  font-style: normal;
+  font-weight: 100 1000;
+  font-display: swap;
+  src: url("/fonts/dm-sans-latin-wght.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Metric-adjusted fallback so the swap to DM Sans causes almost no layout shift. */
+@font-face {
+  font-family: "DM Sans Fallback";
+  src: local("Arial");
+  size-adjust: 104%;
+  ascent-override: 94%;
+  descent-override: 30%;
+  line-gap-override: 0%;
+}
 
 @tailwind base;
 @tailwind components;
@@ -26,6 +44,12 @@
     --brand: 14 100% 60%;
     --brand-strong: 14 88% 44%;
     --brand-foreground: 0 0% 100%;
+    /* Darker brand tone for small text on the grey ground (passes AA 4.5:1) */
+    --brand-ink: 14 85% 32%;
+    --destructive-ink: 0 70% 33%;
+    /* Form fields: 3:1 border on the grey ground, soft light fill */
+    --field-border: 220 10% 44%;
+    --field-bg: 0 0% 100% / 0.55;
 
     --secondary: 220 14% 82%;
     --secondary-foreground: 220 15% 13%;
@@ -77,6 +101,79 @@
 
   body {
     @apply bg-background text-foreground font-sans;
+  }
+
+  /* Visible, on-brand keyboard focus everywhere */
+  :focus-visible {
+    outline: 2px solid hsl(var(--brand-strong));
+    outline-offset: 3px;
+    border-radius: 0.5rem;
+  }
+
+  /* Minimal scrollbars: thin rounded thumb, subtle at rest, stronger on hover */
+  html {
+    scrollbar-gutter: stable;
+  }
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--foreground) / 0.3) transparent;
+  }
+  @supports selector(::-webkit-scrollbar) {
+    * {
+      scrollbar-width: auto;
+      scrollbar-color: auto;
+    }
+    *::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    *::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    *::-webkit-scrollbar-thumb {
+      background-color: hsl(var(--foreground) / 0.22);
+      border: 3px solid transparent;
+      background-clip: content-box;
+      border-radius: 9999px;
+    }
+    *::-webkit-scrollbar-thumb:hover {
+      background-color: hsl(var(--foreground) / 0.45);
+    }
+    *::-webkit-scrollbar-corner {
+      background: transparent;
+    }
+  }
+
+  /* Scroll reveal (see Reveal.tsx): only below-fold elements are ever hidden */
+  [data-reveal] {
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  [data-reveal="hidden"] {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal="hidden"] {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  ::selection {
+    background: hsl(var(--brand) / 0.25);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
@@ -140,6 +237,25 @@
     justify-content: center;
   }
 
+  /* Interactive cards lift slightly on hover (disabled for reduced motion below) */
+  a.neo-extruded,
+  a.neo-extruded-sm {
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  a.neo-extruded:hover,
+  a.neo-extruded-sm:hover {
+    transform: translateY(-3px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    a.neo-extruded:hover,
+    a.neo-extruded-sm:hover,
+    .neo-pill:hover,
+    .neo-pill:active {
+      transform: none;
+    }
+  }
+
   .pixel-grid-overlay {
     background-image:
       linear-gradient(rgba(0,0,0,0.02) 1px, transparent 1px),
@@ -147,3 +263,92 @@
     background-size: 20px 20px;
   }
 }
+
+/* Print: legal documents and long reads print cleanly without chrome */
+@media print {
+  header[class*="fixed"], nav[aria-label="Primary"], footer, .legal-toc, .pixel-grid-overlay::before {
+    display: none !important;
+  }
+  body, .pixel-grid-overlay {
+    background: #fff !important;
+    background-image: none !important;
+  }
+  main {
+    padding-top: 0 !important;
+    max-width: 100% !important;
+  }
+  .neo-extruded, .neo-extruded-sm, .neo-pressed, .neo-inset {
+    box-shadow: none !important;
+    border: 1px solid #ccc;
+  }
+  .legal-doc article {
+    max-width: 100% !important;
+    color: #000;
+  }
+  .legal-doc a[href^="#"] {
+    display: none;
+  }
+  a {
+    text-decoration: underline;
+  }
+  section, table, tr {
+    break-inside: avoid;
+  }
+}
+
+/* Trailer: film grain and scrubber */
+.trailer-grain {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation: trailer-grain 0.9s steps(6) infinite;
+}
+@keyframes trailer-grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-6px, 4px); }
+  40% { transform: translate(5px, -7px); }
+  60% { transform: translate(-4px, -3px); }
+  80% { transform: translate(7px, 5px); }
+  100% { transform: translate(0, 0); }
+}
+.trailer-range {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+.trailer-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: hsl(var(--foreground) / 0.18);
+}
+.trailer-range::-moz-range-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: hsl(var(--foreground) / 0.18);
+}
+.trailer-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  margin-top: -6px;
+  height: 18px;
+  width: 18px;
+  border-radius: 9999px;
+  background: hsl(var(--brand-strong));
+  border: 3px solid hsl(var(--background));
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+.trailer-range::-moz-range-thumb {
+  height: 14px;
+  width: 14px;
+  border-radius: 9999px;
+  background: hsl(var(--brand-strong));
+  border: 3px solid hsl(var(--background));
+}
+
+/* Bento micro-animations (calm loops; disabled by the global reduced-motion rule) */
+.mv-pulse { animation: mv-pulse 2.6s ease-in-out infinite; }
+.mv-float { animation: mv-float 3.6s ease-in-out infinite; }
+.mv-spin { animation: mv-spin 9s linear infinite; }
+.mv-wiggle { animation: mv-wiggle 3.2s ease-in-out infinite; transform-origin: 50% 80%; }
+@keyframes mv-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.14); } }
+@keyframes mv-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes mv-spin { to { transform: rotate(360deg); } }
+@keyframes mv-wiggle { 0%, 60%, 100% { transform: rotate(0); } 70% { transform: rotate(-8deg); } 80% { transform: rotate(8deg); } 90% { transform: rotate(-4deg); } }

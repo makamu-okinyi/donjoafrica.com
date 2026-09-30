@@ -1,0 +1,251 @@
+import {
+  Video, BarChart3, FileText, Zap, Camera, Upload, Lock, Play, MessageSquare, Tags, Layers,
+  Users, Download, ClipboardCheck, ListChecks, Timer, MapPin, PieChart, LineChart, Eye, Briefcase,
+  Radar, Target, Filter,
+} from "lucide-react";
+import type { DetailContent } from "./types";
+
+export const platform: DetailContent[] = [
+  {
+    slug: "video-proof",
+    family: "platform",
+    icon: Video,
+    name: "Video Proof",
+    keyword: "video proof of work hiring",
+    summary: "Short clips that show real skill instead of a CV.",
+    metaTitle: "Video Proof of Work Hiring | Donjo Platform",
+    metaDescription:
+      "Video proof of work hiring: applicants record short clips that show real skill. Use them for jobs, challenges and pitches. Request access to Donjo.",
+    eyebrow: "Platform",
+    headline: "A CV says it. A proof clip shows it.",
+    subhead: "Video proof of work hiring: applicants demonstrate real skill in a short clip, and reviewers watch it in one place.",
+    glance: {
+      title: "Used for",
+      items: ["Job application answers", "Challenge submissions", "Pitch videos and portfolios"],
+    },
+    problem: {
+      title: "Written claims are cheap",
+      points: ["A CV can't be checked at a glance", "Pedigree becomes a proxy for skill", "Communication only shows in interviews"],
+    },
+    help: {
+      title: "Evidence in the first minute",
+      intro: "One prompt, many clips, watched back to back and compared fairly.",
+      pillars: [
+        { title: "Record or upload", body: "Camera in the browser, or a file." },
+        { title: "Made for a question", body: "Prompts keep clips focused." },
+        { title: "Owned by applicants", body: "They choose public or private." },
+      ],
+    },
+    capabilitiesTitle: "What's included",
+    capabilities: [
+      { icon: Camera, title: "In-browser recording", body: "No install needed." },
+      { icon: Upload, title: "Video upload", body: "Bring a clip you already made." },
+      { icon: Target, title: "Video prompts", body: "Attach a question to jobs and challenges." },
+      { icon: Tags, title: "Skill categories", body: "Group clips by skill shown." },
+      { icon: Lock, title: "Public or private", body: "Applicants control visibility." },
+      { icon: MessageSquare, title: "Follow-up", body: "Like, comment, save and message." },
+    ],
+    workflowTitle: "Life of a proof clip",
+    workflow: [
+      { title: "Prompt", body: "A team sets the question." },
+      { title: "Record", body: "The applicant captures a clip." },
+      { title: "Submit", body: "It attaches to an application or profile." },
+      { title: "Decide", body: "Reviewers watch and shortlist." },
+    ],
+    audienceTitle: "Who uses it",
+    audience: [
+      { title: "Applicants", body: "Skilled people without a polished CV." },
+      { title: "Hiring teams", body: "Judge substance before scheduling." },
+      { title: "Organisers", body: "Entries in one comparable format." },
+    ],
+    faq: [
+      { q: "How long should a clip be?", a: "Designed around about a minute. Employers can guide length in the prompt." },
+      { q: "Is video scored automatically?", a: "No. People watch and decide." },
+      { q: "Who can watch my videos?", a: "Public ones appear on your profile. Private ones stay hidden." },
+    ],
+    related: ["/platform/skill-radar", "/platform/dossier-generation", "/solutions/hr-for-startups"],
+  },
+
+  {
+    slug: "skill-radar",
+    family: "platform",
+    icon: BarChart3,
+    name: "Skill Radar",
+    keyword: "skills profile for hiring",
+    summary: "Skill and industry tags, plotted for the whole cohort.",
+    metaTitle: "Skill Radar: Skills Profile for Hiring | Donjo",
+    metaDescription:
+      "A skills profile for hiring: structured skill and industry tags, plus a cohort radar across tech, product, growth, operations and leadership. Try Donjo.",
+    eyebrow: "Platform",
+    headline: "See the shape of your talent.",
+    subhead: "A skills profile for hiring: structured tags turned into a cohort radar you can read at a glance.",
+    glance: {
+      title: "Available",
+      items: ["Skills on every profile", "Industry and tech tags", "Cohort radar in admin"],
+    },
+    problem: {
+      title: "A pile of applications has no shape",
+      points: ["Free-text skills can't be compared", "Cohort balance shows up late", "Reviewers describe strengths differently"],
+    },
+    help: {
+      title: "Tidy tags, then a readable chart",
+      intro: "Structured inputs at application, grouped into five domains.",
+      pillars: [
+        { title: "Structured", body: "Skills and industries captured up front." },
+        { title: "Grouped", body: "Tech, Product, Growth, Operations, Leadership." },
+        { title: "Human-led", body: "The radar informs; people decide." },
+      ],
+    },
+    capabilitiesTitle: "What sits behind it",
+    capabilities: [
+      { icon: Tags, title: "Profile skills", body: "A skills list plus video categories." },
+      { icon: Layers, title: "Industry and tech tags", body: "Captured on venture applications." },
+      { icon: Radar, title: "Cohort radar", body: "Admin chart of applicant balance." },
+      { icon: Filter, title: "Browse by category", body: "Find relevant proof fast." },
+      { icon: Users, title: "Per-applicant radar", body: "An individual profile view.", status: "roadmap" },
+      { icon: ClipboardCheck, title: "Reviewer assessments", body: "Structured input beyond shortlist or reject.", status: "roadmap" },
+    ],
+    workflowTitle: "How the picture is built",
+    workflow: [
+      { title: "Describe", body: "Applicants add skills and industries." },
+      { title: "Store", body: "Tags are counted consistently." },
+      { title: "Group", body: "Admin plots five domains." },
+      { title: "Read", body: "Staff spot strengths and gaps." },
+    ],
+    audienceTitle: "Who it helps",
+    audience: [
+      { title: "Programme managers", body: "Building a balanced cohort." },
+      { title: "Hiring teams", body: "Filtering clips by needed skills." },
+      { title: "Applicants", body: "Being found for what they can do." },
+    ],
+    faq: [
+      { q: "Does each applicant get a radar today?", a: "Not yet. Today it is a cohort view; an individual radar is planned." },
+      { q: "Where do the values come from?", a: "Counts of applicant industry tags in five domains. They are not test scores." },
+      { q: "Are skills verified?", a: "They are self-reported, which is why proof clips sit beside them." },
+    ],
+    related: ["/platform/video-proof", "/platform/venture-velocity", "/solutions/accelerators"],
+    statusNote: "The cohort radar is live in admin. The per-applicant radar is not built yet.",
+  },
+
+  {
+    slug: "dossier-generation",
+    family: "platform",
+    icon: FileText,
+    name: "Dossier Generation",
+    keyword: "applicant dossier PDF",
+    summary: "A printable applicant summary with video links.",
+    metaTitle: "Applicant Dossier PDF Export | Donjo Platform",
+    metaDescription:
+      "Export an applicant dossier PDF with names, roles and video portfolio links for selection panels and offline review. Request access to Donjo.",
+    eyebrow: "Platform",
+    headline: "Take the review room offline.",
+    subhead: "An applicant dossier PDF: names, roles and video portfolio links, ready for panels and advisors.",
+    glance: {
+      title: "A dossier has",
+      items: ["Applicant names", "Role or venture applied for", "Video portfolio links"],
+    },
+    problem: {
+      title: "Decisions happen in meetings",
+      points: ["Committee packs take hours by hand", "Video links get lost between tools", "Advisors without logins need a summary"],
+    },
+    help: {
+      title: "One click from queue to committee pack",
+      intro: "Generated from live data, linked to the evidence.",
+      pillars: [
+        { title: "Live data", body: "Built when you ask." },
+        { title: "Linked", body: "Every row opens the portfolio." },
+        { title: "Safe fallback", body: "CSV if PDF fails." },
+      ],
+    },
+    capabilitiesTitle: "What you get",
+    capabilities: [
+      { icon: Download, title: "PDF export", body: "A4 summary built in your browser." },
+      { icon: Users, title: "Applicant table", body: "Dense, easy to scan." },
+      { icon: Play, title: "Portfolio links", body: "One tap to the video." },
+      { icon: FileText, title: "CSV fallback", body: "Same data for spreadsheets." },
+      { icon: ListChecks, title: "Shortlist notes", body: "Private notes for employers." },
+      { icon: Briefcase, title: "Richer dossier", body: "Skills, notes and status history.", status: "roadmap" },
+    ],
+    workflowTitle: "Generating a dossier",
+    workflow: [
+      { title: "Collect", body: "Applications arrive and are reviewed." },
+      { title: "Export", body: "Admins choose the download." },
+      { title: "Share", body: "Send or print the PDF." },
+      { title: "Follow", body: "Readers click through to videos." },
+    ],
+    audienceTitle: "Who uses it",
+    audience: [
+      { title: "Selection panels", body: "One document for the room." },
+      { title: "Advisors and funders", body: "No login needed." },
+      { title: "Programme managers", body: "A snapshot to archive." },
+    ],
+    faq: [
+      { q: "One page per applicant?", a: "No. Today it is a summary table. A richer dossier is planned." },
+      { q: "Who can generate one?", a: "Admins, from the admin dashboard." },
+      { q: "Can I edit it?", a: "Use the CSV version to edit in a spreadsheet." },
+    ],
+    related: ["/platform/video-proof", "/solutions/accelerators", "/solutions/enterprise"],
+    statusNote: "Today's dossier is a summary table. A richer version is planned.",
+  },
+
+  {
+    slug: "venture-velocity",
+    family: "platform",
+    icon: Zap,
+    name: "Venture Velocity",
+    keyword: "hiring pipeline analytics",
+    summary: "Pipeline analytics: what's coming in and how fast it's decided.",
+    metaTitle: "Hiring Pipeline Analytics | Venture Velocity | Donjo",
+    metaDescription:
+      "Hiring pipeline analytics: application activity, review outcomes, cohort mix, plus time-to-decision and a Kenya county map in development. See Donjo.",
+    eyebrow: "Platform",
+    headline: "Know how fast your pipeline moves.",
+    subhead: "Hiring pipeline analytics from the records Donjo already keeps: volume, outcomes and, soon, decision time.",
+    glance: {
+      title: "Covers",
+      items: ["Applications per day", "Shortlisted and rejected counts", "Time-to-decision (building)"],
+    },
+    problem: {
+      title: "Slow decisions cost good people",
+      points: ["Nobody knows the real time-to-decision", "Backlogs build up unseen", "Outreach is guesswork without origin data"],
+    },
+    help: {
+      title: "Measure what reviewers already do",
+      intro: "Every application and decision lives in Donjo, so nothing is entered twice.",
+      pillars: [
+        { title: "Volume and outcomes", body: "30-day activity and review counts." },
+        { title: "Time-to-decision", body: "From real review timestamps." },
+        { title: "Where from", body: "County-level view of Kenya." },
+      ],
+    },
+    capabilitiesTitle: "What's in the analytics",
+    capabilities: [
+      { icon: LineChart, title: "Application activity", body: "Applications per day, last 30 days." },
+      { icon: ClipboardCheck, title: "Review outcomes", body: "Shortlisted, rejected and waiting." },
+      { icon: PieChart, title: "Cohort composition", body: "The mix of your applicant pool." },
+      { icon: Timer, title: "Time-to-decision", body: "Average days from apply to decide.", status: "building" },
+      { icon: MapPin, title: "County applicant map", body: "Where in Kenya applicants come from.", status: "building" },
+      { icon: Eye, title: "Admin only", body: "Applicant data stays role-restricted." },
+    ],
+    workflowTitle: "Using it in a round",
+    workflow: [
+      { title: "Open", body: "Watch the pace of applications." },
+      { title: "Work", body: "Track the queue and outcomes." },
+      { title: "Spot gaps", body: "Check mix and origin." },
+      { title: "Report", body: "Share one set of numbers." },
+    ],
+    audienceTitle: "Who uses it",
+    audience: [
+      { title: "Programme leads", body: "Run rounds on time." },
+      { title: "HR managers", body: "See where hiring stalls." },
+      { title: "Partners and funders", body: "Understand reach." },
+    ],
+    faq: [
+      { q: "Is the county map live?", a: "Not yet. It is being built around Kenyan counties." },
+      { q: "How is time-to-decision measured?", a: "From application and review timestamps. It is being built now." },
+      { q: "Can I export analytics?", a: "You can export applicants as PDF or CSV. Analytics export isn't available yet." },
+    ],
+    related: ["/platform/skill-radar", "/platform/dossier-generation", "/solutions/accelerators"],
+    statusNote: "Time-to-decision and the county map are being built. The rest is live.",
+  },
+];

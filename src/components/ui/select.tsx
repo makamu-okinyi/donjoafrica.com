@@ -1,143 +1,235 @@
-import * as React from "react";
-import * as SelectPrimitive from "@radix-ui/react-select";
-import { Check, ChevronDown, ChevronUp } from "lucide-react";
-
+import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import { Check, ChevronDown, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { controlClass } from "./field";
 
-const Select = SelectPrimitive.Root;
+export interface SelectOption {
+  value: string;
+  label: string;
+}
 
-const SelectGroup = SelectPrimitive.Group;
+interface SelectProps {
+  id: string;
+  value: string;
+  onChange: (value: string) => void;
+  options: (string | SelectOption)[];
+  placeholder?: string;
+  disabled?: boolean;
+  required?: boolean;
+  "aria-describedby"?: string;
+  "aria-invalid"?: true;
+  /** Show a search box when there are more options than this (default 8). */
+  searchableAbove?: number;
+  className?: string;
+}
 
-const SelectValue = SelectPrimitive.Value;
+/**
+ * Accessible custom select (WAI-ARIA select-only combobox + listbox). Keyboard: arrows,
+ * Home/End, type-ahead, Enter/Space to choose, Esc/Tab to close. Popover is portalled so it is
+ * never clipped; on narrow screens it becomes a bottom sheet. Searchable above N options.
+ */
+export function Select({
+  id, value, onChange, options, placeholder = "Choose one", disabled, required,
+  searchableAbove = 8, className, ...aria
+}: SelectProps) {
+  const items = useMemo<SelectOption[]>(
+    () => options.map((o) => (typeof o === "string" ? { value: o, label: o } : o)),
+    [options]
+  );
+  const searchable = items.length > searchableAbove;
+  const listId = useId().replace(/:/g, "");
+  const btnRef = useRef<HTMLButtonElement>(null);
+  const popRef = useRef<HTMLDivElement>(null);
+  const searchRef = useRef<HTMLInputElement>(null);
+  const typed = useRef({ text: "", t: 0 });
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const [active, setActive] = useState(0);
+  const [pos, setPos] = useState<{ top: number; left: number; width: number; up: boolean } | null>(null);
+  const [sheet, setSheet] = useState(false);
 
-const SelectTrigger = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
-  <SelectPrimitive.Trigger
-    ref={ref}
-    className={cn(
-      "flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
-      className,
-    )}
-    {...props}
-  >
-    {children}
-    <SelectPrimitive.Icon asChild>
-      <ChevronDown className="h-4 w-4 opacity-50" />
-    </SelectPrimitive.Icon>
-  </SelectPrimitive.Trigger>
-));
-SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
+  const visible = useMemo(
+    () => (query ? items.filter((i) => i.label.toLowerCase().includes(query.toLowerCase())) : items),
+    [items, query]
+  );
+  const selected = items.find((i) => i.value === value);
 
-const SelectScrollUpButton = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.ScrollUpButton>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollUpButton>
->(({ className, ...props }, ref) => (
-  <SelectPrimitive.ScrollUpButton
-    ref={ref}
-    className={cn("flex cursor-default items-center justify-center py-1", className)}
-    {...props}
-  >
-    <ChevronUp className="h-4 w-4" />
-  </SelectPrimitive.ScrollUpButton>
-));
-SelectScrollUpButton.displayName = SelectPrimitive.ScrollUpButton.displayName;
+  const place = useCallback(() => {
+    const btn = btnRef.current;
+    if (!btn) return;
+    const narrow = window.innerWidth < 640;
+    setSheet(narrow);
+    const r = btn.getBoundingClientRect();
+    const room = window.innerHeight - r.bottom;
+    setPos({ top: r.bottom + 6, left: r.left, width: r.width, up: room < 280 && r.top > room });
+  }, []);
 
-const SelectScrollDownButton = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.ScrollDownButton>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.ScrollDownButton>
->(({ className, ...props }, ref) => (
-  <SelectPrimitive.ScrollDownButton
-    ref={ref}
-    className={cn("flex cursor-default items-center justify-center py-1", className)}
-    {...props}
-  >
-    <ChevronDown className="h-4 w-4" />
-  </SelectPrimitive.ScrollDownButton>
-));
-SelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayName;
+  useLayoutEffect(() => {
+    if (!open) return;
+    place();
+    window.addEventListener("resize", place);
+    window.addEventListener("scroll", place, true);
+    return () => {
+      window.removeEventListener("resize", place);
+      window.removeEventListener("scroll", place, true);
+    };
+  }, [open, place]);
 
-const SelectContent = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
->(({ className, children, position = "popper", ...props }, ref) => (
-  <SelectPrimitive.Portal>
-    <SelectPrimitive.Content
-      ref={ref}
-      className={cn(
-        "relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-        position === "popper" &&
-          "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
-        className,
-      )}
-      position={position}
-      {...props}
-    >
-      <SelectScrollUpButton />
-      <SelectPrimitive.Viewport
+  useEffect(() => {
+    if (!open) return;
+    const idx = Math.max(0, visible.findIndex((i) => i.value === value));
+    setActive(idx);
+    if (searchable) searchRef.current?.focus({ preventScroll: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onDown = (e: MouseEvent) => {
+      const t = e.target as Node;
+      if (!popRef.current?.contains(t) && !btnRef.current?.contains(t)) close(false);
+    };
+    document.addEventListener("mousedown", onDown);
+    return () => document.removeEventListener("mousedown", onDown);
+  }, [open]);
+
+  useEffect(() => {
+    if (open) document.getElementById(`${listId}-o${active}`)?.scrollIntoView({ block: "nearest" });
+  }, [active, open, listId]);
+
+  function close(refocus = true) {
+    setOpen(false);
+    setQuery("");
+    if (refocus) btnRef.current?.focus();
+  }
+
+  function choose(i: number) {
+    const item = visible[i];
+    if (!item) return;
+    onChange(item.value);
+    close();
+  }
+
+  function typeAhead(char: string) {
+    const now = Date.now();
+    typed.current.text = now - typed.current.t > 700 ? char : typed.current.text + char;
+    typed.current.t = now;
+    const text = typed.current.text.toLowerCase();
+    const start = typed.current.text.length === 1 ? active + 1 : active;
+    const order = [...visible.keys()].map((k) => (k + start) % visible.length);
+    const hit = order.find((k) => visible[k].label.toLowerCase().startsWith(text));
+    if (hit !== undefined) setActive(hit);
+  }
+
+  function onListKey(e: React.KeyboardEvent) {
+    switch (e.key) {
+      case "ArrowDown": e.preventDefault(); setActive((a) => Math.min(a + 1, visible.length - 1)); break;
+      case "ArrowUp": e.preventDefault(); setActive((a) => Math.max(a - 1, 0)); break;
+      case "Home": if (!searchable) { e.preventDefault(); setActive(0); } break;
+      case "End": if (!searchable) { e.preventDefault(); setActive(visible.length - 1); } break;
+      case "Enter": e.preventDefault(); choose(active); break;
+      case " ": if (!searchable) { e.preventDefault(); choose(active); } break;
+      case "Escape": e.preventDefault(); close(); break;
+      case "Tab": close(false); break;
+      default:
+        if (!searchable && e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey) typeAhead(e.key);
+    }
+  }
+
+  function onButtonKey(e: React.KeyboardEvent) {
+    if (["ArrowDown", "ArrowUp", "Enter", " "].includes(e.key)) {
+      e.preventDefault();
+      setOpen(true);
+    }
+  }
+
+  const popover = open && pos && (
+    <>
+      {sheet && <div className="fixed inset-0 z-[70] bg-foreground/30" aria-hidden="true" />}
+      <div
+        ref={popRef}
+        onKeyDown={onListKey}
+        style={
+          sheet
+            ? undefined
+            : { position: "fixed", left: pos.left, width: pos.width, ...(pos.up ? { bottom: window.innerHeight - pos.top + 6 + (btnRef.current?.offsetHeight ?? 0) } : { top: pos.top }) }
+        }
         className={cn(
-          "p-1",
-          position === "popper" &&
-            "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]",
+          "z-[80] overflow-hidden border border-[hsl(var(--field-border))] bg-popover shadow-[0_18px_40px_-12px_rgba(20,25,40,0.35)] outline-none",
+          sheet ? "fixed inset-x-0 bottom-0 max-h-[70dvh] rounded-t-2xl pb-[env(safe-area-inset-bottom)]" : "rounded-xl"
         )}
       >
-        {children}
-      </SelectPrimitive.Viewport>
-      <SelectScrollDownButton />
-    </SelectPrimitive.Content>
-  </SelectPrimitive.Portal>
-));
-SelectContent.displayName = SelectPrimitive.Content.displayName;
+        {searchable && (
+          <div className="flex items-center gap-2 border-b border-foreground/15 px-3">
+            <Search className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
+            <input
+              ref={searchRef}
+              role="combobox"
+              aria-expanded="true"
+              aria-controls={listId}
+              aria-activedescendant={visible[active] ? `${listId}-o${active}` : undefined}
+              aria-label="Search options"
+              value={query}
+              onChange={(e) => { setQuery(e.target.value); setActive(0); }}
+              placeholder="Search..."
+              className="h-11 w-full bg-transparent text-base text-foreground outline-none placeholder:text-muted-foreground"
+            />
+          </div>
+        )}
+        <ul
+          id={listId}
+          role="listbox"
+          aria-label={placeholder}
+          className="max-h-64 overflow-y-auto p-1.5"
+        >
+          {visible.length === 0 && <li className="px-3 py-3 text-sm text-muted-foreground">No matches</li>}
+          {visible.map((o, i) => (
+            <li
+              key={o.value}
+              id={`${listId}-o${i}`}
+              role="option"
+              aria-selected={o.value === value}
+              onMouseEnter={() => setActive(i)}
+              onClick={() => choose(i)}
+              className={cn(
+                "flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-lg px-3 py-2 text-base text-foreground",
+                i === active && "bg-[hsl(var(--brand-strong)/0.12)]",
+                o.value === value && "font-semibold"
+              )}
+            >
+              {o.label}
+              {o.value === value && <Check className="h-4 w-4 text-[hsl(var(--brand-ink))]" aria-hidden="true" />}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
 
-const SelectLabel = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Label>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Label>
->(({ className, ...props }, ref) => (
-  <SelectPrimitive.Label ref={ref} className={cn("py-1.5 pl-8 pr-2 text-sm font-semibold", className)} {...props} />
-));
-SelectLabel.displayName = SelectPrimitive.Label.displayName;
-
-const SelectItem = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
->(({ className, children, ...props }, ref) => (
-  <SelectPrimitive.Item
-    ref={ref}
-    className={cn(
-      "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 focus:bg-accent focus:text-accent-foreground",
-      className,
-    )}
-    {...props}
-  >
-    <span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-      <SelectPrimitive.ItemIndicator>
-        <Check className="h-4 w-4" />
-      </SelectPrimitive.ItemIndicator>
-    </span>
-
-    <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
-  </SelectPrimitive.Item>
-));
-SelectItem.displayName = SelectPrimitive.Item.displayName;
-
-const SelectSeparator = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Separator>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Separator>
->(({ className, ...props }, ref) => (
-  <SelectPrimitive.Separator ref={ref} className={cn("-mx-1 my-1 h-px bg-muted", className)} {...props} />
-));
-SelectSeparator.displayName = SelectPrimitive.Separator.displayName;
-
-export {
-  Select,
-  SelectGroup,
-  SelectValue,
-  SelectTrigger,
-  SelectContent,
-  SelectLabel,
-  SelectItem,
-  SelectSeparator,
-  SelectScrollUpButton,
-  SelectScrollDownButton,
-};
+  return (
+    <>
+      <button
+        ref={btnRef}
+        id={id}
+        type="button"
+        role="combobox"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={open ? listId : undefined}
+        aria-required={required || undefined}
+        aria-describedby={aria["aria-describedby"]}
+        aria-invalid={aria["aria-invalid"]}
+        disabled={disabled}
+        onClick={() => setOpen((o) => !o)}
+        aria-activedescendant={open && !searchable && visible[active] ? `${listId}-o${active}` : undefined}
+        onKeyDown={open && !searchable ? onListKey : onButtonKey}
+        className={cn(controlClass, "flex h-12 items-center justify-between gap-3 text-left", className)}
+      >
+        <span className={cn("truncate", !selected && "text-muted-foreground")}>{selected ? selected.label : placeholder}</span>
+        <ChevronDown className={cn("h-5 w-5 shrink-0 text-muted-foreground transition-transform", open && "rotate-180")} aria-hidden="true" />
+      </button>
+      {popover && createPortal(popover, document.body)}
+    </>
+  );
+}

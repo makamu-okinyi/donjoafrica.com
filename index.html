@@ -3,39 +3,74 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Donjo — The Venture Engine for Proof-Based Hiring</title>
-    <meta name="description" content="Donjo is a video-first proof-of-work platform. Replace CVs with video portfolios, skill radars, and applicant dossiers. HR for startups, hackathons, accelerators, and enterprise.">
-    <meta name="keywords" content="Donjo, proof-based hiring, video portfolios, venture engine, skill radar, applicant dossiers, Kenya, startup hiring, hackathons, accelerators, HR for startups">
+    <title>Video-First Hiring Platform for Kenya | Donjo</title>
+    <meta name="description" content="Donjo replaces CVs with short proof-of-work videos. Review real skill, shortlist and export dossiers. Built for Kenya and East Africa. Request access." />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#dde1e8" />
+    <link rel="canonical" href="https://donjoafrica.com/" />
 
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Donjo — Proof Over Promises" />
-    <meta property="og:description" content="The video-first proof-of-work platform for founders who value evidence over adjectives." />
     <meta property="og:site_name" content="Donjo" />
-    <!-- TODO(renovation): replace /og-image.png placeholder with the real 1200x630 social card asset -->
-    <meta property="og:image" content="/og-image.png" />
-
+    <meta property="og:locale" content="en_KE" />
+    <meta property="og:title" content="Video-First Hiring Platform for Kenya | Donjo" />
+    <meta property="og:description" content="Donjo replaces CVs with short proof-of-work videos. Review real skill, shortlist and export dossiers. Built for Kenya and East Africa. Request access." />
+    <meta property="og:url" content="https://donjoafrica.com/" />
+    <meta property="og:image" content="https://donjoafrica.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Donjo: Proof Over Promises" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Donjo — Proof Over Promises" />
-    <meta name="twitter:description" content="The video-first proof-of-work platform for founders who value evidence over adjectives." />
-    <!-- TODO(renovation): replace /og-image.png placeholder with the real 1200x630 social card asset -->
-    <meta name="twitter:image" content="/og-image.png" />
+    <meta name="twitter:title" content="Video-First Hiring Platform for Kenya | Donjo" />
+    <meta name="twitter:description" content="Donjo replaces CVs with short proof-of-work videos. Review real skill, shortlist and export dossiers. Built for Kenya and East Africa. Request access." />
+    <meta name="twitter:image" content="https://donjoafrica.com/og-image.png" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <link rel="preload" href="/fonts/dm-sans-latin-wght.woff2" as="font" type="font/woff2" crossorigin />
 
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Donjo",
-      "applicationCategory": "BusinessApplication",
-      "operatingSystem": "Web",
-      "description": "Video-first proof-of-work platform for proof-based hiring. Video portfolios, skill radars, and applicant dossiers.",
-      "provider": {
-        "@type": "Organization",
-        "name": "Donjo"
-      }
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://donjoafrica.com/#organization",
+          "name": "Donjo",
+          "url": "https://donjoafrica.com/",
+          "logo": "https://donjoafrica.com/icon-512.png",
+          "description": "Donjo is a video-first, proof-of-work hiring platform for Kenya and East Africa.",
+          "areaServed": "KE",
+          "founder": { "@type": "Person", "name": "Makamu Okinyi" },
+          "email": "makamubetsy@gmail.com",
+          "contactPoint": [
+            { "@type": "ContactPoint", "contactType": "sales", "email": "makamubetsy@gmail.com", "availableLanguage": "English" }
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://donjoafrica.com/#website",
+          "url": "https://donjoafrica.com/",
+          "name": "Donjo",
+          "inLanguage": "en",
+          "publisher": { "@id": "https://donjoafrica.com/#organization" }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://donjoafrica.com/#software",
+          "name": "Donjo",
+          "applicationCategory": "BusinessApplication",
+          "operatingSystem": "Web",
+          "url": "https://hr.donjoafrica.com",
+          "description": "Video-first proof-of-work hiring: proof clips, review queue, applicant dossiers and pipeline analytics.",
+          "publisher": { "@id": "https://donjoafrica.com/#organization" }
+        }
+      ]
     }
     </script>
-
-    <link rel="icon" type="image/png" href="/favicon.png">
   </head>
   <body>
     <div id="root"></div>

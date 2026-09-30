@@ -13,7 +13,7 @@ This repository is the marketing/brand site. The product application lives separ
 - **Vite 5** + **React 18** + **TypeScript**
 - **Tailwind CSS** + **shadcn/ui** (Radix primitives) — neomorphic design system
 - **react-router-dom v6** (`BrowserRouter` / HTML5 history)
-- **Supabase** — backs the contact form (`consultations` table + `notify-consultation` edge function)
+- **Convex** — backs the contact form (`consultations` table + `/notify-consultation` HTTP action)
 - **TanStack Query** for data fetching
 
 Path alias: `@/` → `./src`.
@@ -22,7 +22,7 @@ Path alias: `@/` → `./src`.
 
 ```bash
 npm install
-cp .env.example .env   # then fill in real Supabase values
+cp .env.example .env   # then fill in your Convex values
 npm run dev            # http://localhost:8080
 ```
 
@@ -44,9 +44,9 @@ git-ignored. See `.env.example`.
 
 | Variable | Description |
 |---|---|
-| `VITE_SUPABASE_URL` | Supabase project URL |
-| `VITE_SUPABASE_PUBLISHABLE_KEY` | Supabase anon/publishable key |
-| `VITE_SUPABASE_PROJECT_ID` | Supabase project ref id |
+| `VITE_CONVEX_URL` | Convex deployment URL (`*.convex.cloud`) |
+| `VITE_CONVEX_SITE_URL` | Convex HTTP actions URL (`*.convex.site`) |
+| `VITE_APP_URL` | Product app URL for the "Log in" link (default `https://hr.donjoafrica.com`; `http://localhost:8081` locally) |
 
 ## Deployment (Cloudflare Pages)
 
@@ -57,11 +57,8 @@ git-ignored. See `.env.example`.
 - Set the `VITE_*` environment variables in the Cloudflare Pages project (Production **and**
   Preview). Because Vite inlines them at build time, changing a value requires a redeploy.
 
-## Backend (Supabase)
+## Backend (Convex)
 
-- Table: `consultations` (`id`, `name`, `email`, `brief`, `created_at`).
-- Edge function: `notify-consultation` (emails on contact-form submission via Resend).
-- Migrations live in `supabase/migrations/`.
-
-Function secrets (e.g. `RESEND_API_KEY`) are set in the Supabase dashboard, **not** in the
-front-end `.env`.
+- Table: `consultations` (`name`, `email`, `brief`), defined in `convex/schema.ts`.
+- HTTP action: `POST /notify-consultation` (`convex/http.ts`) saves the enquiry and returns a
+  WhatsApp deep link. Deploy with `npx convex deploy`.
