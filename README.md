@@ -23,7 +23,7 @@ Path alias: `@/` → `./src`.
 ```bash
 npm install
 cp .env.example .env   # then fill in your Convex values
-npm run dev            # http://localhost:8080
+npm run dev            # dev server, pointing at the production backend via .env.local
 ```
 
 ### Scripts
@@ -46,7 +46,7 @@ git-ignored. See `.env.example`.
 |---|---|
 | `VITE_CONVEX_URL` | Convex deployment URL (`*.convex.cloud`) |
 | `VITE_CONVEX_SITE_URL` | Convex HTTP actions URL (`*.convex.site`) |
-| `VITE_APP_URL` | Product app URL for the "Log in" link (default `https://hr.donjoafrica.com`; `http://localhost:8081` locally) |
+| `VITE_APP_URL` | Product app URL for the "Log in" link (default `https://hr.donjoafrica.com`) |
 
 ## Deployment (Cloudflare Pages)
 
@@ -68,20 +68,6 @@ Tables (`convex/schema.ts`): `consultations` (leads), `partnerRequests`, `partne
 plus the Convex Auth tables. Public functions: `partners:submitRequest`, `partners:listPublished`,
 `pricing:listPublished`, `analytics:track`, and the `POST /notify-consultation` HTTP action. Everything
 under the admin console is gated server-side by `requireAdmin` (allow-list in the `admins` table).
-
-### Local development (no account needed)
-
-```bash
-CONVEX_AGENT_MODE=anonymous npx convex dev      # local anonymous backend; writes .env.local
-npx convex env set JWT_PRIVATE_KEY --from-file jwt.pem   # see "Auth environment variables"
-npx convex env set JWKS --from-file jwks.json
-npx convex env set SITE_URL http://localhost:8080
-npx convex env set WEBAUTHN_RP_ID localhost
-npx convex env set WEBAUTHN_ORIGINS http://localhost:8080
-npx convex run pricing:seed                      # loads the three default plans (idempotent)
-npx convex run admin:createAdmin '{"email":"you@example.com","name":"You"}'
-node scripts/e2e-local.mjs                       # end-to-end backend checks against the LOCAL backend
-```
 
 ### Auth environment variables (Convex dashboard, per deployment)
 

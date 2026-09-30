@@ -121,3 +121,24 @@ export const generateUploadUrl = mutation({
     return await ctx.storage.generateUploadUrl();
   },
 });
+
+/**
+ * Make the allow-list exactly `emails`: any other admin row is deleted. CLI only:
+ *   npx convex run --prod admin:restrictAdminsTo '{"emails":["a@x.com","b@y.com"]}'
+ */
+export const restrictAdminsTo = internalMutation({
+  args: { emails: v.array(v.string()) },
+  handler: async (ctx, { emails }) => {
+    const keep = new Set(emails.map((e) => e.trim().toLowerCase()));
+    const removed: string[] = [];
+    for (const row of await ctx.db.query("admins").collect()) {
+      if (!keep.has(row.email)) {
+        await ctx.db.delete(row._id);
+        removed.push(row.email);
+      }
+    }
+    if (removed.length) await audit(ctx, null, "admins_removed_cli", removed.join(", "));
+    const remaining = (await ctx.db.query("admins").collect()).map((r) => `${r.email}${r.active ? "" : " (inactive)"}`);
+    return { removed, remaining };
+  },
+});
