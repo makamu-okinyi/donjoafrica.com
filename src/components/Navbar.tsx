@@ -30,7 +30,7 @@ const groups: NavGroup[] = [
 ];
 
 const linkBase =
-  "px-3 xl:px-4 py-2.5 rounded-[calc(var(--radius)-0.5rem)] text-sm font-medium transition-all duration-200";
+  "px-3 xl:px-4 py-2 rounded-[calc(var(--radius)-0.5rem)] text-sm font-medium transition-all duration-200";
 
 const isActive = (pathname: string, path: string) =>
   path === "/" ? pathname === "/" : pathname === path || pathname.startsWith(`${path}/`);
@@ -106,6 +106,15 @@ const Navbar = () => {
   const { pathname } = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
+  // Compact "Request Access" appears once the visitor has scrolled past the top of the page.
+  const [stuck, setStuck] = useState(false);
+  useEffect(() => {
+    const on = () => setStuck(window.scrollY > (pathname === "/" ? window.innerHeight * 0.75 : 520));
+    on();
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
+  }, [pathname]);
+  const showCta = stuck && pathname !== "/contact";
 
   useEffect(() => {
     setMobileOpen(false);
@@ -132,8 +141,8 @@ const Navbar = () => {
 
   return (
     <>
-      <header className="fixed top-4 sm:top-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] lg:w-auto max-w-6xl">
-        <nav aria-label="Primary" className="neo-extruded-sm px-3 py-3 flex items-center justify-between lg:justify-start gap-2">
+      <header className="fixed top-3 sm:top-4 left-1/2 -translate-x-1/2 z-50 w-auto max-w-[calc(100%-1.5rem)] lg:w-auto lg:max-w-6xl">
+        <nav aria-label="Primary" className="neo-extruded-sm px-2 py-1.5 lg:px-3 lg:py-2 flex items-center justify-between lg:justify-start gap-4 lg:gap-2">
           <Link to="/" className="flex items-center gap-2 px-2 sm:px-4 rounded-lg" aria-label="Donjo home">
             <span className="font-sans font-bold text-foreground text-lg tracking-tight">Donjo</span>
           </Link>
@@ -145,6 +154,11 @@ const Navbar = () => {
               <DesktopDropdown key={g.label} group={g} pathname={pathname} />
             ))}
             {plainNav.after.map(renderLink)}
+            {showCta && (
+              <Link to="/contact" className="ml-1 whitespace-nowrap rounded-full bg-foreground px-4 py-2.5 text-sm font-semibold text-background transition-opacity hover:opacity-90">
+                Request Access
+              </Link>
+            )}
             <a
               href={`${APP_URL}/auth`}
               className="ml-1 px-5 py-2.5 rounded-full whitespace-nowrap text-sm font-semibold bg-[hsl(var(--brand-strong))] text-[hsl(var(--brand-foreground))] hover:opacity-90 transition-opacity"
@@ -153,11 +167,17 @@ const Navbar = () => {
             </a>
           </div>
 
+          {showCta && (
+            <Link to="/contact" className="ml-auto mr-1 whitespace-nowrap rounded-full bg-foreground px-4 py-2.5 text-xs font-semibold text-background lg:hidden">
+              Request Access
+            </Link>
+          )}
+
           {/* Mobile hamburger */}
           <button
             type="button"
             onClick={() => setMobileOpen((o) => !o)}
-            className="lg:hidden neo-extruded-sm w-11 h-11 flex items-center justify-center rounded-[calc(var(--radius)-0.5rem)]"
+            className="lg:hidden neo-extruded-sm w-10 h-10 flex items-center justify-center rounded-[calc(var(--radius)-0.5rem)]"
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
             aria-controls="mobile-menu"

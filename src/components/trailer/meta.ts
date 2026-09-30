@@ -136,12 +136,12 @@ export const trailers: Record<string, TrailerMeta> = {
   },
   home: {
     id: "home",
-    title: "Donjo teaser",
+    title: "Donjo product teaser",
     scenes: [
-      s("title", "Teaser", "", 1.8, 1.5),
-      s("record", "Record", "Show the work.", 2.8, 2.4),
-      s("queue", "Review", "Decide on evidence.", 2.8, 2.2),
-      s("end", "End", "", 1.8, 1.5),
+      s("record", "Record", "Show the work.", 3.6, 2.6),
+      s("queue", "Review", "Decide on evidence.", 3.2, 2.6),
+      s("dossier", "Dossier", "Take it to the panel.", 3.0, 2.6),
+      s("end", "End", "", 1.6, 1.2),
     ],
   },
 };

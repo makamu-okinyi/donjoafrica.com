@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
 import { Check, Minus } from "lucide-react";
 import Reveal from "@/components/Reveal";
 import { CtaBand, FaqList, PageHero, SectionHeader } from "@/components/PageBits";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import { usePricingPlans } from "@/hooks/useSiteData";
-import { formatPrice, type PricingPlan } from "@/data/pricing";
+import type { PricingPlan } from "@/data/pricing";
+import PlanCard from "@/components/PlanCard";
 
 const faq = [
   { q: "Can I start for free?", a: "Yes. Starter is free for up to 25 applicant profiles." },
@@ -43,39 +43,10 @@ const Pricing = () => {
       <section aria-label="Plans">
         <ul className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
           {plans.map((plan, i) => {
-            const price = formatPrice(plan);
             return (
-              <li key={plan.slug}>
-                <Reveal
-                  delay={i * 0.08}
-                  className={`neo-extruded p-6 sm:p-8 space-y-6 flex flex-col h-full ${plan.highlighted ? "ring-2 ring-[hsl(var(--brand-strong))]/50" : ""}`}
-                >
-                  {plan.highlighted && (
-                    <span className="neo-pressed px-4 py-1.5 text-xs font-semibold text-foreground self-start">Most popular</span>
-                  )}
-                  <div className="space-y-2">
-                    <h2 className="text-2xl font-bold text-foreground">{plan.name}</h2>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{plan.tagline}</p>
-                  </div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-bold text-foreground tracking-tight">{price.amount}</span>
-                    <span className="text-sm text-muted-foreground">{price.period}</span>
-                  </div>
-                  <ul className="space-y-3 flex-1">
-                    {plan.features.map((f) => (
-                      <li key={f} className="flex items-start gap-3 text-sm text-muted-foreground">
-                        <Check className="w-4 h-4 text-[hsl(var(--brand-ink))] mt-0.5 shrink-0" strokeWidth={2.5} aria-hidden="true" />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
-                  <Link
-                    to={plan.ctaHref}
-                    className={`text-center ${plan.highlighted ? "neo-pill" : "neo-extruded-sm !rounded-full px-6 py-3.5 font-semibold text-sm text-foreground hover:shadow-none transition-shadow"}`}
-                  >
-                    {plan.ctaLabel}
-                    <span className="sr-only"> with the {plan.name} plan</span>
-                  </Link>
+              <li key={plan.slug} data-plan-view={plan.slug}>
+                <Reveal delay={i * 0.08} className="h-full">
+                  <PlanCard plan={plan} />
                 </Reveal>
               </li>
             );

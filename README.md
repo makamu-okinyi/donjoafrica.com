@@ -50,15 +50,64 @@ git-ignored. See `.env.example`.
 
 ## Deployment (Cloudflare Pages)
 
-- **Build command:** `npm run build`
+- **Build command:** `npm run build` (runs `vite build` then `scripts/prerender.mjs`, which prerenders every
+  public route to static HTML, generates `sitemap.xml`, `robots.txt`, `404.html`, `og-image.png` and
+  `_redirects`). Prerender needs Chrome: set `CHROME_PATH` if it is not in a standard location (it skips
+  gracefully and ships the SPA-only build if Chrome is missing).
 - **Output directory:** `dist`
-- **SPA fallback:** `public/_redirects` rewrites all paths to `index.html` (status 200) so
-  deep links and refreshes don't 404 under `BrowserRouter`.
+- `/admin` is client-only (`spa.html`, noindex, `Disallow: /admin`, `X-Robots-Tag` in `public/_headers`) and
+  is never prerendered or listed in the sitemap. Unknown URLs get the noindex `404.html` with a real 404.
 - Set the `VITE_*` environment variables in the Cloudflare Pages project (Production **and**
   Preview). Because Vite inlines them at build time, changing a value requires a redeploy.
+  Never build production with a local `.env.local` present (it points at the local dev backend).
 
 ## Backend (Convex)
 
-- Table: `consultations` (`name`, `email`, `brief`), defined in `convex/schema.ts`.
-- HTTP action: `POST /notify-consultation` (`convex/http.ts`) saves the enquiry and returns a
-  WhatsApp deep link. Deploy with `npx convex deploy`.
+Tables (`convex/schema.ts`): `consultations` (leads), `partnerRequests`, `partners`, `pricingPlans`,
+`analyticsEvents`, `admins`, `adminAuditLog`, `passkeys`, `webauthnChallenges`, `rateLimits`, `appSettings`
+plus the Convex Auth tables. Public functions: `partners:submitRequest`, `partners:listPublished`,
+`pricing:listPublished`, `analytics:track`, and the `POST /notify-consultation` HTTP action. Everything
+under the admin console is gated server-side by `requireAdmin` (allow-list in the `admins` table).
+
+### Local development (no account needed)
+
+```bash
+CONVEX_AGENT_MODE=anonymous npx convex dev      # local anonymous backend; writes .env.local
+npx convex env set JWT_PRIVATE_KEY --from-file jwt.pem   # see "Auth environment variables"
+npx convex env set JWKS --from-file jwks.json
+npx convex env set SITE_URL http://localhost:8080
+npx convex env set WEBAUTHN_RP_ID localhost
+npx convex env set WEBAUTHN_ORIGINS http://localhost:8080
+npx convex run pricing:seed                      # loads the three default plans (idempotent)
+npx convex run admin:createAdmin '{"email":"you@example.com","name":"You"}'
+node scripts/e2e-local.mjs                       # end-to-end backend checks against the LOCAL backend
+```
+
+### Auth environment variables (Convex dashboard, per deployment)
+
+| Variable | Value |
+|---|---|
+| `JWT_PRIVATE_KEY` | RSA private key, PKCS8 PEM (2048-bit) |
+| `JWKS` | JSON `{"keys":[{"use":"sig","alg":"RS256", ...public JWK}]}` for the same key |
+| `SITE_URL` | Public site origin, e.g. `https://donjoafrica.com` |
+| `WEBAUTHN_RP_ID` | Registrable domain for passkeys, e.g. `donjoafrica.com` |
+| `WEBAUTHN_ORIGINS` | Comma list of allowed origins, e.g. `https://donjoafrica.com` |
+| `WEBAUTHN_RP_NAME` | Optional display name, e.g. `Donjo Admin` |
+
+Generate the key pair once:
+
+```bash
+node -e "const {generateKeyPairSync}=require('crypto');const fs=require('fs');const k=generateKeyPairSync('rsa',{modulusLength:2048});fs.writeFileSync('jwt.pem',k.privateKey.export({type:'pkcs8',format:'pem'}));fs.writeFileSync('jwks.json',JSON.stringify({keys:[{use:'sig',alg:'RS256',...k.publicKey.export({format:'jwk'})}]}))"
+```
+
+### Creating the first admin
+
+There is no public sign-up. Create the first admin from a terminal with access to the deployment:
+
+```bash
+npx convex run admin:createAdmin '{"email":"you@example.com","name":"Your Name"}'
+```
+
+Then open `/admin/login`, choose **Activate your invited account**, and set a password (12+ characters).
+After signing in, add a passkey under **Admin users**. Later admins can be invited from that page. Sign-ins,
+idle sign-outs (after 30 minutes without activity) and every change are recorded in the audit log.

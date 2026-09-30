@@ -3,7 +3,8 @@ import {
   Video, BarChart3, FileText, MapPin, Zap, Shield, ArrowRight, Scale, Timer, Globe2, Eye,
 } from "lucide-react";
 import Reveal from "@/components/Reveal";
-import Trailer from "@/components/trailer/Trailer";
+import Trailer, { WatchTrailerButton } from "@/components/trailer/Trailer";
+import type { HeroState } from "@/components/trailer/Player";
 import PartnerWall from "@/components/PartnerWall";
 import LegacyHashRedirect from "@/components/LegacyHashRedirect";
 import { CtaBand, Eyebrow, SectionHeader, StatusBadge } from "@/components/PageBits";
@@ -39,33 +40,59 @@ const principles = [
   { icon: Globe2, title: "East Africa first", body: "Designed around Kenya." },
 ];
 
+
+/**
+ * Brand line for the hero. Landscape: a column on the left over a soft glow, beside the product window.
+ * Portrait: stacked above the window. Always visible.
+ */
+function HeroHeadline() {
+  return (
+    <div className="pointer-events-none z-10 flex flex-none flex-col gap-3 px-6 pb-4 text-center text-white landscape:absolute landscape:bottom-16 landscape:left-0 landscape:top-[var(--hero-top)] landscape:w-[36%] landscape:justify-center landscape:gap-[2vw] landscape:px-0 landscape:pb-0 landscape:pl-[4.5vw] landscape:text-left">
+      <h1 className="text-[clamp(2.1rem,11vw,3.6rem)] font-bold leading-[1.02] tracking-tighter landscape:text-[clamp(1.4rem,4.6vw,7.5rem)]">
+        Proof Over <span className="text-[hsl(var(--brand))]">Promises.</span>
+      </h1>
+      <p className="mx-auto max-w-[30ch] text-[clamp(.95rem,4vw,1.2rem)] leading-snug text-white/85 landscape:mx-0 landscape:max-w-[26ch] landscape:text-[clamp(.75rem,1.6vw,2.2rem)]">
+        Video-first hiring: applicants show real work, you decide on evidence.
+      </p>
+    </div>
+  );
+}
+
+/** Docked call to action, in its own reserved band under the stage. Pulses once the dossier scene plays. */
+function HeroCta({ st }: { st: HeroState }) {
+  return (
+    <Link
+      to="/contact"
+      className={"neo-pill whitespace-nowrap !px-5 !py-2.5 text-sm sm:!px-8 sm:!py-3 sm:text-base portrait:block portrait:w-[min(86%,22rem)] portrait:text-center portrait:!py-3.5 portrait:text-base " + (st.live && st.scene >= 2 ? "hero-cta-pulse" : "")}
+    >
+      Request Access
+    </Link>
+  );
+}
+
 const Home = () => {
   usePageMeta("/");
   return (
-    <div className="space-y-20 sm:space-y-28">
+    <div>
       <LegacyHashRedirect />
 
-      <section className="neo-extruded p-6 sm:p-12 lg:p-16 space-y-12" aria-labelledby="home-title">
-        <div className="max-w-3xl mx-auto text-center space-y-7">
-          <Eyebrow>Video-first hiring</Eyebrow>
-          <h1 id="home-title" className="text-4xl sm:text-6xl lg:text-7xl font-bold text-foreground leading-[1.05] tracking-tighter">
-            Proof Over <span className="text-[hsl(var(--brand-strong))]">Promises.</span>
-          </h1>
-          <p className="text-base sm:text-xl text-muted-foreground leading-relaxed max-w-xl mx-auto text-balance">
-            Donjo is a video hiring platform: applicants show real work, you decide on evidence.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link to="/contact" className="neo-pill inline-block">Request Access</Link>
-            <a href="#how-it-works" className="inline-flex items-center gap-2 text-sm font-semibold text-foreground hover:underline underline-offset-4 py-3">
-              See how it works <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </a>
-          </div>
-        </div>
-        <div className="mx-auto max-w-4xl">
-          <Trailer id="home" compact eager />
+      {/* Full-bleed hero: the trailer IS the hero. Edge to edge, 100svh, no frame. The headline is a plain
+          element (not part of the lazy player) so it paints immediately and never re-mounts. */}
+      <section aria-label="Product preview" className="relative flex h-[100svh] min-h-[20rem] w-full flex-col bg-[#12151b]">
+        <div className="h-[var(--hero-top)] shrink-0" aria-hidden="true" />
+        <HeroHeadline />
+        <div className="relative min-h-0 flex-1">
+          <Trailer
+            id="home"
+            hero
+            eager
+            dock={(st) => <HeroCta st={st} />}
+            aside={<WatchTrailerButton id="platform" label="Watch the full walkthrough" tone="light" className="!py-1 text-xs sm:text-sm" />}
+          />
         </div>
       </section>
 
+      <div className="mx-auto max-w-7xl space-y-20 px-4 pt-20 sm:space-y-28 sm:px-6 sm:pt-28 lg:px-8">
       <PartnerWall id="home-partners" />
 
       <section id="how-it-works" className="scroll-mt-28 space-y-10" aria-labelledby="how-title">
@@ -164,6 +191,7 @@ const Home = () => {
         body="Tell us what you're hiring for."
         secondary={{ label: "See pricing", to: "/pricing" }}
       />
+      </div>
     </div>
   );
 };

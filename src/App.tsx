@@ -20,6 +20,7 @@ const Partners = lazyRoute(() => import("@/pages/Partners"));
 const Pricing = lazyRoute(() => import("@/pages/Pricing"));
 const Connect = lazyRoute(() => import("@/pages/Connect"));
 const NotFound = lazyRoute(() => import("@/pages/NotFound"));
+const AdminApp = lazy(() => import("@/admin/AdminApp"));
 const Privacy = lazyRoute(() => import("@/pages/Legal").then((m) => ({ default: m.Privacy })));
 const Terms = lazyRoute(() => import("@/pages/Legal").then((m) => ({ default: m.Terms })));
 const Cookies = lazyRoute(() => import("@/pages/Legal").then((m) => ({ default: m.Cookies })));
@@ -54,15 +55,8 @@ export function preloadRoute(pathname: string): Promise<unknown> {
   return (hit ? hit[1] : NotFound).preload().catch(() => undefined);
 }
 
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <ThemeProvider>
-      <>
-        <DeferredToasters />
-        <BrowserRouter>
-          <Layout>
+const PublicSite = () => (
+  <Layout>
             <Suspense fallback={<div className="min-h-[60vh]" aria-busy="true" />}>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -83,7 +77,22 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
             </Suspense>
-          </Layout>
+  </Layout>
+);
+
+const queryClient = new QueryClient();
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <ThemeProvider>
+      <>
+        <DeferredToasters />
+        <BrowserRouter>
+          <Routes>
+            {/* Admin console: separate chunk, own providers, no public layout, never indexed. */}
+            <Route path="/admin/*" element={<Suspense fallback={<div className="min-h-screen bg-background" />}><AdminApp /></Suspense>} />
+            <Route path="*" element={<PublicSite />} />
+          </Routes>
         </BrowserRouter>
       </>
     </ThemeProvider>

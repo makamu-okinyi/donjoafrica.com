@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Check, Eye, Fingerprint, Heart, Lock, Mic, Send, Upload, X, Download, FileText, ShieldCheck } from "lucide-react";
 import { Btn, Card, Field, Kpi, Pill, Shell, Vid } from "./ui";
-import { Cursor, Toast, easeInOut, easeOut, lerp, pop, seg, typed, type CursorKey } from "./fx";
+import { Cursor, Toast, easeInOut, easeOut, lerp, pop, seg, typed, useWorld, type CursorKey } from "./fx";
 
 type S = { t: number };
 
@@ -60,7 +60,7 @@ export function Recorder({ t }: S) {
           ))}
         </div>
       )}
-      <div className="absolute bottom-16 left-[210px] text-center text-white/80">
+      <div className="absolute bottom-16 left-[9%] text-center text-white/80">
         <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10"><Upload className="h-6 w-6" /></span>
         <p className="mt-2 text-[14px]">Upload</p>
       </div>
@@ -165,41 +165,103 @@ const queue = [
   { n: "Applicant 03", s: "Health" }, { n: "Applicant 04", s: "Agritech" },
 ];
 
-function reviewKeys(actions: [number, number, string][], rowY: (i: number) => number): CursorKey[] {
-  const keys: CursorKey[] = [[0.3, 300, 200]];
+function reviewKeys(actions: [number, number, string][], rowY: (i: number) => number, worldW: number): CursorKey[] {
+  const keys: CursorKey[] = [[0.3, worldW * 0.6, 230]];
   [...actions].sort((a, b) => a[0] - b[0]).forEach(([at, i, kind]) => {
-    const x = kind === "rejected" ? 880 : 780;
-    const y = rowY(i) + 68;
+    const x = kind === "rejected" ? worldW - 106 : worldW - 224;
+    const y = rowY(i) + 50;
     keys.push([at - 0.8, x, y], [at, x, y, 1]);
   });
   return keys;
 }
 
 export function ReviewQueue({ t, actions = [[2.6, 1, "shortlisted"], [4.0, 2, "rejected"], [5.0, 0, "shortlisted"]] }: S & { actions?: [number, number, string][] }) {
+  const { w } = useWorld();
   const status = (i: number) => actions.find((a) => a[1] === i && t > a[0] + 0.15)?.[2] ?? "submitted";
-  const count = (s: string) => queue.filter((_, i) => status(i) === s).length;
-  const rowY = (i: number) => 150 + i * 92;
+  const count = (st: string) => queue.filter((_, i) => status(i) === st).length;
+  const rowY = (i: number) => 92 + 164 + i * 114; // stage coordinates
   return (
     <Shell active={0} crumb="Review Queue" admin>
       <h3 className="text-[34px] font-bold tracking-tight text-foreground">Review Queue</h3>
-      <Kpi label="Pending review" value={count("submitted")} className="left-0 top-[56px] h-[96px] w-[200px] !p-4" />
-      <Kpi label="Shortlisted" value={count("shortlisted")} className="left-[216px] top-[56px] h-[96px] w-[200px] !p-4" />
-      <Kpi label="Rejected" value={count("rejected")} className="left-[432px] top-[56px] h-[96px] w-[200px] !p-4" />
+      <div className="absolute inset-x-0 top-[52px] grid grid-cols-4 gap-4">
+        {[["Pending review", count("submitted")], ["Shortlisted", count("shortlisted")], ["Rejected", count("rejected")], ["Total applications", queue.length]].map(([label, value]) => (
+          <div key={label as string} className="neo-extruded !rounded-[26px] p-4" style={{ height: 92 }}>
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">{label}</p>
+            <p className="mt-2 font-mono text-[34px] font-bold leading-none text-foreground">{value}</p>
+          </div>
+        ))}
+      </div>
       {queue.map((q, i) => {
-        const s = status(i);
+        const st = status(i);
         return (
-          <div key={q.n} className="neo-extruded-sm absolute left-0 flex h-[76px] w-[900px] items-center !rounded-2xl px-5" style={{ top: rowY(i) + 30, ...pop(t, 0.3 + i * 0.25, 0.45), outline: s === "shortlisted" ? "2px solid hsl(var(--brand-strong) / .7)" : undefined }}>
-            <Vid className="!relative !h-12 !w-[74px] shrink-0" play={false} hue={i} style={{ position: "relative", height: 48, width: 74 }} />
-            <div className="ml-4 flex-1"><p className="text-[16px] font-semibold text-foreground">{q.n}</p><p className="text-[13px] text-muted-foreground">{q.s}</p></div>
-            <Pill tone={s === "shortlisted" ? "brand" : "muted"}>{s}</Pill>
-            <Btn primary className="ml-5 !px-5 !py-2 !text-[13px]">Shortlist</Btn>
-            <Btn className="ml-2 !px-5 !py-2 !text-[13px]">Reject</Btn>
+          <div key={q.n} className="neo-extruded-sm absolute inset-x-0 flex h-[100px] items-center !rounded-3xl px-6" style={{ top: rowY(i) - 92, ...pop(t, 0.3 + i * 0.25, 0.45), outline: st === "shortlisted" ? "2px solid hsl(var(--brand-strong) / .7)" : undefined }}>
+            <Vid className="!relative !h-[68px] !w-[120px] shrink-0" play={false} hue={i} style={{ position: "relative", height: 68, width: 120 }} />
+            <div className="ml-5 flex-1"><p className="text-[20px] font-semibold text-foreground">{q.n}</p><p className="text-[15px] text-muted-foreground">{q.s}</p></div>
+            <Pill tone={st === "shortlisted" ? "brand" : "muted"}>{st}</Pill>
+            <Btn primary className="ml-6 !px-6 !py-2.5 !text-[15px]">Shortlist</Btn>
+            <Btn className="ml-2 !px-6 !py-2.5 !text-[15px]">Reject</Btn>
           </div>
         );
       })}
-      <Cursor t={t} keys={reviewKeys(actions, rowY)} />
+      <Cursor t={t} keys={reviewKeys(actions, rowY, w)} />
     </Shell>
   );
+}
+
+/** Phone-style review queue: stacked applicant cards with big actions. Used when the world is tall and narrow. */
+export function PortraitQueue({ t, actions = [[2.2, 1, "shortlisted"]] }: S & { actions?: [number, number, string][] }) {
+  const { w, h } = useWorld();
+  const gap = 14;
+  const top0 = 176;
+  const n = Math.max(2, Math.min(4, Math.floor((h - top0 - 16) / (196 + gap))));
+  const cardH = Math.max(140, Math.min(196, Math.floor((h - top0 - 16 - gap * (n - 1)) / n)));
+  const status = (i: number) => actions.find((a) => a[1] === i && t > a[0] + 0.15)?.[2] ?? "submitted";
+  const count = (st: string) => queue.slice(0, n).filter((_, i) => status(i) === st).length;
+  const cardY = (i: number) => top0 + i * (cardH + gap);
+  const keys: CursorKey[] = [[0.3, w * 0.5, 120]];
+  [...actions].filter(([, i]) => i < n).sort((a, b) => a[0] - b[0]).forEach(([at, i, kind]) => {
+    const x = 24 + (w - 48) * (kind === "rejected" ? 0.75 : 0.27);
+    const y = cardY(i) + cardH - 38;
+    keys.push([at - 0.8, x, y], [at, x, y, 1]);
+  });
+  return (
+    <div className="absolute inset-0 bg-[hsl(var(--background))]">
+      <div className="absolute inset-x-6 top-6 flex items-center justify-between">
+        <h3 className="text-[36px] font-bold tracking-tight text-foreground">Review Queue</h3>
+        <span className="flex items-center gap-1.5 rounded-full bg-[hsl(var(--brand-strong))] px-3 py-1.5 text-[12px] font-bold uppercase text-white">Admin</span>
+      </div>
+      <div className="absolute inset-x-6 top-[84px] grid grid-cols-3 gap-3">
+        {[["Pending", count("submitted")], ["Shortlisted", count("shortlisted")], ["Rejected", count("rejected")]].map(([label, value]) => (
+          <div key={label as string} className="neo-extruded !rounded-[22px] px-4 py-3">
+            <p className="text-[12px] font-semibold uppercase tracking-widest text-muted-foreground">{label}</p>
+            <p className="mt-1 font-mono text-[34px] font-bold leading-none text-foreground">{value}</p>
+          </div>
+        ))}
+      </div>
+      {queue.slice(0, n).map((q, i) => {
+        const st = status(i);
+        return (
+          <div key={q.n} className="neo-extruded-sm absolute inset-x-6 !rounded-3xl p-4" style={{ top: cardY(i), height: cardH, ...pop(t, 0.3 + i * 0.25, 0.45), outline: st === "shortlisted" ? "2px solid hsl(var(--brand-strong) / .7)" : undefined }}>
+            <div className="flex items-center gap-4">
+              <Vid className="!relative !h-[84px] !w-[150px] shrink-0" play={false} hue={i} style={{ position: "relative", height: 84, width: 150 }} />
+              <div className="min-w-0 flex-1"><p className="text-[24px] font-semibold text-foreground">{q.n}</p><p className="text-[17px] text-muted-foreground">{q.s}</p><div className="mt-2"><Pill tone={st === "shortlisted" ? "brand" : "muted"}>{st}</Pill></div></div>
+            </div>
+            <div className="absolute inset-x-4 bottom-4 grid grid-cols-2 gap-3">
+              <Btn primary className="!py-3.5 !text-[19px]">Shortlist</Btn>
+              <Btn className="!py-3.5 !text-[19px]">Reject</Btn>
+            </div>
+          </div>
+        );
+      })}
+      <Cursor t={t} keys={keys} />
+    </div>
+  );
+}
+
+/** Desktop review queue on wide worlds, phone layout on tall ones. */
+export function AdaptiveQueue({ t, actions }: S & { actions?: [number, number, string][] }) {
+  const { w } = useWorld();
+  return w < 900 ? <PortraitQueue t={t} actions={actions} /> : <ReviewQueue t={t} actions={actions} />;
 }
 
 export function VideoReview({ t }: S) {
@@ -303,6 +365,7 @@ export function CohortRadar({ t }: S) {
 /* -------------------------------------------------------- overview + dossier */
 
 export function AdminOverview({ t, cursor = true, exportAt = 3.6 }: S & { cursor?: boolean; exportAt?: number }) {
+  const { w } = useWorld();
   const path = Array.from({ length: 30 }, (_, i) => [i * 21, 130 - (Math.sin(i * 0.5) * 30 + Math.sin(i * 0.19) * 24 + i * 1.3 + 40)]);
   const shown = Math.floor(seg(t, 0.5, 3) * 30);
   const d = path.slice(0, Math.max(shown, 2)).map((p, i) => `${i ? "L" : "M"}${p[0]},${p[1]}`).join(" ");
@@ -316,22 +379,33 @@ export function AdminOverview({ t, cursor = true, exportAt = 3.6 }: S & { cursor
       <div className="absolute left-0 top-[84px] flex gap-3">
         {["Overview", "Analytics", "Review Queue"].map((x, i) => <Pill key={x} tone={i === 0 ? "dark" : "muted"}>{x}</Pill>)}
       </div>
-      {["Pending review", "Total applications", "Shortlisted", "Rejected"].map((k, i) => (
-        <Kpi key={k} label={k} value={[2, 4, Math.floor(seg(t, 2, 3) * 1), 1][i]} className="top-[130px] h-[92px] w-[200px] !p-4" style={{ left: i * 216, ...pop(t, 0.2 + i * 0.12) }} />
-      ))}
-      <Card className="left-0 top-[240px] h-[290px] w-[640px]">
+      <div className="absolute inset-x-0 top-[130px] grid grid-cols-4 gap-4">
+        {["Pending review", "Total applications", "Shortlisted", "Rejected"].map((k, i) => (
+          <div key={k} className="neo-extruded !rounded-[26px] p-4" style={{ height: 92, ...pop(t, 0.2 + i * 0.12) }}>
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">{k}</p>
+            <p className="mt-2 font-mono text-[34px] font-bold leading-none text-foreground">{[2, 4, Math.floor(seg(t, 2, 3) * 1), 1][i]}</p>
+          </div>
+        ))}
+      </div>
+      <div className="absolute inset-x-0 top-[240px] grid h-[372px] grid-cols-[1fr_262px] gap-4"><Card className="!relative">
         <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">Application velocity</p>
-        <svg viewBox="0 0 620 140" className="absolute inset-x-6 bottom-6 h-[190px] w-[590px]"><path d={d} fill="none" stroke="hsl(14 88% 44%)" strokeWidth="3.5" strokeLinecap="round" /></svg>
+        <svg viewBox="0 0 620 140" preserveAspectRatio="none" className="absolute bottom-6 left-6 right-6 h-[290px] w-[calc(100%-3rem)]"><path d={d} fill="none" stroke="hsl(14 88% 44%)" strokeWidth="3.5" strokeLinecap="round" /></svg>
       </Card>
-      <Card className="left-[660px] top-[240px] h-[290px] w-[250px]">
+      <Card className="!relative">
         <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">Cohort composition</p>
-        <svg viewBox="0 0 120 120" className="mx-auto mt-4 h-[170px] w-[170px] -rotate-90">
+        <svg viewBox="0 0 120 120" className="mx-auto mt-8 h-[210px] w-[210px] -rotate-90">
           {arcs.map((a, i) => { const c = 2 * Math.PI * 42; const len = a * c * easeOut(seg(t, 0.8 + i * 0.3, 1.8 + i * 0.3)); const off = -acc * c; acc += a; return <circle key={i} cx="60" cy="60" r="42" fill="none" strokeWidth="16" stroke={["hsl(14 88% 44%)", "hsl(14 70% 62%)", "hsl(220 12% 38%)", "hsl(220 12% 68%)"][i]} strokeDasharray={`${len} ${c}`} strokeDashoffset={off} />; })}
         </svg>
       </Card>
-      {cursor && <Cursor t={t} keys={[[0.5, 300, 300], [exportAt - 0.8, 1020, 34], [exportAt, 1020, 34, 1]]} />}
+      </div>
+      {cursor && <Cursor t={t} keys={[[0.5, 300, 300], [exportAt - 0.8, w - 200, 110], [exportAt, w - 200, 110, 1]]} />}
     </Shell>
   );
+}
+
+function AdaptiveBackdrop({ t }: S) {
+  const { w } = useWorld();
+  return w < 900 ? <PortraitQueue t={5} actions={[]} /> : <AdminOverview t={Math.min(t + 3.6, 6)} exportAt={0.1} cursor={false} />;
 }
 
 export function DossierExport({ t }: S) {
@@ -356,7 +430,7 @@ export function DossierExport({ t }: S) {
   };
   return (
     <div className="absolute inset-0">
-      <div style={{ opacity: 1 - p * 0.65 }}><AdminOverview t={Math.min(t + 3.6, 6)} exportAt={0.1} cursor={false} /></div>
+      <div style={{ opacity: 1 - p * 0.65 }}><AdaptiveBackdrop t={t} /></div>
       <div className="absolute inset-0 bg-foreground/35" style={{ opacity: p }} />
       <div className="absolute inset-0" style={{ perspective: 1600 }}>{[2, 1, 0].map(sheet)}</div>
       <div className="absolute bottom-20 left-1/2 flex -translate-x-1/2 gap-4" style={pop(t, 4.4)}>

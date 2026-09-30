@@ -25,6 +25,27 @@ const Layout = ({ children }: LayoutProps) => {
     mainRef.current?.focus({ preventScroll: true });
   }, [pathname]);
 
+  // The home hero is truly edge to edge, so the root scrollbar is hidden there (scrolling still works).
+  useEffect(() => {
+    document.documentElement.classList.toggle("home-page", pathname === "/");
+    return () => document.documentElement.classList.remove("home-page");
+  }, [pathname]);
+
+  // First-party analytics: loaded after idle so it never competes with first paint or interaction.
+  useEffect(() => {
+    let cancelled = false;
+    const run = () => {
+      import("@/lib/track").then((m) => {
+        if (cancelled) return;
+        m.startTracking();
+        m.trackPageview(pathname);
+      });
+    };
+    const ric = (window as unknown as { requestIdleCallback?: (cb: () => void, o?: object) => number }).requestIdleCallback;
+    const h = ric ? ric(run, { timeout: 4000 }) : window.setTimeout(run, 2500);
+    return () => { cancelled = true; if (!ric) window.clearTimeout(h); };
+  }, [pathname]);
+
   return (
     <div className="relative min-h-screen bg-background pixel-grid-overlay">
       <a
@@ -44,7 +65,7 @@ const Layout = ({ children }: LayoutProps) => {
         id="main-content"
         ref={mainRef}
         tabIndex={-1}
-        className="relative z-10 pt-28 sm:pt-36 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto outline-none"
+        className={pathname === "/" ? "relative z-10 pb-16 outline-none" : "relative z-10 pt-24 sm:pt-28 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto outline-none"}
       >
         <Breadcrumbs />
         {children}

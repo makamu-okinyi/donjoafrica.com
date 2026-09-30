@@ -103,7 +103,7 @@ export function Stepper({ page, design }: BlockProps) {
   return (
     <section id="stepper" className="scroll-mt-28 space-y-10" aria-labelledby="step-title">
       <SectionHeader eyebrow="How it works" title={page.workflowTitle} id="step-title" />
-      <div className="grid items-start gap-8 lg:grid-cols-5">
+      <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-5">
         <div role="tablist" aria-label="Steps" className="space-y-3 lg:col-span-2">
           {page.workflow.map((s, k) => (
             <button
@@ -125,7 +125,7 @@ export function Stepper({ page, design }: BlockProps) {
             </button>
           ))}
         </div>
-        <div id="step-panel" role="tabpanel" aria-labelledby={`step-tab-${i}`} className="lg:col-span-3">
+        <div id="step-panel" role="tabpanel" aria-labelledby={`step-tab-${i}`} className="min-w-0 lg:col-span-3">
           <SceneView id={design.trailer} index={design.stepScenes[i]} restartKey={i} />
         </div>
       </div>
@@ -148,12 +148,12 @@ export function Roles({ page, design }: BlockProps) {
           </button>
         ))}
       </div>
-      <div id="role-panel" role="tabpanel" aria-labelledby={`role-tab-${i}`} className="grid items-center gap-8 lg:grid-cols-5">
+      <div id="role-panel" role="tabpanel" aria-labelledby={`role-tab-${i}`} className="grid grid-cols-1 items-center gap-8 lg:grid-cols-5">
         <div className="space-y-3 lg:col-span-2">
           <h3 className="text-2xl font-bold tracking-tight text-foreground">{page.audience[i].title}</h3>
           <p className="text-lg text-muted-foreground">{page.audience[i].body}</p>
         </div>
-        <div className="lg:col-span-3"><SceneView id={design.trailer} index={scenes[i]} restartKey={i} /></div>
+        <div className="min-w-0 lg:col-span-3"><SceneView id={design.trailer} index={scenes[i]} restartKey={i} /></div>
       </div>
     </section>
   );
@@ -175,7 +175,7 @@ export function Pinned({ page, design }: BlockProps) {
   return (
     <section id="pinned" className="scroll-mt-28 space-y-10" aria-labelledby="pin-title">
       <SectionHeader eyebrow="The story" title={page.workflowTitle} id="pin-title" />
-      <div className="grid gap-8 lg:grid-cols-2 lg:gap-14">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-14">
         <div className="sticky top-24 z-10 self-start lg:top-28">
           <SceneView id={design.trailer} index={design.stepScenes[active]} restartKey={active} />
           <p className="mt-3 text-center text-xs text-muted-foreground" aria-hidden="true">Chapter {active + 1} of {page.workflow.length}</p>

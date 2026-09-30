@@ -114,48 +114,31 @@
   html {
     scrollbar-gutter: stable;
   }
-  * {
+  /* Scoped to real scroll containers: a universal ::-webkit-scrollbar rule is costly to match on every element. */
+  html, body, dialog, textarea, pre, [role="listbox"], .overflow-auto, .overflow-x-auto, .overflow-y-auto, .overflow-scroll {
     scrollbar-width: thin;
     scrollbar-color: hsl(var(--foreground) / 0.3) transparent;
   }
   @supports selector(::-webkit-scrollbar) {
-    * {
+    html, body, dialog, textarea, pre, [role="listbox"], .overflow-auto, .overflow-x-auto, .overflow-y-auto, .overflow-scroll {
       scrollbar-width: auto;
       scrollbar-color: auto;
     }
-    *::-webkit-scrollbar {
+    html::-webkit-scrollbar, body::-webkit-scrollbar, dialog::-webkit-scrollbar, textarea::-webkit-scrollbar, pre::-webkit-scrollbar, [role="listbox"]::-webkit-scrollbar, .overflow-auto::-webkit-scrollbar, .overflow-x-auto::-webkit-scrollbar, .overflow-y-auto::-webkit-scrollbar, .overflow-scroll::-webkit-scrollbar {
       width: 10px;
       height: 10px;
     }
-    *::-webkit-scrollbar-track {
+    html::-webkit-scrollbar-track, body::-webkit-scrollbar-track, dialog::-webkit-scrollbar-track, textarea::-webkit-scrollbar-track, pre::-webkit-scrollbar-track, [role="listbox"]::-webkit-scrollbar-track, .overflow-auto::-webkit-scrollbar-track, .overflow-x-auto::-webkit-scrollbar-track, .overflow-y-auto::-webkit-scrollbar-track, .overflow-scroll::-webkit-scrollbar-track {
       background: transparent;
     }
-    *::-webkit-scrollbar-thumb {
+    html::-webkit-scrollbar-thumb, body::-webkit-scrollbar-thumb, dialog::-webkit-scrollbar-thumb, textarea::-webkit-scrollbar-thumb, pre::-webkit-scrollbar-thumb, [role="listbox"]::-webkit-scrollbar-thumb, .overflow-auto::-webkit-scrollbar-thumb, .overflow-x-auto::-webkit-scrollbar-thumb, .overflow-y-auto::-webkit-scrollbar-thumb, .overflow-scroll::-webkit-scrollbar-thumb {
       background-color: hsl(var(--foreground) / 0.22);
       border: 3px solid transparent;
       background-clip: content-box;
       border-radius: 9999px;
     }
-    *::-webkit-scrollbar-thumb:hover {
+    html::-webkit-scrollbar-thumb:hover, body::-webkit-scrollbar-thumb:hover, dialog::-webkit-scrollbar-thumb:hover, textarea::-webkit-scrollbar-thumb:hover, pre::-webkit-scrollbar-thumb:hover, [role="listbox"]::-webkit-scrollbar-thumb:hover, .overflow-auto::-webkit-scrollbar-thumb:hover, .overflow-x-auto::-webkit-scrollbar-thumb:hover, .overflow-y-auto::-webkit-scrollbar-thumb:hover, .overflow-scroll::-webkit-scrollbar-thumb:hover {
       background-color: hsl(var(--foreground) / 0.45);
-    }
-    *::-webkit-scrollbar-corner {
-      background: transparent;
-    }
-  }
-
-  /* Scroll reveal (see Reveal.tsx): only below-fold elements are ever hidden */
-  [data-reveal] {
-    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  [data-reveal="hidden"] {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  @media (prefers-reduced-motion: reduce) {
-    [data-reveal="hidden"] {
-      opacity: 1;
-      transform: none;
     }
   }
 
@@ -352,3 +335,38 @@
 @keyframes mv-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
 @keyframes mv-spin { to { transform: rotate(360deg); } }
 @keyframes mv-wiggle { 0%, 60%, 100% { transform: rotate(0); } 70% { transform: rotate(-8deg); } 80% { transform: rotate(8deg); } 90% { transform: rotate(-4deg); } }
+
+/* Trailer stage: custom play/pause cursor, so links and buttons inside keep a normal pointer */
+.trailer-stage a,
+.trailer-stage button,
+.trailer-stage summary {
+  cursor: pointer;
+}
+.trailer-flash {
+  animation: trailer-flash 0.45s ease-out;
+}
+@keyframes trailer-flash {
+  0% { transform: scale(1.5); opacity: 0.4; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes hero-cta-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 hsl(var(--brand-strong) / 0.45), 6px 6px 12px var(--shadow-dark); }
+  50% { box-shadow: 0 0 0 12px hsl(var(--brand-strong) / 0), 6px 6px 12px var(--shadow-dark); }
+}
+.hero-cta-pulse {
+  animation: hero-cta-pulse 2.4s ease-out infinite;
+}
+
+/* Hero sizing: vertical space taken by navbar offset, caption strip and link row */
+:root { --hero-top: 4.75rem; }
+@media (max-height: 520px) {
+  :root { --hero-top: 4.5rem; }
+}
+
+/* Home only: the hero video touches the window edges, so no root scrollbar strip */
+html.home-page { scrollbar-width: none; scrollbar-gutter: auto; }
+html.home-page::-webkit-scrollbar { display: none; width: 0; height: 0; }
+
+@media (max-width: 639px) {
+  :root { --hero-top: 4.1rem; }
+}

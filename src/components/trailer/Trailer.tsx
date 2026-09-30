@@ -1,7 +1,8 @@
 import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { Play, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { transcriptFor, trailers } from "./meta";
+import { transcriptFor, trailerDuration, trailers } from "./meta";
+import { CaptionStrip, HeroFrame, type HeroState } from "./Player";
 
 // The heavy scene code is a separate chunk, loaded only when a trailer is about to be seen.
 const Player = lazy(() => import("./Player"));
@@ -34,8 +35,23 @@ function useNear(ref: React.RefObject<Element>, margin = "300px") {
 }
 
 /** Static poster: title, chapters and play glyph. Identical in the prerendered HTML and while the player loads. */
-function Poster({ id, className }: { id: string; className?: string }) {
+function Poster({ id, className, hero, overlay, dock, aside }: { id: string; className?: string; hero?: boolean; overlay?: (s: HeroState) => React.ReactNode; dock?: (s: HeroState) => React.ReactNode; aside?: React.ReactNode }) {
   const m = trailers[id];
+  const st: HeroState = { time: 0, total: trailerDuration(m), live: false, playing: false, scene: 0 };
+  if (hero) {
+    return (
+      <HeroFrame
+        stage={
+          <div className="relative flex h-full w-full flex-col overflow-hidden bg-[#12151b] landscape:block">
+            <div className="absolute inset-0" style={{ background: "radial-gradient(70% 70% at 30% 40%, hsl(14 80% 30% / .55), transparent 70%)" }} />
+            <div className="relative flex min-h-0 flex-1 flex-col justify-center landscape:contents">{overlay?.(st)}</div>
+            <div className="aspect-video w-full shrink-0 landscape:hidden" aria-hidden="true" />
+          </div>
+        }
+        strip={<CaptionStrip dark caption="" local={0} dock={dock?.(st)} aside={aside} />}
+      />
+    );
+  }
   return (
     <div className={cn("relative aspect-video w-full overflow-hidden rounded-2xl bg-[#12151b] sm:rounded-3xl", className)}>
       <div className="absolute inset-0" style={{ background: "radial-gradient(60% 60% at 50% 45%, hsl(14 80% 30% / .5), transparent 70%)" }} />
@@ -43,7 +59,6 @@ function Poster({ id, className }: { id: string; className?: string }) {
         <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 sm:h-16 sm:w-16"><Play className="ml-1 h-6 w-6 text-foreground" fill="currentColor" aria-hidden="true" /></span>
         <p className="px-6 text-base font-bold tracking-tight sm:text-2xl">{m.title}</p>
       </div>
-      <span className="absolute right-[2.5%] top-[3%] rounded-full bg-black/45 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white/85">Illustrative preview</span>
     </div>
   );
 }
@@ -56,13 +71,18 @@ interface TrailerProps {
   noTranscript?: boolean;
   /** Mount immediately rather than when scrolled near. */
   eager?: boolean;
+  /** Hero mode: framed stage only, HTML overlay (headline, CTA) driven by playback. */
+  hero?: boolean;
+  overlay?: (s: HeroState) => React.ReactNode;
+  dock?: (s: HeroState) => React.ReactNode;
+  aside?: React.ReactNode;
 }
 
 /**
  * Trailer with poster and transcript in the static HTML, and the auto-playing player lazy-mounted on top.
  * Reserves its full height up front so nothing shifts when the player arrives.
  */
-export default function Trailer({ id, className, compact, noTranscript, eager }: TrailerProps) {
+export default function Trailer({ id, className, compact, noTranscript, eager, hero, overlay, dock, aside }: TrailerProps) {
   const m = trailers[id];
   const ref = useRef<HTMLElement>(null);
   const near = useNear(ref);
@@ -80,17 +100,18 @@ export default function Trailer({ id, className, compact, noTranscript, eager }:
   const mount = (near || eager) && idle;
 
   return (
-    <figure ref={ref} className={cn("w-full", className)} aria-label={m.title}>
-      <div className="relative">
+    <figure ref={ref} className={cn("w-full min-w-0", hero && "h-full", className)} aria-label={m.title}>
+      <div className={cn("relative", hero && "h-full")}>
         {mount ? (
-          <Suspense fallback={<Poster id={id} />}>
-            <Player meta={m} reducedMotion={reduced} onFullscreen={() => setModal(true)} compact={compact} />
+          <Suspense fallback={<><Poster id={id} hero={hero} overlay={overlay} dock={dock} aside={aside} />{!hero && <CaptionStrip caption="" local={0} />}</>}>
+            <Player meta={m} reducedMotion={reduced} onFullscreen={() => setModal(true)} compact={compact} hero={hero} overlay={overlay} dock={dock} aside={aside} />
           </Suspense>
         ) : (
           <>
-            <Poster id={id} />
-            <div className="mt-3 h-11" aria-hidden="true" />
-            {!compact && (
+            <Poster id={id} hero={hero} overlay={overlay} dock={dock} aside={aside} />
+            {!hero && <CaptionStrip caption="" local={0} />}
+            {!hero && <div className="mt-1 h-11" aria-hidden="true" />}
+            {!compact && !hero && (
               <ul className="mt-2 flex h-9 items-center gap-2 overflow-hidden" aria-label="Trailer chapters">
                 {m.scenes.map((s) => <li key={s.id} className="shrink-0 rounded-full px-3.5 py-1.5 text-xs font-semibold neo-pressed !rounded-full text-muted-foreground">{s.chapter}</li>)}
               </ul>
@@ -98,7 +119,10 @@ export default function Trailer({ id, className, compact, noTranscript, eager }:
           </>
         )}
       </div>
-      {!noTranscript && (
+      {!noTranscript && hero && (
+        <ol className="sr-only">{transcriptFor(m).map((l) => <li key={l}>{l}</li>)}</ol>
+      )}
+      {!noTranscript && !hero && (
         <details className="mt-3 text-sm text-muted-foreground">
           <summary className="cursor-pointer font-semibold text-foreground">Trailer transcript</summary>
           <ol className="mt-2 list-decimal space-y-1 pl-5">{transcriptFor(m).map((l) => <li key={l}>{l}</li>)}</ol>
@@ -143,12 +167,12 @@ export function TrailerModal({ id, onClose }: { id: string; onClose: () => void 
 }
 
 /** Button that opens a trailer in the modal. */
-export function WatchTrailerButton({ id, label = "Watch the trailer", className }: { id: string; label?: string; className?: string }) {
+export function WatchTrailerButton({ id, label = "Watch the trailer", className, tone = "dark" }: { id: string; label?: string; className?: string; tone?: "dark" | "light" }) {
   const [open, setOpen] = useState(false);
   return (
     <>
-      <button type="button" onClick={() => setOpen(true)} className={cn("inline-flex items-center gap-2 py-3 text-sm font-semibold text-foreground underline-offset-4 hover:underline", className)}>
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-foreground text-background"><Play className="ml-0.5 h-3.5 w-3.5" fill="currentColor" aria-hidden="true" /></span>
+      <button type="button" onClick={() => setOpen(true)} className={cn("inline-flex items-center gap-2 whitespace-nowrap py-3 text-sm font-semibold underline-offset-4 hover:underline", tone === "light" ? "text-white" : "text-foreground", className)}>
+        <span className={cn("flex h-8 w-8 items-center justify-center rounded-full", tone === "light" ? "bg-white text-foreground" : "bg-foreground text-background")}><Play className="ml-0.5 h-3.5 w-3.5" fill="currentColor" aria-hidden="true" /></span>
         {label}
       </button>
       {open && <TrailerModal id={id} onClose={() => setOpen(false)} />}

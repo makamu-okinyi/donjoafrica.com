@@ -1,3 +1,4 @@
+import { createContext, useContext } from "react";
 import type { CSSProperties, ReactNode } from "react";
 
 /** Time helpers. Every scene is a pure function of its local time `t` (seconds), so it is seek-safe. */
@@ -62,3 +63,7 @@ export function Toast({ t, at, until = 99, children }: { t: number; at: number; 
     </div>
   );
 }
+
+/** Logical size of the scene world. 1280x720 for normal trailers; wider (fluid) for the full-bleed hero. */
+export const WorldCtx = createContext({ w: 1280, h: 720 });
+export const useWorld = () => useContext(WorldCtx);

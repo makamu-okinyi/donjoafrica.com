@@ -74,23 +74,23 @@ function Hero({ page, design }: { page: DetailContent; design: PageDesign }) {
       );
     case "reverse":
       return (
-        <section className="grid items-center gap-10 lg:grid-cols-5 lg:gap-14" aria-labelledby="page-title">
-          <div className="lg:col-span-3">{t}</div>
-          <div className="lg:col-span-2"><HeroText page={page} design={design} /></div>
+        <section className="grid grid-cols-1 items-center gap-10 lg:grid-cols-5 lg:gap-14" aria-labelledby="page-title">
+          <div className="min-w-0 lg:col-span-3">{t}</div>
+          <div className="min-w-0 lg:col-span-2"><HeroText page={page} design={design} /></div>
         </section>
       );
     case "minimal":
       return (
-        <section className="neo-extruded grid items-center gap-8 p-6 sm:p-10 lg:grid-cols-2" aria-labelledby="page-title">
+        <section className="neo-extruded grid grid-cols-1 items-center gap-8 p-6 sm:p-10 lg:grid-cols-2" aria-labelledby="page-title">
           <HeroText page={page} design={design} />
-          <div>{t}</div>
+          <div className="min-w-0">{t}</div>
         </section>
       );
     default:
       return (
-        <section className="grid items-center gap-10 lg:grid-cols-5 lg:gap-14" aria-labelledby="page-title">
-          <div className="lg:col-span-2"><HeroText page={page} design={design} /></div>
-          <div className="lg:col-span-3">{t}</div>
+        <section className="grid grid-cols-1 items-center gap-10 lg:grid-cols-5 lg:gap-14" aria-labelledby="page-title">
+          <div className="min-w-0 lg:col-span-2"><HeroText page={page} design={design} /></div>
+          <div className="min-w-0 lg:col-span-3">{t}</div>
         </section>
       );
   }

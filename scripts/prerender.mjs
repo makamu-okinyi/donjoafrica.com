@@ -32,7 +32,8 @@ if (!executablePath) {
 }
 
 const shell = fs.readFileSync(path.join(dist, "index.html"), "utf8");
-fs.writeFileSync(path.join(dist, "spa.html"), shell); // untouched client-only shell
+// Client-only shell used for /admin: never indexable, even before JS runs.
+fs.writeFileSync(path.join(dist, "spa.html"), shell.replace(/<meta name="robots"[^>]*>/, '<meta name="robots" content="noindex, nofollow, noarchive" />'));
 
 const mime = {
   ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".png": "image/png",

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AlertCircle, CheckCircle, Loader2 } from "lucide-react";
 import { api, getConvex } from "@/lib/convexClient";
@@ -48,6 +48,7 @@ function serverMessage(err: unknown): string {
 
 /** Accessible partnership request form. Writes to the Convex `partnerRequests` table. */
 const PartnerRequestForm = () => {
+  const startedRef = useRef(false);
   const [form, setForm] = useState<Form>(EMPTY);
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
@@ -88,6 +89,7 @@ const PartnerRequestForm = () => {
         message: form.message,
         company_url: form.company_url || undefined,
       });
+      import("@/lib/track").then((m) => m.trackEvent("partner_submit")).catch(() => undefined);
       setStatus("done");
       setForm(EMPTY);
     } catch (err) {
@@ -109,7 +111,7 @@ const PartnerRequestForm = () => {
   const busy = status === "sending";
 
   return (
-    <form onSubmit={onSubmit} noValidate className="space-y-5" aria-label="Partnership request">
+    <form onSubmit={onSubmit} onFocus={() => { if (!startedRef.current) { startedRef.current = true; import("@/lib/track").then((m) => m.trackEvent("partner_start")).catch(() => undefined); } }} noValidate className="space-y-5" aria-label="Partnership request">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-5 gap-y-4">
         <Field label="Organisation" required error={errors.organisation}>
           {(p) => <Input {...p} data-pf="organisation" autoComplete="organization" enterKeyHint="next" maxLength={120} value={form.organisation} onChange={set("organisation")} disabled={busy} />}

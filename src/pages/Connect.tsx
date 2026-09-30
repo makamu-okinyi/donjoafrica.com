@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useRef, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { Mail, MessageCircle, Loader2, CheckCircle, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import Reveal from "@/components/Reveal";
@@ -29,6 +29,10 @@ const faq = [
 const Connect = () => {
   usePageMeta("/contact", { faq });
   const { toast } = useToast();
+  const [params] = useSearchParams();
+  const plan = params.get("plan")?.replace(/[^a-z0-9-]/gi, "").slice(0, 40);
+  const started = useRef(false);
+  const note = (ev: string) => import("@/lib/track").then((m) => m.trackEvent(ev)).catch(() => undefined);
   const [formData, setFormData] = useState({ name: "", email: "", brief: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -41,9 +45,10 @@ const Connect = () => {
       const response = await fetch(`${convexSiteUrl}/notify-consultation`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(plan ? { ...formData, brief: `[Plan: ${plan}] ${formData.brief}` } : formData),
       });
       if (!response.ok) throw new Error("Request failed");
+      void note("contact_submit");
       setIsSubmitted(true);
       setFormData({ name: "", email: "", brief: "" });
       toast({ title: "Request sent", description: "We'll get back to you shortly." });
@@ -116,7 +121,7 @@ const Connect = () => {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5" aria-label="Request access form">
+          <form onSubmit={handleSubmit} onFocus={() => { if (!started.current) { started.current = true; void note("contact_start"); } }} className="space-y-5" aria-label="Request access form">
             <div aria-live="polite">
               {isSubmitted && (
                 <div className="flex flex-col items-center justify-center gap-4 py-16 text-center" role="status">
