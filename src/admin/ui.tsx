@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 export function Panel({ title, description, action, children, className }: { title?: ReactNode; description?: ReactNode; action?: ReactNode; children: ReactNode; className?: string }) {
   return (
-    <section className={cn("rounded-2xl border border-foreground/10 bg-white/50 p-5 shadow-sm sm:p-6", className)}>
+    <section className={cn("rounded-lg border border-border bg-white p-5 sm:p-6", className)}>
       {(title || action) && (
         <header className="mb-4 flex flex-wrap items-start justify-between gap-3">
           <div className="min-w-0">
@@ -26,7 +26,7 @@ export function PageHeader({ title, description, actions }: { title: string; des
   return (
     <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
       <div className="min-w-0">
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">{title}</h1>
+        <h1 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">{title}</h1>
         {description && <p className="mt-1 max-w-2xl text-sm text-muted-foreground">{description}</p>}
       </div>
       {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
@@ -50,8 +50,8 @@ export function EmptyState({ title, children, action }: { title: string; childre
 }
 
 export const Stat = ({ label, value, hint, tone }: { label: string; value: ReactNode; hint?: string; tone?: "attention" }) => (
-  <div className={cn("rounded-2xl border p-5", tone === "attention" ? "border-[hsl(var(--brand-strong)/.5)] bg-[hsl(var(--brand)/.1)]" : "border-foreground/10 bg-white/50")}>
-    <p className="text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">{label}</p>
+  <div className={cn("rounded-lg border p-5", tone === "attention" ? "border-[hsl(var(--brand-strong)/.5)] bg-[hsl(var(--brand)/.1)]" : "border-foreground/10 bg-white/50")}>
+    <p className="text-xs font-medium text-muted-foreground">{label}</p>
     <p className="mt-2 font-mono text-3xl font-bold leading-none text-foreground">{value}</p>
     {hint && <p className="mt-2 text-xs text-muted-foreground">{hint}</p>}
   </div>
@@ -140,7 +140,7 @@ export function Dialog({ open, onClose, title, children, wide }: { open: boolean
       onClose={onClose}
       onClick={(e) => { if (e.target === ref.current) onClose(); }}
       aria-label={title}
-      className={cn("m-auto w-[min(96vw,var(--w))] max-h-[92dvh] overflow-y-auto rounded-2xl border-0 bg-[hsl(var(--background))] p-0 shadow-2xl backdrop:bg-black/50", wide ? "[--w:56rem]" : "[--w:30rem]")}
+      className={cn("m-auto w-[min(96vw,var(--w))] max-h-[92dvh] overflow-y-auto rounded-lg border-0 bg-[hsl(var(--background))] p-0 shadow-2xl backdrop:bg-black/50", wide ? "[--w:56rem]" : "[--w:30rem]")}
     >
       {open && (
         <div className="p-5 sm:p-6">
