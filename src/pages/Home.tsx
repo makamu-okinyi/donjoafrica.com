@@ -1,3 +1,4 @@
+import { SIGNUP_URL, SIGNUP_LABEL } from "@/lib/appUrl";
 import { Link } from "react-router-dom";
 import {
   Video, BarChart3, FileText, MapPin, Zap, Shield, ArrowRight, Scale, Timer, Globe2, Eye,
@@ -61,12 +62,12 @@ function HeroHeadline() {
 /** Docked call to action, in its own reserved band under the stage. Pulses once the dossier scene plays. */
 function HeroCta({ st }: { st: HeroState }) {
   return (
-    <Link
-      to="/contact"
+    <a
+      href={SIGNUP_URL}
       className={"neo-pill whitespace-nowrap !px-5 !py-2.5 text-sm sm:!px-8 sm:!py-3 sm:text-base portrait:block portrait:w-[min(86%,22rem)] portrait:text-center portrait:!py-3.5 portrait:text-base " + (st.live && st.scene >= 2 ? "hero-cta-pulse" : "")}
     >
-      Request Access
-    </Link>
+      {SIGNUP_LABEL}
+    </a>
   );
 }
 

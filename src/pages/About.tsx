@@ -1,3 +1,4 @@
+import { SIGNUP_URL, SIGNUP_LABEL } from "@/lib/appUrl";
 import { Link } from "react-router-dom";
 import { Scale, Eye, Users, ClipboardCheck, ArrowRight, Video, Briefcase, Trophy, FileText, ShieldCheck, MapPin } from "lucide-react";
 import Reveal from "@/components/Reveal";
@@ -32,7 +33,7 @@ const About = () => {
         intro="Applicants show real work in a short video. Employers decide on evidence."
       >
         <div className="flex flex-wrap items-center justify-center gap-4">
-          <Link to="/contact" className="neo-pill inline-block">Request Access</Link>
+          <a href={SIGNUP_URL} className="neo-pill inline-block">{SIGNUP_LABEL}</a>
           <Link to="/platform" className="inline-flex items-center gap-2 text-sm font-semibold text-foreground underline-offset-4 hover:underline py-3">
             Explore the platform <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </Link>

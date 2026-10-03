@@ -100,7 +100,7 @@ export const designs: Record<string, PageDesign> = {
   },
   "platform/skill-radar": {
     trailer: "skill-radar", hero: "wide",
-    primary: { label: "Request access", to: "/contact" },
+    primary: { label: "Start with proof", href: `${APP}/auth` },
     secondary: { label: "Watch the trailer", kind: "trailer" },
     layout: ["pinned", "bento", "cta", "faq", "related"],
     stepScenes: [1, 1, 3, 3],

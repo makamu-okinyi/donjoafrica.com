@@ -30,8 +30,8 @@ export const DEFAULT_PLANS: PricingPlan[] = [
     features: ["Post jobs with a video question", "Watch applicants' video portfolios", "Shortlist or reject, with private notes", "Skill tags and a skill match on every applicant", "Applicant dossier, reviewer ratings and radar", "PDF and CSV export of applicants"],
     limits: {},
     highlighted: false,
-    ctaLabel: "Get Started",
-    ctaHref: "/contact",
+    ctaLabel: "Start with proof",
+    ctaHref: "https://hr.donjoafrica.com/auth",
   },
   {
     slug: "venture",

@@ -127,6 +127,7 @@ export function startTracking() {
     if (explicit) return trackEvent(explicit);
     const href = a.getAttribute("href") ?? "";
     const text = (a.textContent ?? "").toLowerCase();
+    if (text.trim() === "start with proof") return trackEvent("cta_signup");
     if (/\/auth\b/.test(href) || text.trim() === "log in") return trackEvent("cta_login");
     if (href.startsWith("/contact") && /request access|talk to|contact/.test(text)) return trackEvent("cta_request_access");
     if (href.includes("partner-form") || /partner with us/.test(text)) return trackEvent("cta_partner");

@@ -1,3 +1,4 @@
+import { SIGNUP_URL, SIGNUP_LABEL } from "@/lib/appUrl";
 import { Link } from "react-router-dom";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import type { ReactNode } from "react";
@@ -85,14 +86,14 @@ export const FaqList = ({ items }: { items: FaqItem[] }) => (
 interface CtaBandProps {
   title: string;
   body: string;
-  primary?: { label: string; to: string };
+  primary?: { label: string; to?: string; href?: string };
   secondary?: { label: string; to: string };
 }
 
 export const CtaBand = ({
   title,
   body,
-  primary = { label: "Request Access", to: "/contact" },
+  primary = { label: SIGNUP_LABEL, href: SIGNUP_URL },
   secondary,
 }: CtaBandProps) => (
   <Reveal>
@@ -100,9 +101,15 @@ export const CtaBand = ({
       <h2 className="text-2xl sm:text-4xl font-bold text-foreground tracking-tight leading-tight text-balance">{title}</h2>
       <p className="text-muted-foreground max-w-xl mx-auto leading-relaxed">{body}</p>
       <div className="flex flex-wrap items-center justify-center gap-4">
-        <Link to={primary.to} className="neo-pill inline-block">
-          {primary.label}
-        </Link>
+        {primary.href ? (
+          <a href={primary.href} className="neo-pill inline-block">
+            {primary.label}
+          </a>
+        ) : (
+          <Link to={primary.to ?? "/contact"} className="neo-pill inline-block">
+            {primary.label}
+          </Link>
+        )}
         {secondary && (
           <Link
             to={secondary.to}

@@ -15,7 +15,7 @@ export const solutions: DetailContent[] = [
     summary: "Hire your first ten on evidence you can watch.",
     metaTitle: "HR for Startups: Video-First Hiring | Donjo",
     metaDescription:
-      "HR for startups without the CV pile. Post a role, get video proof of skill, shortlist and message candidates in one place. Request access to Donjo.",
+      "HR for startups without the CV pile. Post a role, get video proof of skill, shortlist and message candidates in one place. Start free on Donjo.",
     eyebrow: "Solution",
     headline: "Hire your first ten on proof, not CVs.",
     subhead: "HR for startups: candidates answer your question on video, and you shortlist before any interview.",
@@ -78,7 +78,7 @@ export const solutions: DetailContent[] = [
     summary: "Video submissions, judging and profiles that outlast the weekend.",
     metaTitle: "Hackathon Hiring Software | Donjo",
     metaDescription:
-      "Hackathon hiring software with video submissions, winner marking and lasting participant profiles that sponsors can act on. Request access.",
+      "Hackathon hiring software with video submissions, winner marking and lasting participant profiles that sponsors can act on. Start free.",
     eyebrow: "Solution",
     headline: "Judge the demo. Keep the talent.",
     subhead: "Hackathon hiring software where every entry is a video, the organiser picks the winner, and participants keep a portfolio.",
@@ -142,7 +142,7 @@ export const solutions: DetailContent[] = [
     summary: "Structured venture applications and one review queue.",
     metaTitle: "Accelerator Application Software | Donjo",
     metaDescription:
-      "Accelerator application software with a guided venture wizard, pitch video, and a shortlist or reject review queue. Request access to Donjo.",
+      "Accelerator application software with a guided venture wizard, pitch video, and a shortlist or reject review queue. Start free on Donjo.",
     eyebrow: "Solution",
     headline: "Select cohorts on evidence, not polish.",
     subhead: "Accelerator application software: every venture applies the same way, with a pitch video, into one review queue.",

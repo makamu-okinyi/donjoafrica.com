@@ -1,3 +1,4 @@
+import { SIGNUP_URL, SIGNUP_LABEL } from "@/lib/appUrl";
 import { Link } from "react-router-dom";
 import { companyLinks, solutionLinks, platformLinks } from "@/data/nav";
 
@@ -20,9 +21,9 @@ const Footer = () => {
             <p className="text-sm text-muted-foreground leading-relaxed">
               Proof Over Promises. A video-first, proof-of-work hiring platform, starting in Kenya and East Africa.
             </p>
-            <Link to="/contact" className="neo-pill inline-block text-sm !px-6 !py-3">
-              Request Access
-            </Link>
+            <a href={SIGNUP_URL} className="neo-pill inline-block text-sm !px-6 !py-3">
+              {SIGNUP_LABEL}
+            </a>
           </div>
 
           {columns.map((col) => (

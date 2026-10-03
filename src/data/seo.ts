@@ -27,7 +27,7 @@ const core: RouteSeo[] = [
     label: "Home",
     title: "Donjo Africa | Video-First Hiring Platform for Kenya",
     description:
-      "Donjo replaces CVs with short proof-of-work videos. Review real skill, shortlist and export dossiers. Built for Kenya and East Africa. Request access.",
+      "Donjo replaces CVs with short proof-of-work videos. Review real skill, shortlist and export dossiers. Built for Kenya and East Africa. Start free.",
     keywords: ["Donjo", "Donjo Africa", "video hiring platform", "proof-based hiring", "proof of work", "hiring in Kenya", "video portfolio"],
     priority: 1,
     changefreq: "weekly",
@@ -67,7 +67,7 @@ const core: RouteSeo[] = [
     label: "Solutions",
     title: "Hiring Solutions for Every Team | Donjo",
     description:
-      "Proof-based hiring for startups, hackathons, accelerators, universities and enterprise. Find the Donjo setup that fits your team, then request access.",
+      "Proof-based hiring for startups, hackathons, accelerators, universities and enterprise. Find the Donjo setup that fits your team, then start free.",
     keywords: ["hiring solutions", "HR for startups", "hackathon platform", "accelerator software", "enterprise hiring"],
     priority: 0.9,
     changefreq: "monthly",
@@ -77,7 +77,7 @@ const core: RouteSeo[] = [
     label: "Platform",
     title: "Proof-Based Hiring Platform Features | Donjo",
     description:
-      "Video proof, skill radar, dossier generation and pipeline analytics: the four parts of the Donjo platform. See what's live and request access.",
+      "Video proof, skill radar, dossier generation and pipeline analytics: the four parts of the Donjo platform. See what's live and start free.",
     keywords: ["hiring platform features", "video proof", "skill radar", "applicant dossier", "pipeline analytics"],
     priority: 0.9,
     changefreq: "monthly",
@@ -105,10 +105,10 @@ const core: RouteSeo[] = [
   {
     path: "/contact",
     label: "Contact",
-    title: "Contact Donjo: Request Access",
+    title: "Contact Donjo: Talk to Our Team",
     description:
-      "Talk to the Donjo team about proof-based hiring for your startup, programme or enterprise. Send a message or WhatsApp us to request access today.",
-    keywords: ["contact Donjo", "request access", "book a demo", "hiring platform Kenya", "WhatsApp"],
+      "Talk to the Donjo team about proof-based hiring for your startup, programme or enterprise. Send a message or WhatsApp us today.",
+    keywords: ["contact Donjo", "book a demo", "hiring platform Kenya", "WhatsApp"],
     priority: 0.7,
     changefreq: "monthly",
   },

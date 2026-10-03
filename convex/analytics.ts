@@ -204,7 +204,8 @@ export const summary = query({
       languages: tally(perVisitor, (e) => e.language?.split("-")[0]).slice(0, 8),
       countries: tally(perVisitor, (e) => countryFromTimezone(e.timezone)).slice(0, 12),
       ctas: [
-        { name: "Request Access", count: count("cta_request_access") },
+        { name: "Start with proof", count: count("cta_signup") },
+        { name: "Contact us", count: count("cta_request_access") },
         { name: "Log in", count: count("cta_login") },
         { name: "Partner With Us", count: count("cta_partner") },
       ],

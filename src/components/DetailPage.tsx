@@ -139,7 +139,7 @@ const DetailPage = ({ page }: { page: DetailContent }) => {
         </ul>
       </section>
     ),
-    cta: <CtaBand title={design.closing.title} body={design.closing.body} primary={design.primary.to ? { label: design.primary.label, to: design.primary.to } : { label: "Contact us", to: "/contact" }} secondary={{ label: "See pricing", to: "/pricing" }} />,
+    cta: <CtaBand title={design.closing.title} body={design.closing.body} primary={design.primary.to ? { label: design.primary.label, to: design.primary.to } : design.primary.href ? { label: design.primary.label, href: design.primary.href } : { label: "Contact us", to: "/contact" }} secondary={{ label: "See pricing", to: "/pricing" }} />,
   };
 
   return (

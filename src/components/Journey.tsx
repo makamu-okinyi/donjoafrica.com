@@ -1,3 +1,4 @@
+import { SIGNUP_URL, SIGNUP_LABEL } from "@/lib/appUrl";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { m, useReducedMotion, useScroll, useTransform } from "framer-motion";
@@ -108,7 +109,7 @@ const Journey = () => {
           </h3>
           <p className="text-muted-foreground">Help us get there.</p>
           <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link to="/contact" className="neo-pill inline-block">Request Access</Link>
+            <a href={SIGNUP_URL} className="neo-pill inline-block">{SIGNUP_LABEL}</a>
             <Link to="/partners#partner-form" className="inline-flex items-center gap-2 text-sm font-semibold text-foreground underline-offset-4 hover:underline py-3">
               Partner with us <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </Link>

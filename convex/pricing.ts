@@ -11,7 +11,7 @@ const DEFAULT_PLANS = [
     slug: "starter", name: "Starter", tagline: "For small teams trying proof-based hiring.",
     priceAmount: undefined, currency: "USD", billingPeriod: "free" as const,
     features: ["Post jobs with a video question", "Watch applicants' video portfolios", "Shortlist or reject, with private notes", "Skill tags and a skill match on every applicant", "Applicant dossier, reviewer ratings and radar", "PDF and CSV export of applicants"],
-    limits: undefined, highlighted: false, ctaLabel: "Get Started", ctaHref: "/contact", order: 1,
+    limits: undefined, highlighted: false, ctaLabel: "Start with proof", ctaHref: "https://hr.donjoafrica.com/auth", order: 1,
   },
   {
     slug: "venture", name: "Venture", tagline: "For startups and accelerators with a growing pipeline.",

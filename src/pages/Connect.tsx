@@ -68,7 +68,7 @@ const Connect = () => {
     <div className="space-y-20 sm:space-y-24">
       <PageHero
         eyebrow="Contact"
-        title="Request access."
+        title="Talk to us."
         intro="Tell us about your team. We'll show how Donjo fits."
       />
 
@@ -124,7 +124,7 @@ const Connect = () => {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} onFocus={() => { if (!started.current) { started.current = true; void note("contact_start"); } }} className="space-y-5" aria-label="Request access form">
+          <form onSubmit={handleSubmit} onFocus={() => { if (!started.current) { started.current = true; void note("contact_start"); } }} className="space-y-5" aria-label="Contact form">
             <div aria-live="polite">
               {isSubmitted && (
                 <div className="flex flex-col items-center justify-center gap-4 py-16 text-center" role="status">
@@ -146,7 +146,7 @@ const Connect = () => {
                   {(p) => <Textarea {...p} name="brief" rows={5} enterKeyHint="send" maxLength={1000} value={formData.brief} onChange={(e) => setFormData({ ...formData, brief: e.target.value })} disabled={isSubmitting} />}
                 </Field>
                 <button type="submit" className="neo-pill w-full text-center flex items-center justify-center gap-2 disabled:opacity-70" disabled={isSubmitting}>
-                  {isSubmitting ? (<><Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />Sending...</>) : "Request Access"}
+                  {isSubmitting ? (<><Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />Sending...</>) : "Send message"}
                 </button>
                 <p className="text-xs text-muted-foreground text-center">
                   By sending this you agree to our <a href="/privacy" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-foreground">Privacy Policy<span className="sr-only"> (opens in a new tab)</span></a> and <a href="/terms" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-foreground">Terms of Use<span className="sr-only"> (opens in a new tab)</span></a>. We only use your details to reply.

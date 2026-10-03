@@ -3,7 +3,7 @@ import { NavLink as RouterNavLink, useLocation, Link } from "react-router-dom";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { solutionLinks, platformLinks } from "@/data/nav";
 
-const APP_URL = import.meta.env.VITE_APP_URL || "https://hr.donjoafrica.com";
+import { APP_URL, SIGNUP_URL, SIGNUP_LABEL } from "@/lib/appUrl";
 
 interface NavGroup {
   label: string;
@@ -106,7 +106,7 @@ const Navbar = () => {
   const { pathname } = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
-  // Compact "Request Access" appears once the visitor has scrolled past the top of the page.
+  // Compact "Start with proof" appears once the visitor has scrolled past the top of the page.
   const [stuck, setStuck] = useState(false);
   useEffect(() => {
     const on = () => setStuck(window.scrollY > (pathname === "/" ? window.innerHeight * 0.75 : 520));
@@ -114,7 +114,7 @@ const Navbar = () => {
     window.addEventListener("scroll", on, { passive: true });
     return () => window.removeEventListener("scroll", on);
   }, [pathname]);
-  const showCta = stuck && pathname !== "/contact";
+  const showCta = stuck;
 
   useEffect(() => {
     setMobileOpen(false);
@@ -155,9 +155,9 @@ const Navbar = () => {
             ))}
             {plainNav.after.map(renderLink)}
             {showCta && (
-              <Link to="/contact" className="ml-1 whitespace-nowrap rounded-full bg-foreground px-4 py-2.5 text-sm font-semibold text-background transition-opacity hover:opacity-90">
-                Request Access
-              </Link>
+              <a href={SIGNUP_URL} className="ml-1 whitespace-nowrap rounded-full bg-foreground px-4 py-2.5 text-sm font-semibold text-background transition-opacity hover:opacity-90">
+                {SIGNUP_LABEL}
+              </a>
             )}
             <a
               href={`${APP_URL}/auth`}
@@ -168,9 +168,9 @@ const Navbar = () => {
           </div>
 
           {showCta && (
-            <Link to="/contact" className="ml-auto mr-1 whitespace-nowrap rounded-full bg-foreground px-4 py-2.5 text-xs font-semibold text-background lg:hidden">
-              Request Access
-            </Link>
+            <a href={SIGNUP_URL} className="ml-auto mr-1 whitespace-nowrap rounded-full bg-foreground px-4 py-2.5 text-xs font-semibold text-background lg:hidden">
+              {SIGNUP_LABEL}
+            </a>
           )}
 
           {/* Mobile hamburger */}

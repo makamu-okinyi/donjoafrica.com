@@ -15,7 +15,7 @@ export const platform: DetailContent[] = [
     summary: "Short clips that show real skill instead of a CV.",
     metaTitle: "Video Proof of Work Hiring | Donjo Platform",
     metaDescription:
-      "Video proof of work hiring: applicants record short clips that show real skill. Use them for jobs, challenges and pitches. Request access to Donjo.",
+      "Video proof of work hiring: applicants record short clips that show real skill. Use them for jobs, challenges and pitches. Start free on Donjo.",
     eyebrow: "Platform",
     headline: "A CV says it. A proof clip shows it.",
     subhead: "Video proof of work hiring: applicants demonstrate real skill in a short clip, and reviewers watch it in one place.",
@@ -143,7 +143,7 @@ export const platform: DetailContent[] = [
     summary: "Everything about one applicant in one place, plus a PDF or CSV summary.",
     metaTitle: "Applicant Dossier and PDF Export | Donjo Platform",
     metaDescription:
-      "Open a full applicant dossier on screen, with skills, cover message, videos, ratings and status history, or export a PDF or CSV summary for panels. Request access to Donjo.",
+      "Open a full applicant dossier on screen, with skills, cover message, videos, ratings and status history, or export a PDF or CSV summary for panels. Start free on Donjo.",
     eyebrow: "Platform",
     headline: "Everything about an applicant, in one place.",
     subhead: "Open a dossier on screen, or export a PDF or CSV summary for panels and advisors.",
