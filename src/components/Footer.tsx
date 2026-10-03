@@ -41,7 +41,7 @@ const Footer = () => {
 
         <div className="mt-12 pt-8 border-t border-foreground/10 flex flex-col sm:flex-row items-center justify-between gap-2">
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 text-xs text-muted-foreground">
-            <p>© {new Date().getFullYear()} Donjo</p>
+            <p>© {new Date().getFullYear()} Donjo Africa</p>
             <Link to="/privacy" className="py-1 hover:text-foreground hover:underline underline-offset-4">Privacy Policy</Link>
             <Link to="/terms" className="py-1 hover:text-foreground hover:underline underline-offset-4">Terms of Use</Link>
             <Link to="/cookies" className="py-1 hover:text-foreground hover:underline underline-offset-4">Cookies</Link>

@@ -25,10 +25,10 @@ const core: RouteSeo[] = [
   {
     path: "/",
     label: "Home",
-    title: "Video-First Hiring Platform for Kenya | Donjo",
+    title: "Donjo Africa | Video-First Hiring Platform for Kenya",
     description:
       "Donjo replaces CVs with short proof-of-work videos. Review real skill, shortlist and export dossiers. Built for Kenya and East Africa. Request access.",
-    keywords: ["video hiring platform", "proof-based hiring", "proof of work", "hiring in Kenya", "video portfolio"],
+    keywords: ["Donjo", "Donjo Africa", "video hiring platform", "proof-based hiring", "proof of work", "hiring in Kenya", "video portfolio"],
     priority: 1,
     changefreq: "weekly",
   },
